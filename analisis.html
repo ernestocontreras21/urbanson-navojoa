@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Análisis - UrbanSon Navojoa</title>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <style>
+        :root {
+            --color-guinda: #7a1028;
+            --color-rojo: #cc2222;
+            --color-beige: #e8d9b0;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+        }
+
+        .navbar-custom {
+            background-color: var(--color-guinda);
+        }
+
+        .btn-acento {
+            background-color: var(--color-beige);
+            color: var(--color-guinda);
+            font-weight: 600;
+            border: none;
+        }
+
+        .btn-acento:hover {
+            opacity: 0.85;
+        }
+
+        .hero-section {
+            background-image: url('img/fondo.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            min-height: 420px;
+        }
+
+        .hero-overlay2 {
+            background-color: rgba(122, 16, 40, 0.75);
+            min-height: 100px;
+        }
+
+        .contenido-hero {
+            max-width: 300px;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            color: var(--color-guinda);
+            border-left: 4px solid var(--color-rojo);
+            padding-left: 10px;
+        }
+
+        footer {
+            background-color: var(--color-guinda);
+        }
+        #map { height: 500px; width: 100%; }
+
+        .ruta-btn {
+            border-left: 5px solid transparent;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .ruta-btn:hover  { background-color: #f9f1f3; }
+
+        .ruta-btn.activa { background-color: #f9f1f3; font-weight: 600; }
+    </style>
+</head>
+<body>
+
+    <!--Encabezado-->
+    <header>
+        <nav class="navbar navbar-custom px-3">
+            <a class="navbar-brand fw-bold text-white" href="#">UrbanSon Navojoa</a>
+            <div class="ms-auto d-flex gap-2">
+                <a href="inicio.html"   class="btn btn-outline-light btn-sm">Inicio</a>
+                <a href="rutas.html"    class="btn btn-outline-light btn-sm">Rutas</a>
+                <a href="horarios.html" class="btn btn-outline-light btn-sm">Horarios</a>
+                <a href="analisis.html" class="btn btn-acento btn-sm">Análisis</a>
+                <a href="reportes.html" class="btn btn-outline-light btn-sm">Reportes</a>
+            </div>
+        </nav>
+    </header>
+
+    <!--Título-->
+    <div class="hero-overlay2 text-white text-center py-4 px-3">
+        <h1 class="fw-bold mb-1" style="font-family:'Bebas Neue',sans-serif; font-size:2.5rem; letter-spacing:2px;">
+            Análisis
+        </h1>
+        <p class="mb-0 text-white-50">Datos de usuarios usando el transporte público en el año 2026</p>
+    </div>
+
+    <!--Contenido de la página "Análisis"-->
+    
+
+    <footer class="text-white text-center py-3">
+        <div class="fw-bold">UrbanSon Navojoa &nbsp;·&nbsp; Plataforma de análisis del transporte urbano</div>
+        <div class="mt-1 small" style="color: var(--color-beige);">Navojoa, Sonora, México</div>
+    </footer>
+
+</body>
+</html>

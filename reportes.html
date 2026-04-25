@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reportes - UrbanSon Navojoa</title>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <style>
+        :root {
+            --color-guinda: #7a1028;
+            --color-rojo: #cc2222;
+            --color-beige: #e8d9b0;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+        }
+
+        .navbar-custom {
+            background-color: var(--color-guinda);
+        }
+
+        .btn-acento {
+            background-color: var(--color-beige);
+            color: var(--color-guinda);
+            font-weight: 600;
+            border: none;
+        }
+
+        .btn-acento:hover {
+            opacity: 0.85;
+        }
+
+        .hero-section {
+            background-image: url('img/fondo.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            min-height: 420px;
+        }
+
+        .hero-overlay2 {
+            background-color: rgba(122, 16, 40, 0.75);
+            min-height: 100px;
+        }
+
+        footer {
+            background-color: var(--color-guinda);
+        }
+
+        .btn-guinda {
+            background-color: var(--color-guinda);
+            color: white;
+            border: none;
+            font-weight: 600;
+        }
+        .btn-guinda:hover { opacity: 0.88; color: white; }
+
+        .form-control:focus, .form-select:focus {
+            border-color: var(--color-guinda);
+            box-shadow: 0 0 0 0.2rem rgba(122,16,40,0.15);
+        }
+
+        .reporte-card {
+            border-left: 4px solid var(--color-guinda);
+            transition: box-shadow 0.2s;
+        }
+        .reporte-card:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+
+        .tipo-badge {
+            font-size: 12px;
+            font-weight: 600;
+            padding: 3px 10px;
+            border-radius: 20px;
+        }
+
+        #lista-vacia {
+            color: #aaa;
+        }
+    </style>
+</head>
+<body>
+
+    <!--Encabezado-->
+    <header>
+        <nav class="navbar navbar-custom px-3">
+            <a class="navbar-brand fw-bold text-white" href="#">UrbanSon Navojoa</a>
+            <div class="ms-auto d-flex gap-2">
+                <a href="inicio.html"   class="btn btn-outline-light btn-sm">Inicio</a>
+                <a href="rutas.html"    class="btn btn-outline-light btn-sm">Rutas</a>
+                <a href="horarios.html" class="btn btn-outline-light btn-sm">Horarios</a>
+                <a href="analisis.html" class="btn btn-outline-light btn-sm">Análisis</a>
+                <a href="reportes.html" class="btn btn-acento btn-sm">Reportes</a>
+            </div>
+        </nav>
+    </header>
+
+    <!--Título-->
+    <div class="hero-overlay2 text-white text-center py-4 px-3">
+        <h1 class="fw-bold mb-1" style="font-family:'Bebas Neue',sans-serif; font-size:2.5rem; letter-spacing:2px;">
+            Reportes
+        </h1>
+        <p class="mb-0 text-white-50">Si tienes una queja o sugerencia, ¡No dudes en publicarla!</p>
+    </div>
+
+    <!--Contenido de la página "Reportes"-->
+    <div class="container py-4">
+        <div class="row g-4">
+
+            <!-- Formulario de reportes -->
+            <div class="col-12 col-lg-5">
+                <div class="card border-0 shadow-sm h-100" style="border-top: 3px solid var(--color-guinda) !important;">
+                    <div class="card-header fw-bold text-white" style="background-color: var(--color-guinda);">
+                        Nuevo reporte
+                    </div>
+                    <div class="card-body">
+
+                        <div class="mb-3">
+                            <label class="form-label small fw-600">Nombre <span class="text-muted fw-normal">(opcional)</span></label>
+                            <input type="text" id="campo-nombre" class="form-control"
+                                   placeholder="Déjalo en blanco para publicar como Anónimo">
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label small fw-bold">Tipo de reporte <span class="text-danger">*</span></label>
+                            <select id="campo-tipo" class="form-select">
+                                <option value="" disabled selected>Selecciona un tipo</option>
+                                <option value="Queja">Queja</option>
+                                <option value="Sugerencia">Sugerencia</option>
+                                <option value="Retraso">Retraso de unidad</option>
+                                <option value="Mal servicio">Mal servicio</option>
+                                <option value="Accidente">Accidente</option>
+                                <option value="Otro">Otro</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label small fw-bold">Descripción <span class="text-danger">*</span></label>
+                            <textarea id="campo-descripcion" class="form-control" rows="4"
+                                      placeholder="Describe con detalle tu reporte..."></textarea>
+                            <div class="text-end mt-1">
+                                <small id="contador" class="text-muted">0 / 300</small>
+                            </div>
+                        </div>
+
+                        <div id="alerta-error" class="alert alert-danger d-none py-2 small"></div>
+                        <div id="alerta-exito" class="alert d-none py-2 small text-white"
+                             style="background-color: var(--color-guinda);"></div>
+
+                        <button class="btn btn-guinda w-100" onclick="enviarReporte()">
+                            Publicar reporte
+                        </button>
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- Reportes publicados -->
+            <div class="col-12 col-lg-7">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h5 class="fw-bold mb-0" style="color: var(--color-guinda); border-left: 4px solid var(--color-rojo); padding-left: 10px;">
+                        Reportes publicados
+                    </h5>
+                    <!-- Filtro por tipo -->
+                    <select id="filtro-tipo" class="form-select form-select-sm w-auto" onchange="renderizarLista()">
+                        <option value="">Todos los tipos</option>
+                        <option value="Queja">Queja</option>
+                        <option value="Sugerencia">Sugerencia</option>
+                        <option value="Retraso">Retraso</option>
+                        <option value="Mal servicio">Mal servicio</option>
+                        <option value="Accidente">Accidente</option>
+                        <option value="Otro">Otro</option>
+                    </select>
+                </div>
+
+                <div id="lista-reportes"></div>
+
+                <div id="lista-vacia" class="text-center py-5 d-none">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="mb-3 opacity-50" viewBox="0 0 16 16">
+                        <path d="M14 1a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H4.414A2 2 0 0 0 3 11.586l-2 2V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12.793a.5.5 0 0 0 .854.353l2.853-2.853A1 1 0 0 1 4.414 12H14a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>
+                    </svg>
+                    <p class="small">No hay reportes. ¡Sé el primero en publicar!</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <footer class="text-white text-center py-3">
+        <div class="fw-bold">UrbanSon Navojoa &nbsp;·&nbsp; Plataforma de análisis del transporte urbano</div>
+        <div class="mt-1 small" style="color: var(--color-beige);">Navojoa, Sonora, México</div>
+    </footer>
+
+    <script>
+        const COLORES_TIPO = {
+            'Queja':       { bg: '#fde8e8', color: '#b91c1c' },
+            'Sugerencia':  { bg: '#e8f4fd', color: '#1a6eb5' },
+            'Retraso':     { bg: '#fef3e2', color: '#b45309' },
+            'Mal servicio':{ bg: '#f3e8fd', color: '#7c3aed' },
+            'Accidente':   { bg: '#fde8ee', color: '#cc2222' },
+            'Otro':        { bg: '#f0f0f0', color: '#555555' },
+        };
+
+        function cargarReportes() {
+            const data = localStorage.getItem('usn_reportes');
+            return data ? JSON.parse(data) : [];
+        }
+
+        function guardarReportes(reportes) {
+            localStorage.setItem('usn_reportes', JSON.stringify(reportes));
+        }
+
+        document.getElementById('campo-descripcion').addEventListener('input', function() {
+            const len = this.value.length;
+            const contador = document.getElementById('contador');
+            contador.textContent = len + ' / 300';
+            if (len > 300) {
+                contador.classList.add('text-danger');
+                this.value = this.value.substring(0, 300);
+                contador.textContent = '300 / 300';
+            } else {
+                contador.classList.remove('text-danger');
+            }
+        });
+
+        function enviarReporte() {
+            const nombre      = document.getElementById('campo-nombre').value.trim();
+            const tipo        = document.getElementById('campo-tipo').value;
+            const descripcion = document.getElementById('campo-descripcion').value.trim();
+            const alertaError = document.getElementById('alerta-error');
+            const alertaExito = document.getElementById('alerta-exito');
+
+            alertaError.classList.add('d-none');
+            alertaExito.classList.add('d-none');
+
+            if (!tipo) {
+                alertaError.textContent = 'Por favor selecciona el tipo de reporte.';
+                alertaError.classList.remove('d-none');
+                return;
+            }
+            if (!descripcion) {
+                alertaError.textContent = 'La descripción no puede estar vacía.';
+                alertaError.classList.remove('d-none');
+                return;
+            }
+
+            const reporte = {
+                id:          Date.now(),
+                nombre:      nombre || 'Anónimo',
+                tipo:        tipo,
+                descripcion: descripcion,
+                fecha:       new Date().toLocaleString('es-MX', {
+                                day: '2-digit', month: 'short', year: 'numeric',
+                                hour: '2-digit', minute: '2-digit'
+                            })
+            };
+
+            const reportes = cargarReportes();
+            reportes.unshift(reporte);
+            guardarReportes(reportes);
+
+            document.getElementById('campo-nombre').value      = '';
+            document.getElementById('campo-tipo').value        = '';
+            document.getElementById('campo-descripcion').value = '';
+            document.getElementById('contador').textContent    = '0 / 300';
+
+            alertaExito.textContent = '✅ Reporte publicado correctamente.';
+            alertaExito.classList.remove('d-none');
+            setTimeout(() => alertaExito.classList.add('d-none'), 3000);
+
+            renderizarLista();
+        }
+
+        function renderizarLista() {
+            const filtro   = document.getElementById('filtro-tipo').value;
+            let reportes   = cargarReportes();
+
+            if (filtro) {
+                reportes = reportes.filter(r => r.tipo === filtro);
+            }
+
+            const lista     = document.getElementById('lista-reportes');
+            const listaVacia = document.getElementById('lista-vacia');
+
+            if (reportes.length === 0) {
+                lista.innerHTML = '';
+                listaVacia.classList.remove('d-none');
+                return;
+            }
+
+            listaVacia.classList.add('d-none');
+
+            lista.innerHTML = reportes.map(function(r) {
+                const estilo  = COLORES_TIPO[r.tipo] || COLORES_TIPO['Otro'];
+
+                return `
+                <div class="card reporte-card border-0 shadow-sm mb-3">
+                    <div class="card-body py-3">
+                        <div class="d-flex justify-content-between align-items-start flex-wrap gap-2 mb-2">
+                            <div class="d-flex align-items-center gap-2">
+                                <span class="tipo-badge" style="background:${estilo.bg}; color:${estilo.color};">
+                                    ${r.tipo}
+                                </span>
+                                <span class="fw-bold small">${r.nombre}</span>
+                            </div>
+                            <small class="text-muted">${r.fecha}</small>
+                        </div>
+                        <p class="mb-0 small" style="line-height:1.6;">${r.descripcion}</p>
+                    </div>
+                </div>`;
+            }).join('');
+        }
+
+        renderizarLista();
+    </script>
+</body>
+</html>

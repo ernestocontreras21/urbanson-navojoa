@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rutas - UrbanSon Navojoa</title>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <style>
+        :root {
+            --color-guinda: #7a1028;
+            --color-rojo: #cc2222;
+            --color-beige: #e8d9b0;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+        }
+
+        .navbar-custom {
+            background-color: var(--color-guinda);
+        }
+
+        .btn-acento {
+            background-color: var(--color-beige);
+            color: var(--color-guinda);
+            font-weight: 600;
+            border: none;
+        }
+
+        .btn-acento:hover {
+            opacity: 0.85;
+        }
+
+        .hero-section {
+            background-image: url('img/fondo.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            min-height: 420px;
+        }
+
+        .hero-overlay2 {
+            background-color: rgba(122, 16, 40, 0.75);
+            min-height: 100px;
+        }
+
+        .contenido-hero {
+            max-width: 300px;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            color: var(--color-guinda);
+            border-left: 4px solid var(--color-rojo);
+            padding-left: 10px;
+        }
+
+        footer {
+            background-color: var(--color-guinda);
+        }
+        #map { height: 500px; width: 100%; }
+
+        .ruta-btn {
+            border-left: 5px solid transparent;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .ruta-btn:hover  { background-color: #f9f1f3; }
+
+        .ruta-btn.activa { background-color: #f9f1f3; font-weight: 600; }
+    </style>
+</head>
+<body>
+
+    <!--Encabezado-->
+    <header>
+        <nav class="navbar navbar-custom px-3">
+            <a class="navbar-brand fw-bold text-white" href="#">UrbanSon Navojoa</a>
+            <div class="ms-auto d-flex gap-2">
+                <a href="inicio.html"   class="btn btn-outline-light btn-sm">Inicio</a>
+                <a href="rutas.html"    class="btn btn-acento btn-sm">Rutas</a>
+                <a href="horarios.html" class="btn btn-outline-light btn-sm">Horarios</a>
+                <a href="analisis.html" class="btn btn-outline-light btn-sm">Análisis</a>
+                <a href="reportes.html" class="btn btn-outline-light btn-sm">Reportes</a>
+            </div>
+        </nav>
+    </header>
+
+    <!--Título-->
+    <div class="hero-overlay2 text-white text-center py-4 px-3">
+        <h1 class="fw-bold mb-1" style="font-family:'Bebas Neue',sans-serif; font-size:2.5rem; letter-spacing:2px;">
+            Rutas de transporte
+        </h1>
+        <p class="mb-0 text-white-50">Selecciona una ruta para ver su recorrido en el mapa</p>
+    </div>
+
+    <!--Contenido de la página "Rutas"-->
+    <div class="container-fluid py-4 px-4">
+        <div class="row g-3">
+
+            <!-- Panel lateral -->
+            <div class="col-12 col-md-4 col-lg-3">
+                <div class="card border-0 shadow-sm h-100">
+                    <div class="card-header fw-bold text-white" style="background-color: var(--color-guinda);">
+                        Rutas disponibles
+                    </div>
+                    <div class="list-group list-group-flush" id="lista-rutas">
+
+                        <div class="list-group-item ruta-btn"
+                             style="border-left-color: #7a1028;"
+                             onclick="mostrarRuta(0, this)">
+                            <div class="d-flex align-items-center gap-2">
+                                <span class="badge rounded-pill text-white" style="background:#7a1028;">1</span>
+                                <div>
+                                    <div>Circuito 1 Lado A - Allende - Laureles</div>
+                                    <small class="text-muted">Cada 25 min. aproximadamente</small>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="list-group-item ruta-btn"
+                             style="border-left-color: #7a1028;"
+                             onclick="mostrarRuta(1, this)">
+                            <div class="d-flex align-items-center gap-2">
+                                <span class="badge rounded-pill text-white" style="background:#7a1028;">1</span>
+                                <div>
+                                    <div>Circuito 1 Lado B - Allende - Laureles</div>
+                                    <small class="text-muted">Cada 25 min. aproximadamente</small>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="list-group-item ruta-btn"
+                             style="border-left-color: #cc2222;"
+                             onclick="mostrarRuta(2, this)">
+                            <div class="d-flex align-items-center gap-2">
+                                <span class="badge rounded-pill text-white" style="background:#cc2222;">2</span>
+                                <div>
+                                    <div>Circuito 2 - Tierra y Libertad - Jiménez (Línea 7)</div>
+                                    <small class="text-muted">Cada 20 min. aproximadamente</small>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="list-group-item ruta-btn"
+                             style="border-left-color: #e8940a;"
+                             onclick="mostrarRuta(3, this)">
+                            <div class="d-flex align-items-center gap-2">
+                                <span class="badge rounded-pill text-white" style="background:#e8940a;">3</span>
+                                <div>
+                                    <div>Circuito 3 Lado A - Pueblo Viejo - Misioneros</div>
+                                    <small class="text-muted">Cada 20 min. aproximadamente</small>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="list-group-item ruta-btn"
+                             style="border-left-color: #e8940a;"
+                             onclick="mostrarRuta(4, this)">
+                            <div class="d-flex align-items-center gap-2">
+                                <span class="badge rounded-pill text-white" style="background:#e8940a;">3</span>
+                                <div>
+                                    <div>Circuito 3 Lado B - Pueblo Viejo - Misioneros</div>
+                                    <small class="text-muted">Cada 20 min. aproximadamente</small>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="list-group-item ruta-btn"
+                             style="border-left-color: #2b771c;"
+                             onclick="mostrarRuta(5, this)">
+                            <div class="d-flex align-items-center gap-2">
+                                <span class="badge rounded-pill text-white" style="background:#2b771c;">4</span>
+                                <div>
+                                    <div>Circuito 4 - Sonora (Línea 2-6)</div>
+                                    <small class="text-muted">Cada 20 min. aproximadamente</small>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="list-group-item ruta-btn"
+                             style="border-left-color: #520b94;"
+                             onclick="mostrarRuta(6, this)">
+                            <div class="d-flex align-items-center gap-2">
+                                <span class="badge rounded-pill text-white" style="background:#520b94;">5</span>
+                                <div>
+                                    <div>Circuito 5 - Tetanchopo</div>
+                                    <small class="text-muted">Cada 30 min. aproximadamente</small>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="list-group-item ruta-btn"
+                             style="border-left-color: #08ac88;"
+                             onclick="mostrarRuta(7, this)">
+                            <div class="d-flex align-items-center gap-2">
+                                <span class="badge rounded-pill text-white" style="background:#08ac88;">6</span>
+                                <div>
+                                    <div>Circuito 6 - Deportiva - Fovisste</div>
+                                    <small class="text-muted">Cada 30 min. aproximadamente</small>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="list-group-item ruta-btn"
+                             style="border-left-color: #1619da;"
+                             onclick="mostrarRuta(8, this)">
+                            <div class="d-flex align-items-center gap-2">
+                                <span class="badge rounded-pill text-white" style="background:#1619da;">7</span>
+                                <div>
+                                    <div>Circuito 7 - Sonora Express</div>
+                                    <small class="text-muted">Cada 30 min. aproximadamente</small>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- Mapa (Leaflet) -->
+            <div class="col-12 col-md-8 col-lg-9">
+                <div id="map"></div>
+            </div>
+
+        </div>
+    </div>
+
+    <footer class="text-white text-center py-3">
+        <div class="fw-bold">UrbanSon Navojoa &nbsp;·&nbsp; Plataforma de análisis del transporte urbano</div>
+        <div class="mt-1 small" style="color: var(--color-beige);">Navojoa, Sonora, México</div>
+    </footer>
+
+    <script>
+        // ─── RUTAS ────────────────────────────────────────────────────────────────
+        // Marcas las coordenadas basadas en Google Maps
+        const rutas = [
+            {
+                nombre: 'Circuito 1 Lado A — Allende – Laureles',
+                color: '#7a1028',
+                coordenadas: [
+                    [27.078079, -109.446993],
+                    [27.078987, -109.447136],
+                    [27.080039, -109.447276], //Empieza Calle Hidalgo
+                    [27.079768, -109.449883],
+                    [27.079386, -109.453401], //Empieza Blvd. Cuauhtemoc
+                    [27.074103, -109.452689],
+                    [27.069615, -109.452133],
+                    [27.068645, -109.451976],
+                    [27.068449, -109.451976],
+                    [27.063888, -109.451380],  //Empieza Blvd.Sosa Chávez
+                    [27.063620, -109.453972],
+                    [27.063343, -109.456231],  //Empieza Blvd. Luis Salido
+                    [27.058041, -109.455567],
+                    [27.056550, -109.455390],  //Empieza Calle Aguascalientes
+                    [27.056316, -109.457685],  //ITSON, Empieza calle Ramón Corona
+                    [27.053081, -109.457271],
+                    [27.050543, -109.456947],  //Empieza Calle México
+                    [27.050777, -109.454644],  //Empieza Blvd. Luis Salido
+                    [27.049058, -109.454411],  //Empieza Blvd. Manlio Fabio Beltrones
+                    [27.049015, -109.450336],
+                    [27.049012, -109.449516],  //Empieza entrada a Laureles
+                    [27.046052, -109.449554],
+                    [27.044204, -109.449599],
+                    [27.043793, -109.449575],
+                    [27.043650, -109.449546],
+                    [27.043411, -109.449473],
+                    [27.043193, -109.449371],
+                    [27.042993, -109.449245],
+                    [27.042816, -109.449138],
+                    [27.042735, -109.449119],
+                    [27.042799, -109.449041],
+                    [27.043040, -109.449213],
+                    [27.043289, -109.449363],
+                    [27.043535, -109.449460],
+                    [27.043767, -109.449516],
+                    [27.044103, -109.449540],
+                    [27.044631, -109.449522],
+                    [27.046504, -109.449463],
+                    [27.049024, -109.449442],  // Sale Laureles
+                    [27.049048, -109.446827],  //Entra Girasoles
+                    [27.047727, -109.446835],
+                    [27.046908, -109.446843],
+                    [27.046578, -109.446827],
+                    [27.046375, -109.446798],
+                    [27.046079, -109.446709],
+                    [27.045826, -109.446610],
+                    [27.045871, -109.446505],
+                    [27.046103, -109.446629],
+                    [27.046408, -109.446717],
+                    [27.046736, -109.446765],
+                    [27.047548, -109.446760],
+                    [27.049156, -109.446723],  //Sale Girasoles
+                    [27.049156, -109.448037],  //Entra calle Talamante
+                    [27.051375, -109.448332],
+                    [27.053494, -109.448616],
+                    [27.054604, -109.448774],
+                    [27.055101, -109.448855],  //Empieza Blvd. Almada
+                    [27.055536, -109.448850],
+                    [27.056021, -109.448882],
+                    [27.056632, -109.448962],
+                    [27.059484, -109.449322],
+                    [27.061272, -109.449555],
+                    [27.062455, -109.449727],
+                    [27.063955, -109.449920],
+                    [27.064294, -109.446824],
+                    [27.064604, -109.443928],
+                    [27.067652, -109.444298],  //Empieza No Reelección
+                    [27.069294, -109.444502],
+                    [27.069566, -109.444502],
+                    [27.070995, -109.444700],
+                    [27.074463, -109.445178],
+                    [27.076918, -109.445494],
+                    [27.076784, -109.446793],
+                    [27.078064, -109.446948],  //Llega Mercado municipal
+                    [27.079932, -109.447222], 
+                    [27.080056, -109.447216],
+                    [27.080170, -109.446052],  //Empieza No Reelección
+                    [27.076152, -109.445508],
+                    [27.072589, -109.445046],  //Empieza calle Abasolo
+                    [27.072882, -109.442464],
+                    [27.073180, -109.439967],
+                    [27.073548, -109.436480],
+                    [27.073934, -109.436524],  // Empieza Blvd. Bracamontes
+                    [27.076934, -109.432469],
+                    [27.079323, -109.429263],
+                    [27.082325, -109.425222],
+                    [27.085092, -109.421526],
+                    [27.087136, -109.418767],
+                    [27.087412, -109.418661],  //Empieza calle Panteón C. Jacaranda
+                    [27.090558, -109.420807],
+                    [27.092605, -109.422229],
+                    [27.093117, -109.422608],
+                    [27.093341, -109.423259],
+                    [27.093410, -109.423809],
+                    [27.093458, -109.424289],
+                    [27.093518, -109.424740],
+                    [27.093577, -109.425035],
+                    [27.093931, -109.425507],
+                    [27.093931, -109.425507],
+                    [27.095552, -109.427130],
+                    [27.095626, -109.427175],  //Panteón viejo
+                    [27.095829, -109.426945],
+                    [27.096727, -109.425818],
+                    [27.097243, -109.425150],
+                    [27.097400, -109.424638],
+                    [27.097704, -109.424067],
+                    [27.098014, -109.423871],
+                    [27.098205, -109.423755],
+                    [27.098324, -109.423224],
+                    [27.098403, -109.423249],
+                    [27.098203, -109.423895],
+                    [27.098358, -109.424836],
+                    [27.099461, -109.425308],
+                    [27.097911, -109.426513],
+                    [27.097159, -109.427119],
+                    [27.096221, -109.427843],
+                    [27.095347, -109.427036],
+                    [27.095161, -109.426942],
+                    [27.095039, -109.426931],
+                    [27.094891, -109.426971],
+                    [27.094060, -109.427921],
+                    [27.093556, -109.428492],
+                    [27.093167, -109.428766],
+                    [27.093050, -109.428819],
+                    [27.092575, -109.429005],
+                    [27.092138, -109.429206],
+                    [27.091600, -109.429528],
+                    [27.090936, -109.430158],
+                    [27.090939, -109.430155],
+                    [27.089585, -109.432290],
+                    [27.089258, -109.432982],
+                    [27.089045, -109.433385],
+                    [27.088878, -109.433264],
+                    [27.087436, -109.432682],
+                    [27.086841, -109.432320],
+                    [27.086215, -109.432140],
+                    [27.085898, -109.434704],
+                    [27.086989, -109.434860],
+                    [27.088016, -109.435015],   // Empieza calle Guillermo Chávez
+                    [27.087741, -109.437735],
+                    [27.087414, -109.440720],
+                    [27.087161, -109.443357],
+                    [27.086765, -109.446916],   // Termina Melchor Ocampo, Empieza No Reelección
+                    [27.083577, -109.446495],
+                    [27.081788, -109.446270],   // Empieza plaza 5 de Mayo
+                    [27.081700, -109.446702],
+                    [27.080797, -109.446600],
+                    [27.078812, -109.448339],
+                    [27.077730, -109.448189],
+                    [27.077873, -109.446995],
+                    [27.078079, -109.446993]
+                ]
+            },
+            {
+                nombre: 'Circuito 1 Lado B — Allende - Laureles',
+                color: '#7a1028',
+                coordenadas: [
+                    // Reemplaza con las coordenadas reales del circuito 1B
+                    [27.078079, -109.446993],
+                    [27.077873, -109.446995],
+                    [27.077730, -109.448189],
+                    [27.078812, -109.448339],
+                    [27.080797, -109.446600],
+                    [27.081700, -109.446702],
+                    [27.081788, -109.446270],
+                    [27.083577, -109.446495],
+                    [27.086765, -109.446916],
+                    [27.087161, -109.443357],
+                    [27.087414, -109.440720],
+                    [27.087741, -109.437735],
+                    [27.088016, -109.435015],
+                    [27.086989, -109.434860],
+                    [27.085898, -109.434704],
+                    [27.086215, -109.432140],
+                    [27.086841, -109.432320],
+                    [27.087436, -109.432682],
+                    [27.088878, -109.433264],
+                    [27.089045, -109.433385],
+                    [27.089258, -109.432982],
+                    [27.089585, -109.432290],
+                    [27.090939, -109.430155],
+                    [27.090936, -109.430158],
+                    [27.091600, -109.429528],
+                    [27.092138, -109.429206],
+                    [27.092575, -109.429005],
+                    [27.093050, -109.428819],
+                    [27.093167, -109.428766],
+                    [27.093556, -109.428492],
+                    [27.094060, -109.427921],
+                    [27.094891, -109.426971],
+                    [27.095039, -109.426931],
+                    [27.095161, -109.426942],
+                    [27.095347, -109.427036],
+                    [27.096221, -109.427843],
+                    [27.097159, -109.427119],
+                    [27.097911, -109.426513],
+                    [27.099461, -109.425308],
+                    [27.098358, -109.424836],
+                    [27.098203, -109.423895],
+                    [27.098403, -109.423249],
+                    [27.098324, -109.423224],
+                    [27.098205, -109.423755],
+                    [27.098014, -109.423871],
+                    [27.097704, -109.424067],
+                    [27.097400, -109.424638],
+                    [27.097243, -109.425150],
+                    [27.096727, -109.425818],
+                    [27.095829, -109.426945],
+                    [27.095626, -109.427175],
+                    [27.095552, -109.427130],
+                    [27.093931, -109.425507],
+                    [27.093931, -109.425507],
+                    [27.093577, -109.425035],
+                    [27.093518, -109.424740],
+                    [27.093458, -109.424289],
+                    [27.093410, -109.423809],
+                    [27.093341, -109.423259],
+                    [27.093117, -109.422608],
+                    [27.092605, -109.422229],
+                    [27.090558, -109.420807],
+                    [27.087412, -109.418661],
+                    [27.087136, -109.418767],
+                    [27.085092, -109.421526],
+                    [27.082325, -109.425222],
+                    [27.079323, -109.429263],
+                    [27.076934, -109.432469],
+                    [27.073934, -109.436524],
+                    [27.073548, -109.436480],
+                    [27.073180, -109.439967],
+                    [27.072882, -109.442464],
+                    [27.072589, -109.445046],
+                    [27.076152, -109.445508],
+                    [27.080170, -109.446052],
+                    [27.080056, -109.447216],
+                    [27.079932, -109.447222],
+                    [27.078064, -109.446948],
+                    [27.076784, -109.446793],
+                    [27.076918, -109.445494],
+                    [27.074463, -109.445178],
+                    [27.070995, -109.444700],
+                    [27.069566, -109.444502],
+                    [27.069294, -109.444502],
+                    [27.067652, -109.444298],
+                    [27.064604, -109.443928],
+                    [27.064294, -109.446824],
+                    [27.063955, -109.449920],
+                    [27.062455, -109.449727],
+                    [27.061272, -109.449555],
+                    [27.059484, -109.449322],
+                    [27.056632, -109.448962],
+                    [27.056021, -109.448882],
+                    [27.055536, -109.448850],
+                    [27.055101, -109.448855],
+                    [27.054604, -109.448774],
+                    [27.053494, -109.448616],
+                    [27.051375, -109.448332],
+                    [27.049156, -109.448037],
+                    [27.049156, -109.446723],
+                    [27.047548, -109.446760],
+                    [27.046736, -109.446765],
+                    [27.046408, -109.446717],
+                    [27.046103, -109.446629],
+                    [27.045871, -109.446505],
+                    [27.045826, -109.446610],
+                    [27.046079, -109.446709],
+                    [27.046375, -109.446798],
+                    [27.046578, -109.446827],
+                    [27.046908, -109.446843],
+                    [27.047727, -109.446835],
+                    [27.049048, -109.446827],
+                    [27.049024, -109.449442],
+                    [27.046504, -109.449463],
+                    [27.044631, -109.449522],
+                    [27.044103, -109.449540],
+                    [27.043767, -109.449516],
+                    [27.043535, -109.449460],
+                    [27.043289, -109.449363],
+                    [27.043040, -109.449213],
+                    [27.042799, -109.449041],
+                    [27.042735, -109.449119],
+                    [27.042816, -109.449138],
+                    [27.042993, -109.449245],
+                    [27.043193, -109.449371],
+                    [27.043411, -109.449473],
+                    [27.043650, -109.449546],
+                    [27.043793, -109.449575],
+                    [27.044204, -109.449599],
+                    [27.046052, -109.449554],
+                    [27.049012, -109.449516],
+                    [27.049015, -109.450336],
+                    [27.049058, -109.454411],
+                    [27.050777, -109.454644],
+                    [27.050543, -109.456947],
+                    [27.053081, -109.457271],
+                    [27.056316, -109.457685],
+                    [27.056550, -109.455390],
+                    [27.058041, -109.455567],
+                    [27.063343, -109.456231],
+                    [27.063620, -109.453972],
+                    [27.063888, -109.451380],
+                    [27.068449, -109.451976],
+                    [27.068645, -109.451976],
+                    [27.069615, -109.452133],
+                    [27.074103, -109.452689],
+                    [27.079386, -109.453401],
+                    [27.079768, -109.449883],
+                    [27.080039, -109.447276],
+                    [27.078987, -109.447136],
+                    [27.078079, -109.446993]
+                ]
+            },
+            {
+                nombre: 'Circuito 2 — Tierra y Libertad – Jiménez',
+                color: '#cc2222',
+                coordenadas: [
+                    // Reemplaza con las coordenadas reales del circuito 2
+                    [27.0731, -109.4412],
+                    [27.0750, -109.4390],
+                    [27.0768, -109.4370],
+                    [27.0780, -109.4350],
+                    [27.0760, -109.4330],
+                    [27.0740, -109.4350],
+                    [27.0731, -109.4412]
+                ]
+            },
+            {
+                nombre: 'Circuito 3 Lado A — Pueblo Viejo – Misioneros',
+                color: '#e8940a',
+                coordenadas: [
+                    // Reemplaza con las coordenadas reales del circuito 3-A
+                    [27.0820, -109.4500],
+                    [27.0800, -109.4475],
+                    [27.0780, -109.4452],
+                    [27.0760, -109.4430],
+                    [27.0745, -109.4415],
+                    [27.0820, -109.4500]
+                ]
+            },
+            {
+                nombre: 'Circuito 3 Lado B — Pueblo Viejo – Misioneros',
+                color: '#e8940a',
+                coordenadas: [
+                    // Reemplaza con las coordenadas reales del circuito 3-B
+                    [27.0820, -109.4500],
+                    [27.0800, -109.4475],
+                    [27.0780, -109.4452],
+                    [27.0760, -109.4430],
+                    [27.0745, -109.4415],
+                    [27.0820, -109.4500]
+                ]
+            },
+            {
+                nombre: 'Circuito 4 — Sonora',
+                color: '#2b771c',
+                coordenadas: [
+                    // Reemplaza con las coordenadas reales del circuito 4
+                    [27.078887, -109.445888],  //Empieza Mercado municipal
+                    [27.075853, -109.445481],
+                    [27.073508, -109.445166],
+                    [27.071534, -109.444908],
+                    [27.071674, -109.443579],  //Empieza calle Pesqueira
+                    [27.068461, -109.443159],
+                    [27.067819, -109.443034],
+                    [27.067312, -109.442958],
+                    [27.066997, -109.442886],
+                    [27.066436, -109.442580],
+                    [27.064725, -109.441582],
+                    [27.062763, -109.440415],
+                    [27.062273, -109.440277],  //Soriana
+                    [27.061635, -109.439961],
+                    [27.061167, -109.439751],
+                    [27.061014, -109.439550],
+                    [27.060435, -109.439412],
+                    [27.059405, -109.439240],
+                    [27.057975, -109.439039],  //Empieza calle Pedagógico
+                    [27.057945, -109.437749],
+                    [27.057928, -109.435842],
+                    [27.058430, -109.435861],
+                    [27.058430, -109.434719],
+                    [27.059537, -109.434747],  //Empieza calle Juan de la Barrera
+                    [27.059664, -109.428238],
+                    [27.059741, -109.426178],
+                    [27.059788, -109.424883],
+                    [27.059856, -109.424205],
+                    [27.059873, -109.423674],
+                    [27.059894, -109.422006],  //Empieza calle Huatabampo
+                    [27.060979, -109.422042],
+                    [27.060970, -109.422419],
+                    [27.062532, -109.422467],
+                    [27.062545, -109.422228],
+                    [27.063605, -109.422266],
+                    [27.064141, -109.422300],
+                    [27.065197, -109.422323],
+                    [27.066269, -109.422376],
+                    [27.067346, -109.422400],
+                    [27.067397, -109.420125],
+                    [27.067418, -109.418476],
+                    [27.067315, -109.418417],  // Empieza Col. 16 de Junio
+                    [27.065249, -109.418374],
+                    [27.065270, -109.417172],
+                    [27.065274, -109.416194],
+                    [27.066345, -109.416189],
+                    [27.067451, -109.416185],
+                    [27.067438, -109.418374],
+                    [27.069370, -109.418424],
+                    [27.070958, -109.418467],
+                    [27.073947, -109.418515],
+                    [27.073941, -109.417647],
+                    [27.075963, -109.417647],
+                    [27.078504, -109.417638],
+                    [27.080491, -109.417628],
+                    [27.080487, -109.418871],
+                    [27.080474, -109.420151],
+                    [27.079393, -109.420147],
+                    [27.079401, -109.422020],
+                    [27.079346, -109.423764],
+                    [27.076899, -109.423712],
+                    [27.075087, -109.423669],
+                    [27.073950, -109.423635],  //Empieza calle Lázaro Cárdenas
+                    [27.073861, -109.428567],
+                    [27.073772, -109.432501],
+                    [27.073712, -109.435067],
+                    [27.073631, -109.435961],
+                    [27.073214, -109.439791],
+                    [27.072784, -109.443689],  //Empieza calle Pesqueira
+                    [27.076564, -109.444205],
+                    [27.079200, -109.444578],
+                    [27.079060, -109.445916],  //Calle Guerrero
+                    [27.078887, -109.445888]
+                ] 
+            },
+            {
+                nombre: 'Circuito 5 — Tetanchopo',
+                color: '#520b94',
+                coordenadas: [
+                    // Reemplaza con las coordenadas reales del circuito 5
+                    [27.0820, -109.4500],
+                    [27.0800, -109.4475],
+                    [27.0780, -109.4452],
+                    [27.0760, -109.4430],
+                    [27.0745, -109.4415],
+                    [27.0820, -109.4500]
+                ]
+            },
+            {
+                nombre: 'Circuito 6 — Deportiva - Fovissste',
+                color: '#08ac88',
+                coordenadas: [
+                    // Reemplaza con las coordenadas reales del circuito 6
+                    [27.0820, -109.4500],
+                    [27.0800, -109.4475],
+                    [27.0780, -109.4452],
+                    [27.0760, -109.4430],
+                    [27.0745, -109.4415],
+                    [27.0820, -109.4500]
+                ]
+            },
+            {
+                nombre: 'Circuito 7 — Sonora Express',
+                color: '#1619da',
+                coordenadas: [
+                    // Reemplaza con las coordenadas reales del circuito 7
+                    [27.078169, -109.445781],  //Parada mercado municipal (Inicio/Fin)
+                    [27.074750, -109.445312],
+                    [27.072595, -109.445047],  //Empieza calle Abasolo
+                    [27.073120, -109.440402],
+                    [27.073526, -109.436489],  //Empieza Blvd. Sonora
+                    [27.070379, -109.436084],
+                    [27.067026, -109.435658],  //Empieza calle Cócorit
+                    [27.067102, -109.434271],
+                    [27.067159, -109.432106],  //Empieza calle Nogales
+                    [27.066083, -109.432088],
+                    [27.064978, -109.432013],
+                    [27.063364, -109.431995],
+                    [27.062265, -109.431963],
+                    [27.060666, -109.431920],  //Empieza calle Agustín Melgar
+                    [27.060767, -109.427019],
+                    [27.060799, -109.424238],
+                    [27.060887, -109.420122],  //Empieza calle Yavaros
+                    [27.059913, -109.420111],  //Empieza Juan de la Barrera
+                    [27.059877, -109.423686],
+                    [27.059795, -109.424786],
+                    [27.059720, -109.427048],
+                    [27.059642, -109.429480],  //Empieza calle Cajeme
+                    [27.062917, -109.429565],
+                    [27.065046, -109.429606],
+                    [27.066129, -109.429660],
+                    [27.067256, -109.429629],
+                    [27.069375, -109.429741],
+                    [27.070473, -109.429789],
+                    [27.072626, -109.429800],
+                    [27.072626, -109.429800],  //Empieza calle Lázaro Cárdenas (UNISON)
+                    [27.073828, -109.429851],
+                    [27.073730, -109.434466],
+                    [27.073699, -109.435445],
+                    [27.073543, -109.436574],
+                    [27.073213, -109.439793],
+                    [27.073045, -109.441315],
+                    [27.072776, -109.443706],  //Empieza calle Pesqueira
+                    [27.076366, -109.444171],
+                    [27.079194, -109.444573],  //Empieza calle Guerrero
+                    [27.079194, -109.444573],  //Empieza calle No Reelección
+                    [27.079056, -109.445915],
+                    [27.078169, -109.445781],  //Termina mercado municipal (Fin de la ruta)
+
+                ]
+            },
+        ];
+
+        // MAPA
+        var map = L.map('map').setView([27.0780, -109.4460], 14);
+
+        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+        }).addTo(map);
+
+        // CONSTRUIR CAPAS
+        var capas = [];
+
+        rutas.forEach(function(ruta) {
+            var linea = L.polyline(ruta.coordenadas, {
+                color:   ruta.color,
+                weight:  6,
+                opacity: 0.9
+            }).bindPopup('<strong>' + ruta.nombre + '</strong>');
+
+            capas.push(L.layerGroup([linea]));
+        });
+
+        // Ruta 1 visible por defecto
+        //capas[0].addTo(map);
+
+        // CAMBIAR RUTA 
+        function mostrarRuta(indice, elemento) {
+            capas.forEach(function(c) { map.removeLayer(c); });
+            capas[indice].addTo(map);
+            map.fitBounds(
+                L.polyline(rutas[indice].coordenadas).getBounds(),
+                { padding: [40, 40] }
+            );
+            document.querySelectorAll('.ruta-btn').forEach(function(b) {
+                b.classList.remove('activa');
+            });
+            elemento.classList.add('activa');
+        }
+    </script>
+
+</body>
+</html>

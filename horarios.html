@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Horarios - UrbanSon Navojoa</title>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <style>
+        :root {
+            --color-guinda: #7a1028;
+            --color-rojo:   #cc2222;
+            --color-beige:  #e8d9b0;
+        }
+        body { font-family: 'Outfit', sans-serif; }
+        .navbar-custom    { background-color: var(--color-guinda); }
+        .btn-acento       { background-color: var(--color-beige); color: var(--color-guinda); font-weight: 600; border: none; }
+        .btn-acento:hover { opacity: 0.85; }
+        .hero-overlay     { background-color: rgba(122, 16, 40, 0.75); }
+        footer            { background-color: var(--color-guinda); }
+
+        #map { height: 480px; width: 100%; border-radius: 12px; }
+
+        #panel-info {
+            max-height: 480px;
+            overflow-y: auto;
+        }
+
+        .parada-item {
+            cursor: pointer;
+            border-left: 4px solid transparent;
+            transition: background 0.2s;
+        }
+        .parada-item:hover    { background-color: #f9f1f3; }
+        .parada-item.activa   { background-color: #f9f1f3; border-left-color: var(--color-guinda); font-weight: 600; }
+
+        .badge-hora {
+            font-size: 12px;
+            font-weight: 500;
+            padding: 3px 8px;
+            border-radius: 20px;
+        }
+        .hora-proxima {
+            background-color: #7a1028;
+            color: white;
+        }
+        .hora-normal {
+            background-color: #f0e8ea;
+            color: #7a1028;
+        }
+
+        /* Botón GPS */
+        #btn-gps {
+            position: absolute;
+            bottom: 24px;
+            right: 12px;
+            z-index: 1000;
+            background: var(--color-guinda);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            padding: 8px 16px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+        }
+        #btn-gps:hover { opacity: 0.9; }
+
+        .ruta-cercana-badge {
+            display: inline-block;
+            width: 12px; height: 12px;
+            border-radius: 50%;
+            margin-right: 5px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ENCABEZADO -->
+    <header>
+        <nav class="navbar navbar-custom px-3">
+            <a class="navbar-brand fw-bold text-white" href="#">UrbanSon Navojoa</a>
+            <div class="ms-auto d-flex gap-2">
+                <a href="inicio.html"   class="btn btn-outline-light btn-sm">Inicio</a>
+                <a href="rutas.html"    class="btn btn-outline-light btn-sm">Rutas</a>
+                <a href="horarios.html" class="btn btn-acento btn-sm">Horarios</a>
+                <a href="analisis.html" class="btn btn-outline-light btn-sm">Análisis</a>
+                <a href="reportes.html" class="btn btn-outline-light btn-sm">Reportes</a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Título -->
+    <div class="hero-overlay text-white text-center py-4 px-3">
+        <h1 class="fw-bold mb-1" style="font-family:'Bebas Neue',sans-serif; font-size:2.5rem; letter-spacing:2px;">
+            Horarios y paradas
+        </h1>
+        <p class="mb-0 text-white-50">Selecciona una parada en el mapa o usa tu ubicación para ver los horarios</p>
+    </div>
+
+    <!-- Contenido de la página "Horarios" -->
+    <div class="container-fluid py-4 px-4">
+        <div class="row g-3">
+
+            <!-- PANEL LATERAL -->
+            <div class="col-12 col-md-4 col-lg-3">
+                <div class="card border-0 shadow-sm" style="border-top: 3px solid var(--color-guinda) !important;">
+                    <div class="card-header fw-bold text-white" style="background-color: var(--color-guinda);">
+                        <span id="panel-titulo">Selecciona una parada</span>
+                    </div>
+                    <div id="panel-info" class="card-body p-0">
+                        <!-- Estado inicial -->
+                        <div id="panel-vacio" class="text-center text-muted py-5 px-3">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="mb-3 opacity-50" viewBox="0 0 16 16">
+                                <path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10zm0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6z"/>
+                            </svg>
+                            <p class="small mb-2">Toca cualquier parada en el mapa para ver los próximos horarios</p>
+                            <p class="small">O usa el botón <strong>📍 Mi ubicación</strong> en el mapa para ver rutas cercanas</p>
+                        </div>
+                        <!-- Contenido dinámico -->
+                        <div id="panel-contenido" class="d-none"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- MAPA -->
+            <div class="col-12 col-md-8 col-lg-9 position-relative">
+                <div id="map"></div>
+                <button id="btn-gps" onclick="usarUbicacion()">📍 Mi ubicación</button>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- PIE DE PÁGINA -->
+    <footer class="text-white text-center py-3">
+        <div class="fw-bold">UrbanSon Navojoa &nbsp;·&nbsp; Plataforma de análisis del transporte urbano</div>
+        <div class="mt-1 small" style="color: var(--color-beige);">Navojoa, Sonora, México</div>
+    </footer>
+
+<script>
+
+// ═══════════════════════════════════════════════════════════════════
+//  DATOS — Aquí se definen las rutas con sus colores y frecuencias
+//  Cuando tengas horarios reales, reemplaza "frecuenciaMin" por
+//  un arreglo "horarios: ['06:00','06:25', ...]" por parada
+// ═══════════════════════════════════════════════════════════════════
+const RUTAS = [
+    { id: 1, numero: 1, nombre: 'Circuito 1 Lado A — Allende – Laureles', color: '#7a1028', frecuenciaMin: 25, inicioServicio: '06:00', finServicio: '22:00' },
+    { id: 2, numero: 1, nombre: 'Circuito 1 Lado B — Allende – Laureles', color: '#7a1028', frecuenciaMin: 25, inicioServicio: '06:00', finServicio: '22:00' },
+    { id: 3, numero: 2, nombre: 'Circuito 2 — Tierra y Libertad – Jiménez', color: '#cc2222', frecuenciaMin: 20, inicioServicio: '06:00', finServicio: '22:00' },
+    { id: 4, numero: 3, nombre: 'Circuito 3 — Pueblo Viejo – Misioneros', color: '#e8940a', frecuenciaMin: 20, inicioServicio: '06:00', finServicio: '22:00' },
+    { id: 5, numero: 4, nombre: 'Circuito 4 — Sonora', color: '#2b771c', frecuenciaMin: 20, inicioServicio: '06:00', finServicio: '22:00' },
+    { id: 6, numero: 5, nombre: 'Circuito 5 — Tetanchopo', color: '#520b94', frecuenciaMin: 30, inicioServicio: '06:00', finServicio: '22:00' },
+    { id: 7, numero: 6, nombre: 'Circuito 6 — Deportiva – Fovissste', color: '#08ac88', frecuenciaMin: 30, inicioServicio: '06:00', finServicio: '22:00' },
+    { id: 8, numero: 7, nombre: 'Circuito 7 — Sonora Express', color: '#1619da', frecuenciaMin: 30, inicioServicio: '06:00', finServicio: '22:00' },
+];
+
+// ═══════════════════════════════════════════════════════════════════
+//  PARADAS — Agregar aquí las coordenadas reales de las rutas
+//  rutaIds: arreglo con los IDs de las rutas que pasan por esa parada
+// ═══════════════════════════════════════════════════════════════════
+const PARADAS = [
+    { id: 1, nombre: 'Mercado Municipal Lado García Morales', lat: 27.078401, lng: -109.446930, rutaIds: [1, 2, 3, 4, 7] },
+    { id: 2, nombre: 'Mercado Municipal Lado No Reelección',  lat: 27.078505, lng: -109.445937, rutaIds: [4, 5, 8] },
+    { id: 3, nombre: 'Juan de la Barrera y Huatabampo',       lat: 27.059840, lng: -109.422125, rutaIds: [5, 8] },
+    { id: 4, nombre: 'Col. Laureles',             lat: 27.04280, lng: -109.44911, rutaIds: [1, 2] },
+    { id: 5, nombre: 'Col. Girasoles',            lat: 27.04583, lng: -109.44665, rutaIds: [1, 2] },
+    { id: 6, nombre: 'Soriana Navojoa',           lat: 27.06227, lng: -109.44028, rutaIds: [4] },
+    { id: 7, nombre: 'Col. 16 de Junio',          lat: 27.06527, lng: -109.41837, rutaIds: [5] },
+    { id: 8, nombre: 'Calle Lázaro Cárdenas',     lat: 27.07395, lng: -109.42357, rutaIds: [4] },
+    { id: 9, nombre: 'UES Navojoa',               lat: 27.049086, lng: -109.453348, rutaIds: [1, 2] },
+    { id: 10, nombre: 'UNISON Navojoa',           lat: 27.073939, lng: -109.428732, rutaIds: [3, 5] },
+    // Agregar más paradas aquí con el mismo formato
+];
+
+// Radio en metros para considerar una parada como "cercana"
+const RADIO_CERCANO_M = 400;
+
+// ═══════════════════════════════════════════════════════════════════
+//  LÓGICA DE HORARIOS
+//  Genera los horarios del día basándose en la frecuencia
+//  Cuando tengas horarios reales, reemplaza esta función por
+//  un simple return de tu arreglo fijo.
+// ═══════════════════════════════════════════════════════════════════
+function generarHorarios(rutaId) {
+    const ruta = RUTAS.find(r => r.id === rutaId);
+    if (!ruta) return [];
+
+    const horarios = [];
+    const [hIni, mIni] = ruta.inicioServicio.split(':').map(Number);
+    const [hFin, mFin] = ruta.finServicio.split(':').map(Number);
+    let minutos = hIni * 60 + mIni;
+    const finMin = hFin * 60 + mFin;
+
+    while (minutos <= finMin) {
+        const h = String(Math.floor(minutos / 60)).padStart(2, '0');
+        const m = String(minutos % 60).padStart(2, '0');
+        horarios.push(h + ':' + m);
+        minutos += ruta.frecuenciaMin;
+    }
+    return horarios;
+}
+
+// Devuelve los próximos N horarios a partir de ahora
+function proximosHorarios(rutaId, cantidad) {
+    const ahora = new Date();
+    const ahoraMin = ahora.getHours() * 60 + ahora.getMinutes();
+    const todos = generarHorarios(rutaId);
+
+    const proximos = todos.filter(h => {
+        const [hh, mm] = h.split(':').map(Number);
+        return (hh * 60 + mm) >= ahoraMin;
+    });
+
+    return proximos.slice(0, cantidad);
+}
+
+// ═══════════════════════════════════════════════════════════════════
+//  MAPA
+// ═══════════════════════════════════════════════════════════════════
+var map = L.map('map').setView([27.0650, -109.4430], 13);
+
+L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+}).addTo(map);
+
+// Ícono personalizado de parada (círculo guinda)
+function iconoParada(color) {
+    return L.divIcon({
+        className: '',
+        html: `<div style="
+            width: 14px; height: 14px;
+            background: ${color};
+            border: 2px solid white;
+            border-radius: 50%;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.4);
+        "></div>`,
+        iconSize: [14, 14],
+        iconAnchor: [7, 7],
+        popupAnchor: [0, -10]
+    });
+}
+
+// Ícono de usuario
+var iconoUsuario = L.divIcon({
+    className: '',
+    html: `<div style="
+        width: 18px; height: 18px;
+        background: #1a73e8;
+        border: 3px solid white;
+        border-radius: 50%;
+        box-shadow: 0 0 0 4px rgba(26,115,232,0.25);
+    "></div>`,
+    iconSize: [18, 18],
+    iconAnchor: [9, 9]
+});
+
+var marcadorUsuario = null;
+var circuloCercano  = null;
+
+// Dibujar paradas en el mapa
+PARADAS.forEach(function(parada) {
+    // Color del marcador: si pasa una sola ruta, usa ese color; si son varias, guinda
+    const colorMarcador = parada.rutaIds.length === 1
+        ? RUTAS.find(r => r.id === parada.rutaIds[0]).color
+        : '#7a1028';
+
+    L.marker([parada.lat, parada.lng], { icon: iconoParada(colorMarcador) })
+        .addTo(map)
+        .on('click', function() { mostrarInfoParada(parada); });
+});
+
+// ═══════════════════════════════════════════════════════════════════
+//  PANEL — Mostrar info de una parada al hacer clic
+// ═══════════════════════════════════════════════════════════════════
+function mostrarInfoParada(parada) {
+    document.getElementById('panel-vacio').classList.add('d-none');
+    document.getElementById('panel-contenido').classList.remove('d-none');
+    document.getElementById('panel-titulo').textContent = parada.nombre;
+
+    let html = '';
+
+    parada.rutaIds.forEach(function(rutaId) {
+        const ruta = RUTAS.find(r => r.id === rutaId);
+        const proximos = proximosHorarios(rutaId, 5);
+
+        html += `
+        <div class="px-3 py-3 border-bottom">
+            <div class="d-flex align-items-center gap-2 mb-2">
+                <span class="badge text-white rounded-pill" style="background:${ruta.color};">${ruta.numero}</span>
+                <span class="fw-bold small">${ruta.nombre}</span>
+            </div>
+            <div class="small text-muted mb-2">Frecuencia: cada ${ruta.frecuenciaMin} min &nbsp;·&nbsp; ${ruta.inicioServicio}–${ruta.finServicio}</div>
+            <div class="small fw-bold mb-1" style="color:var(--color-guinda);">Próximas salidas:</div>
+            <div class="d-flex flex-wrap gap-1">
+        `;
+
+        if (proximos.length === 0) {
+            html += `<span class="text-muted small">Sin servicio por hoy</span>`;
+        } else {
+            proximos.forEach(function(hora, i) {
+                const clase = i === 0 ? 'hora-proxima' : 'hora-normal';
+                html += `<span class="badge-hora ${clase}">${hora}</span>`;
+            });
+        }
+
+        html += `</div></div>`;
+    });
+
+    document.getElementById('panel-contenido').innerHTML = html;
+
+    // Centrar mapa en la parada
+    map.setView([parada.lat, parada.lng], 15);
+}
+
+// ═══════════════════════════════════════════════════════════════════
+//  GPS — Rutas cercanas por ubicación del usuario
+// ═══════════════════════════════════════════════════════════════════
+function usarUbicacion() {
+    if (!navigator.geolocation) {
+        alert('Tu navegador no soporta geolocalización.');
+        return;
+    }
+
+    document.getElementById('btn-gps').textContent = '⏳ Localizando...';
+
+    navigator.geolocation.getCurrentPosition(
+        function(pos) {
+            document.getElementById('btn-gps').textContent = '📍 Mi ubicación';
+
+            const lat = pos.coords.latitude;
+            const lng = pos.coords.longitude;
+
+            // Quitar marcador anterior
+            if (marcadorUsuario) map.removeLayer(marcadorUsuario);
+            if (circuloCercano)  map.removeLayer(circuloCercano);
+
+            marcadorUsuario = L.marker([lat, lng], { icon: iconoUsuario })
+                .addTo(map)
+                .bindPopup('<strong>Tu ubicación actual</strong>')
+                .openPopup();
+
+            circuloCercano = L.circle([lat, lng], {
+                radius: RADIO_CERCANO_M,
+                color: '#1a73e8',
+                fillColor: '#1a73e8',
+                fillOpacity: 0.08,
+                weight: 1.5
+            }).addTo(map);
+
+            map.setView([lat, lng], 15);
+
+            // Encontrar paradas dentro del radio
+            const paradasCercanas = PARADAS.filter(function(p) {
+                const dist = map.distance([lat, lng], [p.lat, p.lng]);
+                return dist <= RADIO_CERCANO_M;
+            });
+
+            mostrarRutasCercanas(paradasCercanas, lat, lng);
+        },
+        function(err) {
+            document.getElementById('btn-gps').textContent = '📍 Mi ubicación';
+            alert('No se pudo obtener tu ubicación. Verifica los permisos del navegador.');
+        }
+    );
+}
+
+function mostrarRutasCercanas(paradasCercanas, latUser, lngUser) {
+    document.getElementById('panel-vacio').classList.add('d-none');
+    document.getElementById('panel-contenido').classList.remove('d-none');
+    document.getElementById('panel-titulo').textContent = 'Rutas cercanas a ti';
+
+    if (paradasCercanas.length === 0) {
+        document.getElementById('panel-contenido').innerHTML = `
+            <div class="text-center text-muted py-5 px-3">
+                <p class="small">No se encontraron paradas en un radio de ${RADIO_CERCANO_M}m.</p>
+                <p class="small">Intenta moverte hacia una avenida principal.</p>
+            </div>`;
+        return;
+    }
+
+    // Agrupar por ruta única
+    const rutasEncontradas = {};
+    paradasCercanas.forEach(function(parada) {
+        const distM = Math.round(map.distance([latUser, lngUser], [parada.lat, parada.lng]));
+        parada.rutaIds.forEach(function(rutaId) {
+            if (!rutasEncontradas[rutaId] || rutasEncontradas[rutaId].distM > distM) {
+                rutasEncontradas[rutaId] = { parada, distM };
+            }
+        });
+    });
+
+    let html = `<div class="px-3 pt-3 pb-1 small text-muted">Paradas a menos de ${RADIO_CERCANO_M}m</div>`;
+
+    Object.entries(rutasEncontradas).forEach(function([rutaId, info]) {
+        const ruta    = RUTAS.find(r => r.numero === parseInt(rutaId));
+        const proximos = proximosHorarios(parseInt(rutaId), 4);
+
+        html += `
+        <div class="px-3 py-3 border-bottom parada-item"
+             onclick="mostrarInfoParada(${JSON.stringify(info.parada).replace(/"/g, '&quot;')})">
+            <div class="d-flex align-items-center gap-2 mb-1">
+                <span class="badge text-white rounded-pill" style="background:${ruta.color};">${ruta.numero}</span>
+                <span class="fw-bold small">${ruta.nombre}</span>
+            </div>
+            <div class="small text-muted mb-2">
+                📍 ${info.parada.nombre} &nbsp;·&nbsp; ~${info.distM}m
+            </div>
+            <div class="d-flex flex-wrap gap-1">
+        `;
+
+        if (proximos.length === 0) {
+            html += `<span class="text-muted small">Sin servicio por hoy</span>`;
+        } else {
+            proximos.forEach(function(hora, i) {
+                const clase = i === 0 ? 'hora-proxima' : 'hora-normal';
+                html += `<span class="badge-hora ${clase}">${hora}</span>`;
+            });
+        }
+
+        html += `</div></div>`;
+    });
+
+    document.getElementById('panel-contenido').innerHTML = html;
+}
+
+</script>
+
+</body>
+</html>
