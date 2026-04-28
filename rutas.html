@@ -118,7 +118,6 @@
                                 <span class="badge rounded-pill text-white" style="background:#7a1028;">1</span>
                                 <div>
                                     <div>Circuito 1 Lado A - Allende - Laureles</div>
-                                    <small class="text-muted">Cada 25 min. aproximadamente</small>
                                 </div>
                             </div>
                         </div>
@@ -130,7 +129,6 @@
                                 <span class="badge rounded-pill text-white" style="background:#7a1028;">1</span>
                                 <div>
                                     <div>Circuito 1 Lado B - Allende - Laureles</div>
-                                    <small class="text-muted">Cada 25 min. aproximadamente</small>
                                 </div>
                             </div>
                         </div>
@@ -142,7 +140,6 @@
                                 <span class="badge rounded-pill text-white" style="background:#cc2222;">2</span>
                                 <div>
                                     <div>Circuito 2 - Tierra y Libertad - Jiménez (Línea 7)</div>
-                                    <small class="text-muted">Cada 20 min. aproximadamente</small>
                                 </div>
                             </div>
                         </div>
@@ -154,7 +151,6 @@
                                 <span class="badge rounded-pill text-white" style="background:#e8940a;">3</span>
                                 <div>
                                     <div>Circuito 3 Lado A - Pueblo Viejo - Misioneros</div>
-                                    <small class="text-muted">Cada 20 min. aproximadamente</small>
                                 </div>
                             </div>
                         </div>
@@ -166,7 +162,6 @@
                                 <span class="badge rounded-pill text-white" style="background:#e8940a;">3</span>
                                 <div>
                                     <div>Circuito 3 Lado B - Pueblo Viejo - Misioneros</div>
-                                    <small class="text-muted">Cada 20 min. aproximadamente</small>
                                 </div>
                             </div>
                         </div>
@@ -178,43 +173,61 @@
                                 <span class="badge rounded-pill text-white" style="background:#2b771c;">4</span>
                                 <div>
                                     <div>Circuito 4 - Sonora (Línea 2-6)</div>
-                                    <small class="text-muted">Cada 20 min. aproximadamente</small>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="list-group-item ruta-btn"
+                             style="border-left-color: #2b771c;"
+                             onclick="mostrarRuta(6, this)">
+                            <div class="d-flex align-items-center gap-2">
+                                <span class="badge rounded-pill text-white" style="background:#2b771c;">4</span>
+                                <div>
+                                    <div>Circuito 4 - Quintana Roo</div>
                                 </div>
                             </div>
                         </div>
 
                         <div class="list-group-item ruta-btn"
                              style="border-left-color: #520b94;"
-                             onclick="mostrarRuta(6, this)">
+                             onclick="mostrarRuta(7, this)">
                             <div class="d-flex align-items-center gap-2">
                                 <span class="badge rounded-pill text-white" style="background:#520b94;">5</span>
                                 <div>
                                     <div>Circuito 5 - Tetanchopo</div>
-                                    <small class="text-muted">Cada 30 min. aproximadamente</small>
                                 </div>
                             </div>
                         </div>
 
                         <div class="list-group-item ruta-btn"
                              style="border-left-color: #08ac88;"
-                             onclick="mostrarRuta(7, this)">
+                             onclick="mostrarRuta(8, this)">
                             <div class="d-flex align-items-center gap-2">
                                 <span class="badge rounded-pill text-white" style="background:#08ac88;">6</span>
                                 <div>
-                                    <div>Circuito 6 - Deportiva - Fovisste</div>
-                                    <small class="text-muted">Cada 30 min. aproximadamente</small>
+                                    <div>Circuito 6 Lado A - Deportiva - Fovisste</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="list-group-item ruta-btn"
+                             style="border-left-color: #08ac88;"
+                             onclick="mostrarRuta(9, this)">
+                            <div class="d-flex align-items-center gap-2">
+                                <span class="badge rounded-pill text-white" style="background:#08ac88;">6</span>
+                                <div>
+                                    <div>Circuito 6 Lado B - Deportiva - Fovisste</div>
                                 </div>
                             </div>
                         </div>
 
                         <div class="list-group-item ruta-btn"
                              style="border-left-color: #1619da;"
-                             onclick="mostrarRuta(8, this)">
+                             onclick="mostrarRuta(10, this)">
                             <div class="d-flex align-items-center gap-2">
                                 <span class="badge rounded-pill text-white" style="background:#1619da;">7</span>
                                 <div>
                                     <div>Circuito 7 - Sonora Express</div>
-                                    <small class="text-muted">Cada 30 min. aproximadamente</small>
                                 </div>
                             </div>
                         </div>
@@ -402,15 +415,13 @@
                 color: '#7a1028',
                 coordenadas: [
                     // Reemplaza con las coordenadas reales del circuito 1B
-                    [27.078079, -109.446993],
-                    [27.077873, -109.446995],
-                    [27.077730, -109.448189],
-                    [27.078812, -109.448339],
-                    [27.080797, -109.446600],
-                    [27.081700, -109.446702],
-                    [27.081788, -109.446270],
-                    [27.083577, -109.446495],
-                    [27.086765, -109.446916],
+                    [27.078079, -109.446993],  //Empieza mercado
+                    [27.078987, -109.447136],
+                    [27.080039, -109.447276],
+                    [27.082305, -109.447578],  //Empieza calle Morelos
+                    [27.082454, -109.446229],  //Empieza No Reelección al N
+                    [27.085724, -109.446666],
+                    [27.086769, -109.446808],
                     [27.087161, -109.443357],
                     [27.087414, -109.440720],
                     [27.087741, -109.437735],
@@ -465,43 +476,38 @@
                     [27.092605, -109.422229],
                     [27.090558, -109.420807],
                     [27.087412, -109.418661],
-                    [27.087136, -109.418767],
-                    [27.085092, -109.421526],
-                    [27.082325, -109.425222],
-                    [27.079323, -109.429263],
-                    [27.076934, -109.432469],
-                    [27.073934, -109.436524],
-                    [27.073548, -109.436480],
-                    [27.073180, -109.439967],
-                    [27.072882, -109.442464],
-                    [27.072589, -109.445046],
-                    [27.076152, -109.445508],
-                    [27.080170, -109.446052],
-                    [27.080056, -109.447216],
-                    [27.079932, -109.447222],
-                    [27.078064, -109.446948],
-                    [27.076784, -109.446793],
-                    [27.076918, -109.445494],
-                    [27.074463, -109.445178],
-                    [27.070995, -109.444700],
-                    [27.069566, -109.444502],
-                    [27.069294, -109.444502],
-                    [27.067652, -109.444298],
-                    [27.064604, -109.443928],
-                    [27.064294, -109.446824],
-                    [27.063955, -109.449920],
-                    [27.062455, -109.449727],
-                    [27.061272, -109.449555],
-                    [27.059484, -109.449322],
-                    [27.056632, -109.448962],
-                    [27.056021, -109.448882],
-                    [27.055536, -109.448850],
-                    [27.055101, -109.448855],
-                    [27.054604, -109.448774],
-                    [27.053494, -109.448616],
-                    [27.051375, -109.448332],
-                    [27.049156, -109.448037],
-                    [27.049156, -109.446723],
+                    [27.083198, -109.424278],
+                    [27.078757, -109.430233],
+                    [27.077268, -109.432235],
+                    [27.074928, -109.435354],
+                    [27.074038, -109.436534],
+                    [27.073565, -109.436494],  //Empieza calle Abasolo
+                    [27.073172, -109.440152],
+                    [27.073045, -109.441315],
+                    [27.072776, -109.443706],  //Empieza calle Pesqueira
+                    [27.077046, -109.444274],  //Empieza calle Rayón
+                    [27.076783, -109.446825],  //EMpieza calle García Morales
+                    [27.078515, -109.447063],  //Llega Mercado municipal (1ra vuelta)
+                    [27.080035, -109.447289],
+                    [27.080164, -109.446046],  //Empieza No Reelección al S
+                    [27.078038, -109.445764],
+                    [27.075853, -109.445481],
+                    [27.073508, -109.445166],
+                    [27.069588, -109.444639],
+                    [27.068801, -109.444509],
+                    [27.064697, -109.443972],  //Empieza Sosa Chávez
+                    [27.064354, -109.446987],
+                    [27.064023, -109.450106],  //Empieza Rafael Almada
+                    [27.058583, -109.449378],
+                    [27.055902, -109.449023], 
+                    [27.055211, -109.449019],
+                    [27.054528, -109.449100],
+                    [27.054045, -109.449208],
+                    [27.054077, -109.448702],
+                    [27.050507, -109.448213],
+                    [27.049622, -109.448095],
+                    [27.049726, -109.446905],
+                    [27.049163, -109.446804],  //Entra Girasoles
                     [27.047548, -109.446760],
                     [27.046736, -109.446765],
                     [27.046408, -109.446717],
@@ -513,9 +519,8 @@
                     [27.046578, -109.446827],
                     [27.046908, -109.446843],
                     [27.047727, -109.446835],
-                    [27.049048, -109.446827],
-                    [27.049024, -109.449442],
-                    [27.046504, -109.449463],
+                    [27.049149, -109.446945],
+                    [27.049127, -109.449457],
                     [27.044631, -109.449522],
                     [27.044103, -109.449540],
                     [27.043767, -109.449516],
@@ -533,26 +538,31 @@
                     [27.044204, -109.449599],
                     [27.046052, -109.449554],
                     [27.049012, -109.449516],
-                    [27.049015, -109.450336],
-                    [27.049058, -109.454411],
-                    [27.050777, -109.454644],
-                    [27.050543, -109.456947],
+                    [27.049130, -109.449535],
+                    [27.049156, -109.453510],
+                    [27.049154, -109.454288],  //Empieza Luis Salido
+                    [27.050795, -109.454532],
+                    [27.050543, -109.456948],  //ITSON
                     [27.053081, -109.457271],
                     [27.056316, -109.457685],
-                    [27.056550, -109.455390],
-                    [27.058041, -109.455567],
-                    [27.063343, -109.456231],
-                    [27.063620, -109.453972],
-                    [27.063888, -109.451380],
-                    [27.068449, -109.451976],
-                    [27.068645, -109.451976],
-                    [27.069615, -109.452133],
-                    [27.074103, -109.452689],
-                    [27.079386, -109.453401],
-                    [27.079768, -109.449883],
-                    [27.080039, -109.447276],
-                    [27.078987, -109.447136],
-                    [27.078079, -109.446993]
+                    [27.056563, -109.455268],  //Empieza otra vez Luis Salido
+                    [27.057422, -109.455372], 
+                    [27.062951, -109.456074],
+                    [27.063069, -109.456030],
+                    [27.063184, -109.455949],
+                    [27.063257, -109.455858],
+                    [27.063316, -109.455738],  //Empieza Sosa Chávez
+                    [27.063473, -109.454314],
+                    [27.063621, -109.452820],
+                    [27.063814, -109.451191],  //Empieza Blvd. Cuauhtemoc
+                    [27.068447, -109.451837],
+                    [27.068822, -109.451875],
+                    [27.069677, -109.452006],  //Ley del Mayo
+                    [27.073999, -109.452563],  //Empieza diagonal Juárez
+                    [27.076385, -109.450461],
+                    [27.077599, -109.449382],  //Empieza calle Allende
+                    [27.077879, -109.446942],
+                    [27.078079, -109.446993]   //Termina mercado
                 ]
             },
             {
@@ -596,7 +606,7 @@
                 ]
             },
             {
-                nombre: 'Circuito 4 — Sonora',
+                nombre: 'Circuito 4 — Sonora (Línea 2-6)',
                 color: '#2b771c',
                 coordenadas: [
                     // Reemplaza con las coordenadas reales del circuito 4
@@ -676,6 +686,19 @@
                 ] 
             },
             {
+                nombre: 'Circuito 4 — Quintana Roo',
+                color: '#2b771c',
+                coordenadas: [
+                    // Reemplaza con las coordenadas reales del circuito 4 QR
+                    [27.0820, -109.4500],
+                    [27.0800, -109.4475],
+                    [27.0780, -109.4452],
+                    [27.0760, -109.4430],
+                    [27.0745, -109.4415],
+                    [27.0820, -109.4500]
+                ]
+            },
+            {
                 nombre: 'Circuito 5 — Tetanchopo',
                 color: '#520b94',
                 coordenadas: [
@@ -689,7 +712,20 @@
                 ]
             },
             {
-                nombre: 'Circuito 6 — Deportiva - Fovissste',
+                nombre: 'Circuito 6 Lado A — Deportiva - Fovissste',
+                color: '#08ac88',
+                coordenadas: [
+                    // Reemplaza con las coordenadas reales del circuito 6A
+                    [27.0820, -109.4500],
+                    [27.0800, -109.4475],
+                    [27.0780, -109.4452],
+                    [27.0760, -109.4430],
+                    [27.0745, -109.4415],
+                    [27.0820, -109.4500]
+                ]
+            },
+            {
+                nombre: 'Circuito 6 Lado B — Deportiva - Fovissste',
                 color: '#08ac88',
                 coordenadas: [
                     // Reemplaza con las coordenadas reales del circuito 6
@@ -747,8 +783,7 @@
                     [27.079194, -109.444573],  //Empieza calle Guerrero
                     [27.079194, -109.444573],  //Empieza calle No Reelección
                     [27.079056, -109.445915],
-                    [27.078169, -109.445781],  //Termina mercado municipal (Fin de la ruta)
-
+                    [27.078169, -109.445781]  //Termina mercado municipal (Fin de la ruta)
                 ]
             },
         ];
