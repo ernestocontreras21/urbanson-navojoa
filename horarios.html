@@ -149,14 +149,17 @@
 //  un arreglo "horarios: ['06:00','06:25', ...]" por parada
 // ═══════════════════════════════════════════════════════════════════
 const RUTAS = [
-    { id: 1, numero: 1, nombre: 'Circuito 1 Lado A — Allende – Laureles', color: '#7a1028', frecuenciaMin: 25, inicioServicio: '06:00', finServicio: '22:00' },
-    { id: 2, numero: 1, nombre: 'Circuito 1 Lado B — Allende – Laureles', color: '#7a1028', frecuenciaMin: 25, inicioServicio: '06:00', finServicio: '22:00' },
-    { id: 3, numero: 2, nombre: 'Circuito 2 — Tierra y Libertad – Jiménez', color: '#cc2222', frecuenciaMin: 20, inicioServicio: '06:00', finServicio: '22:00' },
-    { id: 4, numero: 3, nombre: 'Circuito 3 — Pueblo Viejo – Misioneros', color: '#e8940a', frecuenciaMin: 20, inicioServicio: '06:00', finServicio: '22:00' },
-    { id: 5, numero: 4, nombre: 'Circuito 4 — Sonora', color: '#2b771c', frecuenciaMin: 20, inicioServicio: '06:00', finServicio: '22:00' },
-    { id: 6, numero: 5, nombre: 'Circuito 5 — Tetanchopo', color: '#520b94', frecuenciaMin: 30, inicioServicio: '06:00', finServicio: '22:00' },
-    { id: 7, numero: 6, nombre: 'Circuito 6 — Deportiva – Fovissste', color: '#08ac88', frecuenciaMin: 30, inicioServicio: '06:00', finServicio: '22:00' },
-    { id: 8, numero: 7, nombre: 'Circuito 7 — Sonora Express', color: '#1619da', frecuenciaMin: 30, inicioServicio: '06:00', finServicio: '22:00' },
+    { id: 1, numero: 1, nombre: 'Circuito 1 Lado A — Laureles – Jacarandas', color: '#7a1028', frecuenciaMin: 25, inicioServicio: '06:00', finServicio: '22:00' },
+    { id: 2, numero: 1, nombre: 'Circuito 1 Lado B — Girasoles – Rosales', color: '#7a1028', frecuenciaMin: 25, inicioServicio: '06:00', finServicio: '22:00' },
+    { id: 3, numero: 2, nombre: 'Circuito 2 — Tierra y Libertad – Jiménez (Línea 7)', color: '#cc2222', frecuenciaMin: 20, inicioServicio: '06:00', finServicio: '22:00' },
+    { id: 4, numero: 3, nombre: 'Circuito 3 Lado A — Pueblo Viejo – Misioneros', color: '#e8940a', frecuenciaMin: 20, inicioServicio: '06:00', finServicio: '22:00' },
+    { id: 5, numero: 3, nombre: 'Circuito 3 Lado B — Pueblo Viejo – Misioneros', color: '#e8940a', frecuenciaMin: 20, inicioServicio: '06:00', finServicio: '22:00' },
+    { id: 6, numero: 4, nombre: 'Circuito 4 — Sonora (Línea 2-6)', color: '#2b771c', frecuenciaMin: 20, inicioServicio: '06:00', finServicio: '22:00' },
+    { id: 7, numero: 4, nombre: 'Circuito 4 — Quintana Roo', color: '#2b771c', frecuenciaMin: 20, inicioServicio: '06:00', finServicio: '22:00' },
+    { id: 8, numero: 5, nombre: 'Circuito 5 — Tetanchopo', color: '#520b94', frecuenciaMin: 30, inicioServicio: '06:00', finServicio: '22:00' },
+    { id: 9, numero: 6, nombre: 'Circuito 6 Lado A — Deportiva – Fovissste', color: '#08ac88', frecuenciaMin: 30, inicioServicio: '06:00', finServicio: '22:00' },
+    { id: 10, numero: 6, nombre: 'Circuito 6 Lado B — Deportiva – Fovissste', color: '#08ac88', frecuenciaMin: 30, inicioServicio: '06:00', finServicio: '22:00' },
+    { id: 11, numero: 7, nombre: 'Circuito 7 — Sonora Express', color: '#1619da', frecuenciaMin: 30, inicioServicio: '06:00', finServicio: '22:00' },
 ];
 
 // ═══════════════════════════════════════════════════════════════════
@@ -164,16 +167,16 @@ const RUTAS = [
 //  rutaIds: arreglo con los IDs de las rutas que pasan por esa parada
 // ═══════════════════════════════════════════════════════════════════
 const PARADAS = [
-    { id: 1, nombre: 'Mercado Municipal Lado García Morales', lat: 27.078401, lng: -109.446930, rutaIds: [1, 2, 3, 4, 7] },
-    { id: 2, nombre: 'Mercado Municipal Lado No Reelección',  lat: 27.078505, lng: -109.445937, rutaIds: [4, 5, 8] },
-    { id: 3, nombre: 'Juan de la Barrera y Huatabampo',       lat: 27.059840, lng: -109.422125, rutaIds: [5, 8] },
+    { id: 1, nombre: 'Mercado Municipal Lado García Morales', lat: 27.078401, lng: -109.446930, rutaIds: [1, 2, 3, 4, 5, 9, 10] },
+    { id: 2, nombre: 'Mercado Municipal Lado No Reelección',  lat: 27.078505, lng: -109.445937, rutaIds: [4, 5, 6, 7, 11] },
+    { id: 3, nombre: 'Juan de la Barrera y Huatabampo',       lat: 27.059840, lng: -109.422125, rutaIds: [6, 11] },
     { id: 4, nombre: 'Col. Laureles',             lat: 27.04280, lng: -109.44911, rutaIds: [1, 2] },
     { id: 5, nombre: 'Col. Girasoles',            lat: 27.04583, lng: -109.44665, rutaIds: [1, 2] },
-    { id: 6, nombre: 'Soriana',                   lat: 27.06227, lng: -109.44028, rutaIds: [4, 5] },
-    { id: 7, nombre: 'Col. 16 de Junio',          lat: 27.06527, lng: -109.41837, rutaIds: [5] },
-    { id: 8, nombre: 'Calle Lázaro Cárdenas',     lat: 27.07395, lng: -109.42357, rutaIds: [5] },
+    { id: 6, nombre: 'Soriana',                   lat: 27.06227, lng: -109.44028, rutaIds: [4, 5, 6] },
+    { id: 7, nombre: 'Col. 16 de Junio',          lat: 27.06527, lng: -109.41837, rutaIds: [6] },
+    { id: 8, nombre: 'Calle Lázaro Cárdenas',     lat: 27.07395, lng: -109.42357, rutaIds: [3, 6] },
     { id: 9, nombre: 'UES Navojoa',               lat: 27.049086, lng: -109.453348, rutaIds: [1, 2] },
-    { id: 10, nombre: 'UNISON Navojoa',           lat: 27.073939, lng: -109.428732, rutaIds: [3, 5] },
+    { id: 10, nombre: 'UNISON Navojoa',           lat: 27.073939, lng: -109.428732, rutaIds: [3, 6] },
     // Agregar más paradas aquí con el mismo formato
 ];
 
