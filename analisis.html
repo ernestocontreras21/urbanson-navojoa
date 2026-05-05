@@ -15,24 +15,15 @@
             --color-beige: #e8d9b0;
         }
 
-        body {
-            font-family: 'Outfit', sans-serif;
-        }
-
-        .navbar-custom {
-            background-color: var(--color-guinda);
-        }
-
+        body { font-family: 'Outfit', sans-serif; }
+        .navbar-custom { background-color: var(--color-guinda); }
         .btn-acento {
             background-color: var(--color-beige);
             color: var(--color-guinda);
             font-weight: 600;
             border: none;
         }
-
-        .btn-acento:hover {
-            opacity: 0.85;
-        }
+        .btn-acento:hover { opacity: 0.85; }
 
         .hero-section {
             background-image: url('img/fondo.jpg');
@@ -59,20 +50,45 @@
             padding-left: 10px;
         }
 
-        footer {
-            background-color: var(--color-guinda);
+        footer { background-color: var(--color-guinda); }
+
+        .seccion-titulo {
+            color: var(--color-guinda);
+            border-left: 4px solid var(--color-rojo);
+            padding-left: 12px;
+            margin-bottom: 20px;
+            font-size: 1.2rem;
+            font-weight: 700;
         }
-        #map { height: 500px; width: 100%; }
 
-        .ruta-btn {
-            border-left: 5px solid transparent;
-            cursor: pointer;
-            transition: background 0.2s;
+        .card-grafica {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+            margin-bottom: 20px;
         }
 
-        .ruta-btn:hover  { background-color: #f9f1f3; }
+        .card-stat {
+            background: white;
+            border-radius: 12px;
+            padding: 16px 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+            border-left: 4px solid var(--color-guinda);
+            text-align: center;
+        }
+        .card-stat .valor {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--color-guinda);
+        }
+        .card-stat .etiqueta {
+            font-size: 0.8rem;
+            color: #888;
+            margin-top: 2px;
+        }
 
-        .ruta-btn.activa { background-color: #f9f1f3; font-weight: 600; }
+        canvas { max-height: 280px; }
     </style>
 </head>
 <body>
@@ -100,12 +116,253 @@
     </div>
 
     <!--Contenido de la página "Análisis"-->
-    
+    <div class="container py-4" id="contenido" style="display:none;">
+
+        <!-- RESUMEN GENERAL -->
+        <div class="seccion-titulo">Resumen general</div>
+        <div class="row g-3 mb-4" id="cards-resumen"></div>
+
+        <!-- 1. PERFIL DE USUARIOS -->
+        <div class="seccion-titulo">1. Perfil de usuarios</div>
+        <div class="row g-3 mb-4">
+            <div class="col-md-4">
+                <div class="card-grafica">
+                    <div class="fw-bold mb-3 small text-muted">Ocupación</div>
+                    <canvas id="g-ocupacion"></canvas>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card-grafica">
+                    <div class="fw-bold mb-3 small text-muted">Rango de edades</div>
+                    <canvas id="g-edades"></canvas>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card-grafica">
+                    <div class="fw-bold mb-3 small text-muted">Frecuencia de uso</div>
+                    <canvas id="g-frecuencia"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- 2. CALIFICACIONES -->
+        <div class="seccion-titulo">2. Calificaciones del servicio</div>
+        <div class="row g-3 mb-4">
+            <div class="col-md-7">
+                <div class="card-grafica">
+                    <div class="fw-bold mb-3 small text-muted">Promedio por categoría (escala 1-5)</div>
+                    <canvas id="g-promedios"></canvas>
+                </div>
+            </div>
+            <div class="col-md-5">
+                <div class="card-grafica">
+                    <div class="fw-bold mb-3 small text-muted">Distribución calificación general</div>
+                    <canvas id="g-distribucion"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- 3. PROBLEMAS -->
+        <div class="seccion-titulo">3. Problemas reportados</div>
+        <div class="row g-3 mb-4">
+            <div class="col-12">
+                <div class="card-grafica">
+                    <div class="fw-bold mb-3 small text-muted">Frecuencia de problemas mencionados</div>
+                    <canvas id="g-problemas"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- 4. PATRONES DE USO -->
+        <div class="seccion-titulo">4. Patrones de uso</div>
+        <div class="row g-3 mb-4">
+            <div class="col-md-4">
+                <div class="card-grafica">
+                    <div class="fw-bold mb-3 small text-muted">Horario de uso</div>
+                    <canvas id="g-horarios"></canvas>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card-grafica">
+                    <div class="fw-bold mb-3 small text-muted">Tiempo de traslado</div>
+                    <canvas id="g-traslado"></canvas>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card-grafica">
+                    <div class="fw-bold mb-3 small text-muted">Hora de mayor demanda</div>
+                    <canvas id="g-demanda"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- 5. RUTAS -->
+        <div class="seccion-titulo">5. Rutas más usadas</div>
+        <div class="row g-3 mb-4">
+            <div class="col-12">
+                <div class="card-grafica">
+                    <div class="fw-bold mb-3 small text-muted">Rutas mencionadas por los usuarios</div>
+                    <canvas id="g-rutas"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- 6. COSTO -->
+        <div class="seccion-titulo">6. Percepción del costo</div>
+        <div class="row g-3 mb-4">
+            <div class="col-md-5">
+                <div class="card-grafica">
+                    <div class="fw-bold mb-3 small text-muted">¿El costo es...?</div>
+                    <canvas id="g-percepcion"></canvas>
+                </div>
+            </div>
+            <div class="col-md-7">
+                <div class="card-grafica">
+                    <div class="fw-bold mb-3 small text-muted">Gasto diario aproximado</div>
+                    <canvas id="g-gasto"></canvas>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Estado de carga -->
+    <div id="cargando" class="text-center py-5 text-muted">
+        <div class="spinner-border mb-3" style="color: var(--color-guinda);"></div>
+        <p>Cargando datos...</p>
+    </div>
 
     <footer class="text-white text-center py-3">
         <div class="fw-bold">UrbanSon Navojoa &nbsp;·&nbsp; Plataforma de análisis del transporte urbano</div>
         <div class="mt-1 small" style="color: var(--color-beige);">Navojoa, Sonora, México</div>
     </footer>
 
+    <script src="datos/resultados.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <script>
+        const PALETA = ['#7a1028','#cc2222','#e8940a','#2b771c','#520b94','#08ac88','#1619da','#e8d9b0','#444444'];
+
+        function colores(n) {
+            return Array.from({ length: n }, (_, i) => PALETA[i % PALETA.length]);
+        }
+
+        function barH(id, data, label) {
+            const keys = Object.keys(data);
+            const vals = Object.values(data);
+            new Chart(document.getElementById(id), {
+                type: 'bar',
+                data: {
+                    labels: keys,
+                    datasets: [{ label, data: vals, backgroundColor: colores(keys.length) }]
+                },
+                options: {
+                    indexAxis: 'y',
+                    plugins: { legend: { display: false } },
+                    scales: { x: { beginAtZero: true, ticks: { stepSize: 1 } } }
+                }
+            });
+        }
+
+        function barV(id, data, label) {
+            const keys = Object.keys(data);
+            const vals = Object.values(data);
+            new Chart(document.getElementById(id), {
+                type: 'bar',
+                data: {
+                    labels: keys,
+                    datasets: [{ label, data: vals, backgroundColor: colores(keys.length) }]
+                },
+                options: {
+                    plugins: { legend: { display: false } },
+                    scales: { y: { beginAtZero: true, ticks: { stepSize: 1 } } }
+                }
+            });
+        }
+
+        function pie(id, data) {
+            const keys = Object.keys(data);
+            const vals = Object.values(data);
+            new Chart(document.getElementById(id), {
+                type: 'doughnut',
+                data: {
+                    labels: keys,
+                    datasets: [{ data: vals, backgroundColor: colores(keys.length) }]
+                },
+                options: {
+                    plugins: { legend: { position: 'bottom', labels: { font: { size: 11 } } } }
+                }
+            });
+        }
+
+        function radar(id, data) {
+            const keys = Object.keys(data);
+            const vals = Object.values(data);
+            new Chart(document.getElementById(id), {
+                type: 'radar',
+                data: {
+                    labels: keys,
+                    datasets: [{
+                        label: 'Promedio',
+                        data: vals,
+                        backgroundColor: 'rgba(122,16,40,0.15)',
+                        borderColor: '#7a1028',
+                        pointBackgroundColor: '#7a1028'
+                    }]
+                },
+                options: {
+                    scales: { r: { min: 0, max: 5, ticks: { stepSize: 1 } } },
+                    plugins: { legend: { display: false } }
+                }
+            });
+        }
+
+        function renderResumen(r) {
+            const items = [
+                //{ valor: r.total_respuestas,        etiqueta: 'Respuestas totales' },
+                { valor: r.edad_promedio + ' años',  etiqueta: 'Edad promedio' },
+                { valor: r.calificacion_promedio + ' / 5', etiqueta: 'Calificación promedio' },
+                { valor: r.hora_pico,               etiqueta: 'Hora pico' },
+            ];
+            document.getElementById('cards-resumen').innerHTML = items.map(i => `
+                <div class="col-6 col-md-3">
+                    <div class="card-stat">
+                        <div class="valor">${i.valor}</div>
+                        <div class="etiqueta">${i.etiqueta}</div>
+                    </div>
+                </div>`).join('');
+        }
+
+        try {
+            const d = DATOS_ANALISIS;
+
+            document.getElementById('cargando').style.display  = 'none';
+            document.getElementById('contenido').style.display = 'block';
+
+            renderResumen(d.resumen);
+
+            pie  ('g-ocupacion',  d.perfil.ocupacion);
+            barV ('g-edades',     d.perfil.edades,     'Personas');
+            barH ('g-frecuencia', d.perfil.frecuencia, 'Personas');
+
+            radar('g-promedios',    d.calificaciones.promedios);
+            barV ('g-distribucion', d.calificaciones.distribucion, 'Personas');
+
+            barH('g-problemas', d.problemas, 'Menciones');
+
+            barH('g-horarios', d.patrones.horarios,  'Personas');
+            pie ('g-traslado', d.patrones.traslado);
+            barV('g-demanda',  d.patrones.demanda,   'Personas');
+
+            barH('g-rutas', d.rutas, 'Menciones');
+
+            pie ('g-percepcion', d.costo.percepcion);
+            barV('g-gasto',      d.costo.gasto,       'Personas');
+
+        } catch(e) {
+            document.getElementById('cargando').innerHTML = `
+                <p class="text-danger">No se encontraron datos.</p>`;
+        }
+    </script>
 </body>
 </html>
