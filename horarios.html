@@ -51,11 +51,10 @@
             color: #7a1028;
         }
 
-        /* Botón GPS */
         #btn-gps {
             position: absolute;
-            bottom: 24px;
-            right: 12px;
+            bottom: 30px;
+            right: 10px;
             z-index: 1000;
             background: var(--color-guinda);
             color: white;
@@ -69,11 +68,10 @@
         }
         #btn-gps:hover { opacity: 0.9; }
 
-        /* Botón salir GPS */
         #btn-salir-gps {
             position: absolute;
-            bottom: 24px;
-            left: 12px;
+            bottom: 30px;
+            left: 10px;
             z-index: 1000;
             background: #444;
             color: white;
@@ -88,7 +86,6 @@
         }
         #btn-salir-gps:hover { opacity: 0.85; }
 
-        /* Botones de selección de ruta */
         .btn-ruta-sel {
             font-size: 12px;
             font-weight: 600;
@@ -114,6 +111,27 @@
             transition: all 0.15s;
         }
         .btn-ver-todas:hover { background: #f9f1f3; }
+        
+        .parada-gps-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            padding: 10px 12px;
+            background: #f9f1f3;
+            border-radius: 8px;
+            margin-bottom: 4px;
+            border-left: 4px solid var(--color-guinda);
+        }
+        .parada-gps-header:hover { background: #f0e0e4; }
+        .parada-gps-body { overflow: hidden; transition: max-height 0.3s ease; }
+        .parada-gps-body.minimizada { max-height: 0; }
+        .parada-gps-body.maximizada { max-height: 1000px; }
+        .btn-toggle {
+            font-size: 11px; background: none; border: none;
+            color: var(--color-guinda); font-weight: 700; cursor: pointer;
+            padding: 0; flex-shrink: 0;
+        }
     </style>
 </head>
 <body>
@@ -166,10 +184,12 @@
             </div>
 
             <!-- MAPA -->
-            <div class="col-12 col-md-8 col-lg-9 position-relative">
-                <div id="map"></div>
-                <button id="btn-gps"       onclick="usarUbicacion()">📍 Mi ubicación</button>
-                <button id="btn-salir-gps" onclick="salirGPS()">✕ Ver ciudad</button>
+            <div class="col-12 col-md-8 col-lg-9">
+                <div style="position: relative;">
+                    <div id="map"></div>
+                    <button id="btn-gps"       onclick="usarUbicacion()">📍 Mi ubicación</button>
+                    <button id="btn-salir-gps" onclick="salirGPS()">✕ Ver ciudad</button>
+                </div>
             </div>
 
         </div>
@@ -217,9 +237,18 @@ const PARADAS = [
     { id: 6, nombre: 'Soriana',                                 lat: 27.06227, lng: -109.44028, rutaIds: [4, 5, 6] },
     { id: 7, nombre: 'Col. 16 de Junio',                        lat: 27.06527, lng: -109.41837, rutaIds: [6] },
     { id: 8, nombre: 'Lázaro Cárdenas y Plutarco Elías Calles', lat: 27.07395, lng: -109.42357, rutaIds: [3, 6] },
-    { id: 9, nombre: 'UES Navojoa',                             lat: 27.049086, lng: -109.453348, rutaIds: [1, 2] },
-    { id: 10, nombre: 'UNISON Navojoa',                         lat: 27.073939, lng: -109.428732, rutaIds: [3, 6] },
-    { id: 11, nombre: 'Infonavit Sonora (Román Yocupicio y Bacerac)', lat: 27.056725, lng: -109.424806, rutaIds: [4, 5] }
+    { id: 9, nombre: 'UES Navojoa',                             lat: 27.048932, lng: -109.453563, rutaIds: [1] },
+    { id: 10, nombre: 'UES Navojoa',                            lat: 27.049238, lng: -109.453212, rutaIds: [2] },
+    { id: 11, nombre: 'UNISON Navojoa',                         lat: 27.073939, lng: -109.428732, rutaIds: [3, 6] },
+    { id: 12, nombre: 'Infonavit Sonora (Román Yocupicio y Bacerac)', lat: 27.056725, lng: -109.424806, rutaIds: [4, 5] },
+    { id: 13, nombre: 'Ley del Mayo',                           lat: 27.069284, lng: -109.452155, rutaIds: [1, 4, 7, 10] },
+    { id: 14, nombre: 'Ley del Mayo',                           lat: 27.069270, lng: -109.451840, rutaIds: [2, 5, 9] },
+    { id: 15, nombre: 'ITSON Navojoa',                          lat: 27.055959, lng: -109.457772, rutaIds: [1, 10] },
+    { id: 16, nombre: 'ITSON Navojoa',                          lat: 27.054311, lng: -109.457342, rutaIds: [2, 9]},
+    { id: 17, nombre: 'Ramón Corona y Av. México',              lat: 27.050510, lng: -109.456840, rutaIds: [1, 2, 9, 10] },
+    { id: 18, nombre: 'Blvd. Rafael Almada y Av. Jalisco',      lat: 27.058993, lng: -109.449156, rutaIds: [1] },
+    { id: 19, nombre: 'Blvd. Rafael Almada y Av. Jalisco',      lat: 27.058738, lng: -109.449523, rutaIds: [2] }
+
     // Agregar más paradas aquí con el mismo formato
 ];
 
@@ -233,6 +262,7 @@ var capasRutasActivas = [];
 var marcadorUsuario   = null;
 var circuloCercano    = null;
 var modoGPS           = false;
+var marcadoresParada  = {};
 
 // ─── MAPA ─────────────────────────────────────────────────────────
 var map = L.map('map').setView([27.0650, -109.4430], 13);
@@ -240,10 +270,18 @@ L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
 }).addTo(map);
 
+// TODOS LOS MARCADORES EN GUINDA, VERDE AL SELECCIONAR
 function iconoParada(color) {
     return L.divIcon({
         className: '',
-        html: `<div style="width:14px;height:14px;background:${color};border:2px solid white;border-radius:50%;box-shadow:0 1px 4px rgba(0,0,0,0.4);"></div>`,
+        html: `<div style="
+            width:14px; height:14px;
+            background:${color};
+            border:2px solid white;
+            border-radius:50%;
+            box-shadow:0 1px 4px rgba(0,0,0,0.4);
+            transition: background 0.2s;
+        "></div>`,
         iconSize: [14, 14], iconAnchor: [7, 7], popupAnchor: [0, -10]
     });
 }
@@ -256,13 +294,25 @@ var iconoUsuario = L.divIcon({
 
 // Dibujar paradas
 PARADAS.forEach(function(parada) {
-    const colorMarcador = parada.rutaIds.length === 1
-        ? RUTAS.find(r => r.id === parada.rutaIds[0]).color
-        : '#7a1028';
-    L.marker([parada.lat, parada.lng], { icon: iconoParada(colorMarcador) })
+    var marcador = L.marker([parada.lat, parada.lng], { icon: iconoParada('#7a1028') })
         .addTo(map)
-        .on('click', function() { mostrarInfoParada(parada); });
+        .on('click', function() { seleccionarParadaMarcador(parada); });
+    marcadoresParada[parada.id] = marcador;
 });
+
+// Cambia el marcador previo a guinda y el nuevo a verde
+var paradaMarcadorActual = null;
+function seleccionarParadaMarcador(parada) {
+    // Regresar anterior a guinda
+    if (paradaMarcadorActual && paradaMarcadorActual.id !== parada.id) {
+        marcadoresParada[paradaMarcadorActual.id].setIcon(iconoParada('#7a1028'));
+    }
+    // Poner seleccionada en verde
+    marcadoresParada[parada.id].setIcon(iconoParada('#2e7d32'));
+    paradaMarcadorActual = parada;
+
+    mostrarInfoParada(parada);
+}
 
 // ─── HORARIOS ─────────────────────────────────────────────────────
 function generarHorarios(rutaId) {
@@ -321,8 +371,9 @@ function mostrarInfoParada(parada) {
     document.getElementById('panel-titulo').textContent = parada.nombre;
 
     // Dibuja TODAS las rutas sin cambiar el zoom
-    dibujarTrazos(parada.rutaIds);
+    map.setView([parada.lat, parada.lng], 16);
 
+    dibujarTrazos(parada.rutaIds);
     renderizarPanel(parada, null);
 }
 
@@ -332,14 +383,10 @@ function renderizarPanel(parada, soloRutaId) {
         ? parada.rutaIds.filter(id => id === soloRutaId)
         : parada.rutaIds;
 
-    // Botones de selección de ruta
     let botonesHtml = `<div class="px-3 pt-3 pb-2 d-flex flex-wrap gap-1">`;
-
-    // Botón "Ver todas"
     const activaTodas = soloRutaId === null ? 'activo' : '';
     botonesHtml += `<button class="btn-ver-todas ${activaTodas}" onclick="seleccionarRuta(null)">Ver todas</button>`;
 
-    // Un botón por ruta
     parada.rutaIds.forEach(function(rutaId) {
         const ruta   = RUTAS.find(r => r.id === rutaId);
         const activo = soloRutaId === rutaId ? 'activo' : '';
@@ -350,10 +397,8 @@ function renderizarPanel(parada, soloRutaId) {
                 ${ruta.numero} · ${ruta.nombre.split('—')[1]?.trim() ?? ruta.nombre}
             </button>`;
     });
-
     botonesHtml += `</div><hr class="my-0">`;
 
-    // Info de cada ruta a mostrar
     let infoHtml = '';
     rutasAMostrar.forEach(function(rutaId) {
         const ruta     = RUTAS.find(r => r.id === rutaId);
@@ -386,10 +431,7 @@ function renderizarPanel(parada, soloRutaId) {
 function seleccionarRuta(rutaId) {
     if (!paradaActual) return;
     rutaSeleccionada = rutaId;
-
-    // Redibujar trazos según selección sin mover el zoom
     dibujarTrazos(rutaId ? [rutaId] : paradaActual.rutaIds);
-
     renderizarPanel(paradaActual, rutaId);
 }
 
@@ -420,21 +462,13 @@ function usarUbicacion() {
 
             map.setView([lat, lng], 15);
 
-            // Encontrar parada MÁS CERCANA
-            let paradaMasCercana = null;
-            let distMin = Infinity;
+            // ─── 3. DETECTAR TODAS LAS PARADAS CERCANAS ───────────
+            const paradasCercanas = PARADAS
+                .map(p => ({ ...p, dist: map.distance([lat, lng], [p.lat, p.lng]) }))
+                .filter(p => p.dist <= RADIO_CERCANO_M)
+                .sort((a, b) => a.dist - b.dist);
 
-            PARADAS.forEach(function(p) {
-                const dist = map.distance([lat, lng], [p.lat, p.lng]);
-                if (dist < distMin) { distMin = dist; paradaMasCercana = p; }
-            });
-
-            if (paradaMasCercana && distMin <= RADIO_CERCANO_M) {
-                mostrarInfoParada(paradaMasCercana);
-                document.getElementById('panel-titulo').textContent =
-                    `📍 Más cercana · ${paradaMasCercana.nombre}`;
-            } else {
-                // Ninguna dentro del radio
+            if (paradasCercanas.length === 0) {
                 limpiarTrazos();
                 document.getElementById('panel-vacio').classList.add('d-none');
                 document.getElementById('panel-contenido').classList.remove('d-none');
@@ -444,13 +478,87 @@ function usarUbicacion() {
                         <p class="small">No hay paradas en un radio de ${RADIO_CERCANO_M}m.</p>
                         <p class="small">Intenta moverte hacia una avenida principal.</p>
                     </div>`;
+                return;
             }
+
+            // Recopilar todas las rutaIds únicas de las paradas cercanas
+            const todasRutaIds = [...new Set(paradasCercanas.flatMap(p => p.rutaIds))];
+            dibujarTrazos(todasRutaIds);
+
+            // Marcar paradas cercanas en verde
+            paradasCercanas.forEach(p => {
+                marcadoresParada[p.id].setIcon(iconoParada('#2e7d32'));
+            });
+
+            mostrarPanelGPS(paradasCercanas);
         },
         function() {
             document.getElementById('btn-gps').textContent = '📍 Mi ubicación';
             alert('No se pudo obtener tu ubicación. Verifica los permisos del navegador.');
         }
     );
+}
+
+function mostrarPanelGPS(paradasCercanas) {
+    document.getElementById('panel-vacio').classList.add('d-none');
+    document.getElementById('panel-contenido').classList.remove('d-none');
+    document.getElementById('panel-titulo').textContent = `📍 ${paradasCercanas.length} parada(s) cercana(s)`;
+
+    let html = '';
+
+    paradasCercanas.forEach(function(parada, idx) {
+        const rutasHtml = parada.rutaIds.map(rutaId => {
+            const ruta     = RUTAS.find(r => r.id === rutaId);
+            const proximos = proximosHorarios(rutaId, 3);
+            const horasHtml = proximos.length === 0
+                ? `<span class="text-muted small">Sin servicio</span>`
+                : proximos.map((h, i) =>
+                    `<span class="badge-hora ${i === 0 ? 'hora-proxima' : 'hora-normal'}">${h}</span>`
+                  ).join('');
+
+            return `
+            <div class="mb-2">
+                <div class="d-flex align-items-center gap-2 mb-1">
+                    <span class="badge text-white rounded-pill" style="background:${ruta.color};">${ruta.numero}</span>
+                    <span class="fw-bold small">${ruta.nombre}</span>
+                </div>
+                <div class="d-flex flex-wrap gap-1">${horasHtml}</div>
+            </div>`;
+        }).join('');
+
+        // Primera parada empieza maximizada, el resto minimizadas
+        const estadoInicial = idx === 0 ? 'maximizada' : 'minimizada';
+        const iconoToggle   = idx === 0 ? '▲' : '▼';
+
+        html += `
+        <div class="px-2 py-2 border-bottom">
+            <div class="parada-gps-header" onclick="toggleParada(${parada.id})">
+                <div>
+                    <div class="fw-bold small">${parada.nombre}</div>
+                    <div class="text-muted" style="font-size:11px;">~${Math.round(parada.dist)}m · ${parada.rutaIds.length} ruta(s)</div>
+                </div>
+                <button class="btn-toggle" id="toggle-icon-${parada.id}">${iconoToggle}</button>
+            </div>
+            <div class="parada-gps-body ${estadoInicial}" id="parada-body-${parada.id}">
+                <div class="pt-2 pb-1 px-1">${rutasHtml}</div>
+            </div>
+        </div>`;
+    });
+
+    document.getElementById('panel-contenido').innerHTML = html;
+}
+
+// Minimizar/maximizar cada parada
+function toggleParada(paradaId) {
+    const body  = document.getElementById(`parada-body-${paradaId}`);
+    const icono = document.getElementById(`toggle-icon-${paradaId}`);
+    if (body.classList.contains('minimizada')) {
+        body.classList.replace('minimizada', 'maximizada');
+        icono.textContent = '▲';
+    } else {
+        body.classList.replace('maximizada', 'minimizada');
+        icono.textContent = '▼';
+    }
 }
 
 // Salir del modo GPS — regresa a vista de ciudad
@@ -466,10 +574,12 @@ function salirGPS() {
 
     limpiarTrazos();
 
-    // Regresa a vista de ciudad
+    // Regresar todos los marcadores a guinda
+    PARADAS.forEach(p => marcadoresParada[p.id].setIcon(iconoParada('#7a1028')));
+    paradaMarcadorActual = null;
+
     map.setView([27.0650, -109.4430], 13);
 
-    // Resetear panel
     document.getElementById('panel-titulo').textContent = 'Selecciona una parada';
     document.getElementById('panel-contenido').classList.add('d-none');
     document.getElementById('panel-vacio').classList.remove('d-none');
