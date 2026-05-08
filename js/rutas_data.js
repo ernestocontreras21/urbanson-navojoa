@@ -710,6 +710,8 @@ const RUTAS_COORDENADAS = [
     {
         indice: 10,
         nombre: 'Circuito 7 — Sonora Express',
+        descripcion: '...',
+        colonias: ['Mercado', 'Bodega Aurrerá', 'Blvd. Sonora', 'Col. Sonora', 'Juan de la Barrera', 'Col. Infonavit Sonora', 'Calle Cajeme', 'UNISON', 'Ley Aviación'],
         color: '#1619da',
         coordenadas: [
                     [27.078169, -109.445781],  //Parada mercado municipal (Inicio/Fin)

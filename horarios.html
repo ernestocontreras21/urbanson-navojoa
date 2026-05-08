@@ -211,17 +211,17 @@
 //  un arreglo "horarios: ['06:00','06:25', ...]" por parada
 // ═══════════════════════════════════════════════════════════════════
 const RUTAS = [
-    { id: 1, numero: 1, nombre: 'Circuito 1 Lado A — Laureles – Jacarandas',          color: '#7a1028', frecuenciaMin: 25, inicioServicio: '06:00', finServicio: '22:00', indiceRutaCoord: 0 },
-    { id: 2, numero: 1, nombre: 'Circuito 1 Lado B — Girasoles – Rosales',            color: '#7a1028', frecuenciaMin: 25, inicioServicio: '06:00', finServicio: '22:00', indiceRutaCoord: 1 },
-    { id: 3, numero: 2, nombre: 'Circuito 2 — Tierra y Libertad – Jiménez (Línea 7)', color: '#cc2222', frecuenciaMin: 20, inicioServicio: '06:00', finServicio: '22:00', indiceRutaCoord: 2 },
-    { id: 4, numero: 3, nombre: 'Circuito 3 Lado A — Pueblo Viejo – Misioneros',      color: '#e8940a', frecuenciaMin: 20, inicioServicio: '06:00', finServicio: '22:00', indiceRutaCoord: 3 },
-    { id: 5, numero: 3, nombre: 'Circuito 3 Lado B — Pueblo Viejo – Misioneros',      color: '#e8940a', frecuenciaMin: 20, inicioServicio: '06:00', finServicio: '22:00', indiceRutaCoord: 4 },
-    { id: 6, numero: 4, nombre: 'Circuito 4 — Sonora (Línea 2-6)',                    color: '#2b771c', frecuenciaMin: 20, inicioServicio: '06:00', finServicio: '22:00', indiceRutaCoord: 5 },
-    { id: 7, numero: 4, nombre: 'Circuito 4 — Quintana Roo',                          color: '#2b771c', frecuenciaMin: 20, inicioServicio: '06:00', finServicio: '22:00', indiceRutaCoord: 6 },
-    { id: 8, numero: 5, nombre: 'Circuito 5 — Tetanchopo',                            color: '#520b94', frecuenciaMin: 30, inicioServicio: '06:00', finServicio: '22:00', indiceRutaCoord: 7 },
-    { id: 9, numero: 6, nombre: 'Circuito 6 Lado A — Deportiva – Fovissste',          color: '#08ac88', frecuenciaMin: 30, inicioServicio: '06:00', finServicio: '22:00', indiceRutaCoord: 8 },
-    { id: 10, numero: 6, nombre: 'Circuito 6 Lado B — Deportiva – Fovissste',         color: '#08ac88', frecuenciaMin: 30, inicioServicio: '06:00', finServicio: '22:00', indiceRutaCoord: 9 },
-    { id: 11, numero: 7, nombre: 'Circuito 7 — Sonora Express',                       color: '#1619da', frecuenciaMin: 30, inicioServicio: '06:00', finServicio: '22:00', indiceRutaCoord: 10 },
+    { id: 1, numero: 1, nombre: 'Circuito 1 Lado A — Laureles – Jacarandas',          color: '#7a1028', frecuenciaMin: 25, inicioServicio: '06:00', finServicio: '20:00', indiceRutaCoord: 0 },
+    { id: 2, numero: 1, nombre: 'Circuito 1 Lado B — Girasoles – Rosales',            color: '#7a1028', frecuenciaMin: 25, inicioServicio: '06:00', finServicio: '20:00', indiceRutaCoord: 1 },
+    { id: 3, numero: 2, nombre: 'Circuito 2 — Tierra y Libertad – Jiménez (Línea 7)', color: '#cc2222', frecuenciaMin: 20, inicioServicio: '06:00', finServicio: '20:00', indiceRutaCoord: 2 },
+    { id: 4, numero: 3, nombre: 'Circuito 3 Lado A — Pueblo Viejo – Misioneros',      color: '#e8940a', frecuenciaMin: 20, inicioServicio: '06:00', finServicio: '20:00', indiceRutaCoord: 3 },
+    { id: 5, numero: 3, nombre: 'Circuito 3 Lado B — Pueblo Viejo – Misioneros',      color: '#e8940a', frecuenciaMin: 20, inicioServicio: '06:00', finServicio: '20:00', indiceRutaCoord: 4 },
+    { id: 6, numero: 4, nombre: 'Circuito 4 — Sonora (Línea 2-6)',                    color: '#2b771c', frecuenciaMin: 20, inicioServicio: '06:00', finServicio: '20:00', indiceRutaCoord: 5 },
+    { id: 7, numero: 4, nombre: 'Circuito 4 — Quintana Roo',                          color: '#2b771c', frecuenciaMin: 20, inicioServicio: '06:00', finServicio: '20:00', indiceRutaCoord: 6 },
+    { id: 8, numero: 5, nombre: 'Circuito 5 — Tetanchopo',                            color: '#520b94', frecuenciaMin: 30, inicioServicio: '06:00', finServicio: '20:00', indiceRutaCoord: 7 },
+    { id: 9, numero: 6, nombre: 'Circuito 6 Lado A — Deportiva – Fovissste',          color: '#08ac88', frecuenciaMin: 60, inicioServicio: '06:00', finServicio: '20:00', indiceRutaCoord: 8 },
+    { id: 10, numero: 6, nombre: 'Circuito 6 Lado B — Deportiva – Fovissste',         color: '#08ac88', frecuenciaMin: 60, inicioServicio: '06:00', finServicio: '20:00', indiceRutaCoord: 9 },
+    { id: 11, numero: 7, nombre: 'Circuito 7 — Sonora Express',                       color: '#1619da', frecuenciaMin: 30, inicioServicio: '06:00', finServicio: '20:00', indiceRutaCoord: 10 },
 ];
 
 // ═══════════════════════════════════════════════════════════════════
@@ -232,23 +232,53 @@ const PARADAS = [
     { id: 1, nombre: 'Mercado Municipal Lado García Morales',   lat: 27.078401, lng: -109.446930, rutaIds: [1, 2, 3, 4, 5, 9, 10] },
     { id: 2, nombre: 'Mercado Municipal Lado No Reelección',    lat: 27.078505, lng: -109.445937, rutaIds: [4, 5, 6, 7, 11] },
     { id: 3, nombre: 'Juan de la Barrera y Huatabampo',         lat: 27.059840, lng: -109.422125, rutaIds: [6, 11] },
-    { id: 4, nombre: 'Col. Laureles',                           lat: 27.04280, lng: -109.44911, rutaIds: [1, 2] },
-    { id: 5, nombre: 'Col. Girasoles',                          lat: 27.04583, lng: -109.44665, rutaIds: [1, 2] },
-    { id: 6, nombre: 'Soriana',                                 lat: 27.06227, lng: -109.44028, rutaIds: [4, 5, 6] },
-    { id: 7, nombre: 'Col. 16 de Junio',                        lat: 27.06527, lng: -109.41837, rutaIds: [6] },
-    { id: 8, nombre: 'Lázaro Cárdenas y Plutarco Elías Calles', lat: 27.07395, lng: -109.42357, rutaIds: [3, 6] },
+    { id: 4, nombre: 'Col. Laureles',                           lat: 27.04280,  lng: -109.44911,  rutaIds: [1, 2] },
+    { id: 5, nombre: 'Col. Girasoles',                          lat: 27.04583,  lng: -109.44665,  rutaIds: [1, 2] },
+    { id: 6, nombre: 'Soriana',                                 lat: 27.06227,  lng: -109.44028,  rutaIds: [4, 5, 6] },
+    { id: 7, nombre: 'Col. 16 de Junio (Av. Pótam)',            lat: 27.065202, lng: -109.416302, rutaIds: [6] },
+    { id: 8, nombre: 'Lázaro Cárdenas y Plutarco Elías Calles', lat: 27.074026, lng: -109.423772, rutaIds: [3, 6] },
     { id: 9, nombre: 'UES Navojoa',                             lat: 27.048932, lng: -109.453563, rutaIds: [1] },
-    { id: 10, nombre: 'UES Navojoa',                            lat: 27.049238, lng: -109.453212, rutaIds: [2] },
+    { id: 10, nombre: 'Frente UES Navojoa',                     lat: 27.049238, lng: -109.453212, rutaIds: [2] },
     { id: 11, nombre: 'UNISON Navojoa',                         lat: 27.073939, lng: -109.428732, rutaIds: [3, 6] },
     { id: 12, nombre: 'Infonavit Sonora (Román Yocupicio y Bacerac)', lat: 27.056725, lng: -109.424806, rutaIds: [4, 5] },
     { id: 13, nombre: 'Ley del Mayo',                           lat: 27.069284, lng: -109.452155, rutaIds: [1, 4, 7, 10] },
-    { id: 14, nombre: 'Ley del Mayo',                           lat: 27.069270, lng: -109.451840, rutaIds: [2, 5, 9] },
+    { id: 14, nombre: 'Frente Ley del Mayo',                    lat: 27.069270, lng: -109.451840, rutaIds: [2, 5, 9] },
     { id: 15, nombre: 'ITSON Navojoa',                          lat: 27.055959, lng: -109.457772, rutaIds: [1, 10] },
-    { id: 16, nombre: 'ITSON Navojoa',                          lat: 27.054311, lng: -109.457342, rutaIds: [2, 9]},
+    { id: 16, nombre: 'Frente ITSON Navojoa',                   lat: 27.054311, lng: -109.457342, rutaIds: [2, 9]},
     { id: 17, nombre: 'Ramón Corona y Av. México',              lat: 27.050510, lng: -109.456840, rutaIds: [1, 2, 9, 10] },
     { id: 18, nombre: 'Blvd. Rafael Almada y Av. Jalisco',      lat: 27.058993, lng: -109.449156, rutaIds: [1] },
-    { id: 19, nombre: 'Blvd. Rafael Almada y Av. Jalisco',      lat: 27.058738, lng: -109.449523, rutaIds: [2] }
-
+    { id: 19, nombre: 'Blvd. Rafael Almada y Av. Jalisco',      lat: 27.058738, lng: -109.449523, rutaIds: [2] },
+    { id: 20, nombre: 'Bodega Aurrerá',                         lat: 27.073191, lng: -109.443622, rutaIds: [2, 3, 4, 6, 7, 11] },
+    { id: 21, nombre: 'Frente Bodega Aurrerá',                  lat: 27.072718, lng: -109.443376, rutaIds: [1, 3, 11] },
+    { id: 22, nombre: 'Ley Aviación',                           lat: 27.073821, lng: -109.434316, rutaIds: [3, 6, 11] },
+    { id: 23, nombre: 'Frente Ley Aviación',                    lat: 27.073537, lng: -109.434339, rutaIds: [3, 11] },
+    { id: 24, nombre: 'Primaria Francisco Villa',               lat: 27.073881, lng: -109.432263, rutaIds: [3, 6, 11] },
+    { id: 25, nombre: 'Frente UNISON Navojoa',                  lat: 27.073640, lng: -109.428747, rutaIds: [3] },
+    { id: 26, nombre: 'UPN Navojoa',                            lat: 27.074037, lng: -109.419828, rutaIds: [3] },
+    { id: 27, nombre: 'Frente UPN Navojoa',                     lat: 27.073827, lng: -109.419949, rutaIds: [3] },
+    { id: 28, nombre: 'Blvd. Luis Donaldo Colosio y calle Lázaro Cárdenas', lat: 27.073764, lng: -109.418448, rutaIds: [6] },
+    { id: 29, nombre: 'Calle Lázaro Cárdenas y calle Segunda',  lat: 27.074073, lng: -109.417757, rutaIds: [3] },
+    { id: 30, nombre: 'Calle Quinta y cjon. Río Balsas',        lat: 27.075837, lng: -109.413883, rutaIds: [3] },
+    { id: 31, nombre: 'Av. Río Humaya y calle Quinta',          lat: 27.080635, lng: -109.413921, rutaIds: [3] },
+    { id: 32, nombre: 'Col. Aeropuerto',                        lat: 27.080710, lng: -109.406923, rutaIds: [3] },
+    { id: 33, nombre: 'Calle Segunda y Av. Río Humaya',         lat: 27.080556, lng: -109.417703, rutaIds: [3, 6] },
+    { id: 34, nombre: 'Av. Cócorit y Blvd. Luis Donaldo Colosio', lat: 27.067336, lng: -109.418545, rutaIds: [6] },
+    { id: 35, nombre: 'CBTIS 207',                              lat: 27.070276, lng: -109.418345, rutaIds: [6] },
+    { id: 36, nombre: 'Calle Huatabampo y Av. Cócorit',         lat: 27.067251, lng: -109.422263, rutaIds: [6] },
+    { id: 37, nombre: 'Calle Huatabampo y Av. Jesús García',    lat: 27.062690, lng: -109.422127, rutaIds: [6] },
+    { id: 38, nombre: 'Calle Huatabampo y Av. Agustín Melgar',  lat: 27.060782, lng: -109.421904, rutaIds: [6, 11] },
+    { id: 39, nombre: 'Calle Huatabampo y Av. Baca Calderón',   lat: 27.058498, lng: -109.421833, rutaIds: [4, 5] },
+    { id: 40, nombre: 'Av. Román Yocupicio y Calle Yavaros',    lat: 27.057431, lng: -109.420217, rutaIds: [4, 5] },
+    { id: 41, nombre: 'Calle Nogales y calle Colegio Militar',  lat: 27.056461, lng: -109.431762, rutaIds: [4, 5] },
+    { id: 42, nombre: 'Calle Nogales y callejón Quinto',        lat: 27.053644, lng: -109.431705, rutaIds: [4, 5] },
+    { id: 43, nombre: 'Av. Román Yocupicio y calle Guaymas',    lat: 27.056530, lng: -109.426883, rutaIds: [4, 5] },
+    { id: 44, nombre: 'C. Juan de la Barrera y calle Nogales',  lat: 27.059505, lng: -109.431813, rutaIds: [4, 5, 6] },
+    { id: 45, nombre: 'Calle Nogales y calle Bacobampo',        lat: 27.061803, lng: -109.432056, rutaIds: [4, 5, 11] },
+    { id: 46, nombre: 'Frente Soriana (Pesqueira y C. Bacobampo)', lat: 27.061496, lng: -109.439441, rutaIds: [4, 5] },
+    { id: 47, nombre: 'Frente IMSS',                            lat: 27.068269, lng: -109.443235, rutaIds: [5, 6] },
+    { id: 48, nombre: 'Pesqueira y Av. Amado Nervo',            lat: 27.069220, lng: -109.443082, rutaIds: [4, 7] },
+    { id: 49, nombre: 'Pesqueira y Av. Leona Vicario',          lat: 27.070029, lng: -109.443487, rutaIds: [5, 6] },
+    
     // Agregar más paradas aquí con el mismo formato
 ];
 
@@ -462,41 +492,152 @@ function usarUbicacion() {
 
             map.setView([lat, lng], 15);
 
-            // ─── 3. DETECTAR TODAS LAS PARADAS CERCANAS ───────────
             const paradasCercanas = PARADAS
                 .map(p => ({ ...p, dist: map.distance([lat, lng], [p.lat, p.lng]) }))
                 .filter(p => p.dist <= RADIO_CERCANO_M)
                 .sort((a, b) => a.dist - b.dist);
 
-            if (paradasCercanas.length === 0) {
+            if (paradasCercanas.length > 0) {
+                const todasRutaIds = [...new Set(paradasCercanas.flatMap(p => p.rutaIds))];
+                dibujarTrazos(todasRutaIds);
+                paradasCercanas.forEach(p => {
+                    marcadoresParada[p.id].setIcon(iconoParada('#2e7d32'));
+                });
+                mostrarPanelGPS(paradasCercanas);
+
+            } else {
+                // ── Sin paradas en el radio ─────────────────────────
+                const rutasCercanas = detectarRutasCercanas(lat, lng);
+
+                // Parada más cercana fuera del radio
+                const paradaFuera = PARADAS
+                    .map(p => ({ ...p, dist: map.distance([lat, lng], [p.lat, p.lng]) }))
+                    .sort((a, b) => a.dist - b.dist)[0];
+
                 limpiarTrazos();
+
+                // Dibujar trazos de rutas cercanas aunque no haya paradas
+                if (rutasCercanas.length > 0) {
+                    const idsRutas = rutasCercanas.map(r => r.id);
+                    dibujarTrazos(idsRutas);
+                }
+
                 document.getElementById('panel-vacio').classList.add('d-none');
                 document.getElementById('panel-contenido').classList.remove('d-none');
-                document.getElementById('panel-titulo').textContent = 'Tu ubicación';
-                document.getElementById('panel-contenido').innerHTML = `
-                    <div class="text-center text-muted py-5 px-3">
-                        <p class="small">No hay paradas en un radio de ${RADIO_CERCANO_M}m.</p>
-                        <p class="small">Intenta moverte hacia una avenida principal.</p>
+                document.getElementById('panel-titulo').textContent = 'Sin paradas cercanas';
+
+                // Construir panel con info de rutas cercanas + parada más próxima
+                let html = `
+                    <div class="text-center text-muted py-3 px-3 border-bottom">
+                        <p class="small mb-1">No hay paradas en un radio de <strong>${RADIO_CERCANO_M}m</strong>.</p>
                     </div>`;
-                return;
+
+                // Rutas que pasan cerca según el trazo
+                if (rutasCercanas.length > 0) {
+                    html += `
+                    <div class="px-3 pt-3 pb-2">
+                        <div class="fw-bold small mb-2" style="color:var(--color-guinda);">
+                            🚌 Rutas que pasan por aquí:
+                        </div>`;
+                    rutasCercanas.forEach(function(ruta) {
+                        html += `
+                        <div class="d-flex align-items-center gap-2 mb-2">
+                            <span class="badge text-white rounded-pill" style="background:${ruta.color};">${ruta.numero}</span>
+                            <span class="small">${ruta.nombre}</span>
+                        </div>`;
+                    });
+                    html += `</div><hr class="my-0">`;
+                }
+
+                // Parada más cercana fuera del radio
+                if (paradaFuera) {
+                    marcadoresParada[paradaFuera.id].setIcon(iconoParada('#e8940a')); // naranja = fuera del radio
+                    const rutasParada = paradaFuera.rutaIds.map(id => {
+                        const ruta     = RUTAS.find(r => r.id === id);
+                        const proximos = proximosHorarios(id, 3);
+                        const horasHtml = proximos.length === 0
+                            ? `<span class="text-muted small">Sin servicio</span>`
+                            : proximos.map((h, i) =>
+                                `<span class="badge-hora ${i === 0 ? 'hora-proxima' : 'hora-normal'}">${h}</span>`
+                              ).join('');
+                        return `
+                        <div class="mb-2">
+                            <div class="d-flex align-items-center gap-2 mb-1">
+                                <span class="badge text-white rounded-pill" style="background:${ruta.color};">${ruta.numero}</span>
+                                <span class="fw-bold small">${ruta.nombre}</span>
+                            </div>
+                            <div class="d-flex flex-wrap gap-1">${horasHtml}</div>
+                        </div>`;
+                    }).join('');
+
+                    html += `
+                    <div class="px-3 pt-3 pb-2">
+                        <div class="fw-bold small mb-1" style="color:#e8940a;">
+                            📍 Parada más cercana (${Math.round(paradaFuera.dist)}m)
+                        </div>
+                        <div class="fw-bold small mb-2">${paradaFuera.nombre}</div>
+                        ${rutasParada}
+                    </div>`;
+                }
+
+                document.getElementById('panel-contenido').innerHTML = html;
             }
-
-            // Recopilar todas las rutaIds únicas de las paradas cercanas
-            const todasRutaIds = [...new Set(paradasCercanas.flatMap(p => p.rutaIds))];
-            dibujarTrazos(todasRutaIds);
-
-            // Marcar paradas cercanas en verde
-            paradasCercanas.forEach(p => {
-                marcadoresParada[p.id].setIcon(iconoParada('#2e7d32'));
-            });
-
-            mostrarPanelGPS(paradasCercanas);
         },
         function() {
             document.getElementById('btn-gps').textContent = '📍 Mi ubicación';
             alert('No se pudo obtener tu ubicación. Verifica los permisos del navegador.');
         }
     );
+}
+
+// ─── Detectar rutas trazadas que pasan cerca del usuario ──────────
+function detectarRutasCercanas(lat, lng) {
+    const UMBRAL_RUTA_M = 80; // metros de tolerancia al trazo
+    const rutasDetectadas = [];
+
+    RUTAS.forEach(function(ruta) {
+        if (ruta.indiceRutaCoord === undefined) return;
+        const rutaCoord = RUTAS_COORDENADAS[ruta.indiceRutaCoord];
+        if (!rutaCoord || !rutaCoord.coordenadas) return;
+
+        const coords = rutaCoord.coordenadas;
+        let distMinAlTrazo = Infinity;
+
+        // Recorrer cada segmento [A, B] de la polilínea
+        for (let i = 0; i < coords.length - 1; i++) {
+            const A = L.latLng(coords[i][0],     coords[i][1]);
+            const B = L.latLng(coords[i+1][0],   coords[i+1][1]);
+            const P = L.latLng(lat, lng);
+
+            const dist = distanciaPuntoSegmento(P, A, B);
+            if (dist < distMinAlTrazo) distMinAlTrazo = dist;
+        }
+
+        if (distMinAlTrazo <= UMBRAL_RUTA_M) {
+            rutasDetectadas.push(ruta);
+        }
+    });
+
+    return rutasDetectadas;
+}
+
+// Distancia en metros de un punto P al segmento AB
+function distanciaPuntoSegmento(P, A, B) {
+    const dAB = A.distanceTo(B);
+    if (dAB === 0) return P.distanceTo(A);
+
+    const ax = A.lng, ay = A.lat;
+    const bx = B.lng, by = B.lat;
+    const px = P.lng, py = P.lat;
+
+    const t = Math.max(0, Math.min(1,
+        ((px - ax) * (bx - ax) + (py - ay) * (by - ay)) /
+        ((bx - ax) ** 2 + (by - ay) ** 2)
+    ));
+
+    const proyLat = ay + t * (by - ay);
+    const proyLng = ax + t * (bx - ax);
+    return P.distanceTo(L.latLng(proyLat, proyLng));
 }
 
 function mostrarPanelGPS(paradasCercanas) {
@@ -583,6 +724,9 @@ function salirGPS() {
     document.getElementById('panel-titulo').textContent = 'Selecciona una parada';
     document.getElementById('panel-contenido').classList.add('d-none');
     document.getElementById('panel-vacio').classList.remove('d-none');
+
+    // Dentro de salirGPS(), después de la línea que regresa todos a guinda:
+    PARADAS.forEach(p => marcadoresParada[p.id].setIcon(iconoParada('#7a1028')));
 }
 
 </script>
