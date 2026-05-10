@@ -14,8 +14,9 @@
             --color-rojo: #cc2222;
             --color-beige: #e8d9b0;
         }
+        body { font-family: 'Outfit', sans-serif; display: flex; flex-direction: column; min-height: 100vh; margin: 0; }
+        main { flex: 1; }
 
-        body { font-family: 'Outfit', sans-serif; }
         .navbar-custom { background-color: var(--color-guinda); }
         .btn-acento {
             background-color: var(--color-beige);
@@ -89,20 +90,48 @@
         }
 
         canvas { max-height: 280px; }
+
+        .navbar-toggler { border-color: rgba(255,255,255,0.4); }
+        .navbar-toggler-icon {
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255,255,255,0.9%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+        }
+        .navbar-collapse { background-color: var(--color-guinda); padding: 8px 0 4px; }
+        .navbar-nav .nav-link { color: rgba(255,255,255,0.85); padding: 8px 16px; border-radius: 6px; margin: 2px 8px; font-weight: 500; }
+        .navbar-nav .nav-link:hover { background: rgba(255,255,255,0.1); color: white; }
+        .navbar-nav .nav-link.activo { background-color: var(--color-beige); color: var(--color-guinda); font-weight: 600; }
     </style>
 </head>
 <body>
 
     <!--Encabezado-->
     <header>
-        <nav class="navbar navbar-custom px-3">
-            <a class="navbar-brand fw-bold text-white" href="#">UrbanSon Navojoa</a>
-            <div class="ms-auto d-flex gap-2">
-                <a href="inicio.html"   class="btn btn-outline-light btn-sm">Inicio</a>
-                <a href="rutas.html"    class="btn btn-outline-light btn-sm">Rutas</a>
-                <a href="horarios.html" class="btn btn-outline-light btn-sm">Horarios</a>
-                <a href="analisis.html" class="btn btn-acento btn-sm">Análisis</a>
-                <a href="reportes.html" class="btn btn-outline-light btn-sm">Reportes</a>
+        <nav class="navbar navbar-expand-lg navbar-custom px-3">
+            <a class="navbar-brand fw-bold text-white" href="inicio.html">UrbanSon Navojoa</a>
+
+            <button class="navbar-toggler ms-auto" type="button"
+                    data-bs-toggle="collapse" data-bs-target="#menuPrincipal"
+                    aria-controls="menuPrincipal" aria-expanded="false">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="menuPrincipal">
+                <ul class="navbar-nav ms-auto d-flex gap-1 mt-2 mt-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link" href="inicio.html">Inicio</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="rutas.html">Rutas</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="horarios.html">Horarios</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link activo" href="analisis.html">Análisis</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="reportes.html">Reportes</a>
+                    </li>
+                </ul>
             </div>
         </nav>
     </header>
@@ -232,13 +261,9 @@
         <p>Cargando datos...</p>
     </div>
 
-    <footer class="text-white text-center py-3">
-        <div class="fw-bold">UrbanSon Navojoa &nbsp;·&nbsp; Plataforma de análisis del transporte urbano</div>
-        <div class="mt-1 small" style="color: var(--color-beige);">Navojoa, Sonora, México</div>
-    </footer>
-
     <script src="datos/resultados.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="js/bootstrap.bundle.min.js"></script>
     
     <script>
         const PALETA = ['#7a1028','#cc2222','#e8940a','#2b771c','#520b94','#08ac88','#1619da','#e8d9b0','#444444'];
@@ -361,9 +386,14 @@
             barV('g-gasto',      d.costo.gasto,       'Personas');
 
         } catch(e) {
-            document.getElementById('cargando').innerHTML = `
+            document.getElementById('cargando').innerHTML = ` 
                 <p class="text-danger">No se encontraron datos.</p>`;
         }
     </script>
+
+    <footer class="text-white text-center py-3">
+        <div class="fw-bold">UrbanSon Navojoa &nbsp;·&nbsp; Plataforma de análisis del transporte urbano</div>
+        <div class="mt-1 small" style="color: var(--color-beige);">Navojoa, Sonora, México</div>
+    </footer>
 </body>
 </html>

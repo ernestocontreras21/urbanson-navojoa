@@ -8,7 +8,7 @@ const RUTAS_COORDENADAS = [
         nombre: 'Circuito 1 Lado A — Laureles – Jacarandas',
         color: '#7a1028',
         descripcion: '...',
-        colonias: ['Mercado', 'Ley del Mayo', 'ITSON', 'UES', 'Col. Laureles', 'Col. Girasoles', 'Hospital San José', 'Bodega Aurrerá', 'Col. Jacarandas', 'Panteón Nuevo', 'Panteón Viejo', 'Col. Rosales', 'ISSSTE'],
+        colonias: ['Mercado', 'Ley del Mayo', 'Unidad Deportiva "Faustino Félix"', 'ITSON', 'UES', 'Col. Laureles', 'Col. Girasoles', 'Hospital San José', 'Plaza Santa Fe', 'Bodega Aurrerá', 'Secundaria #29', 'Col. Jacarandas', 'Panteón Nuevo', 'Panteón Viejo', 'Col. Rosales', 'ISSSTE'],
         coordenadas: [
                     [27.078079, -109.446993],
                     [27.078987, -109.447136],
@@ -168,7 +168,7 @@ const RUTAS_COORDENADAS = [
         nombre: 'Circuito 1 Lado B — Girasoles – Rosales',
         color: '#7a1028',
         descripcion: '...',
-        colonias: ['Mercado', 'Hospital San José', 'Col. Girasoles', 'Col. Laureles', 'UES', 'ITSON', 'Ley del Mayo', 'Col. Rosales', 'ISSSTE',  'Panteón Viejo', 'Panteón Nuevo', 'Col. Jacarandas', 'Bodega Aurrerá'],
+        colonias: ['Mercado', 'Plaza Santa Fe', 'Hospital San José', 'COBACH', 'Unidad deportiva "Faustino Félix"', 'Col. Girasoles', 'Col. Laureles', 'UES', 'ITSON', 'Ley del Mayo', 'Col. Rosales', 'ISSSTE',  'Panteón Viejo', 'Panteón Nuevo', 'Col. Jacarandas', 'Secundaria #29', 'Bodega Aurrerá'],
         coordenadas: [
                     [27.078079, -109.446993],  //Empieza mercado
                     [27.078987, -109.447136],
@@ -325,7 +325,7 @@ const RUTAS_COORDENADAS = [
         nombre: 'Circuito 2 — Tierra y Libertad – Jiménez',
         color: '#cc2222',
         descripcion: '...',
-        colonias: ['Mercado', 'UNISON', 'Col. Aeropuerto', 'Col. Tierra y Libertad', 'Lázaro Cárdenas', 'Ley Aviación', 'Bodega Aurrerá', 'Mariano Jiménez', 'Tierra Blanca', 'Periférico'],
+        colonias: ['Mercado', 'UNISON', 'Col. Aeropuerto', 'Col. Tierra y Libertad', 'Lázaro Cárdenas', 'Ley Aviación', 'Bodega Aurrerá', 'Mariano Jiménez', 'Col. Tierra Blanca', 'Periférico'],
         coordenadas: [
                     [27.078718, -109.447047],  //Empieza mercado municipal
                     [27.080041, -109.447245],  
@@ -409,7 +409,7 @@ const RUTAS_COORDENADAS = [
         nombre: 'Circuito 3 Lado A — Pueblo Viejo – Misioneros',
         color: '#e8940a',
         descripcion: '...',
-        colonias: ['Mercado', 'Ley del Mayo', 'Soriana', 'Col. Misioneros', 'Col. Infonavit Sonora', 'Col. Tepeyac', 'Socum', 'IMSS'],
+        colonias: ['Mercado', 'Ley del Mayo', 'Secundaria Técnica #5', 'COBACH', 'Hospital San José', 'Secundaria Othón Almada', 'Soriana', 'Hospital general', 'Col. Misioneros', 'Col. Infonavit Sonora', 'Col. Tepeyac', 'Socum', 'IMSS', 'Bodega Aurrerá'],
         coordenadas: [
                     [27.078793, -109.445877],  //Empieza mercado
                     [27.076896, -109.445607],  //Empieza calle Rayón
@@ -493,7 +493,7 @@ const RUTAS_COORDENADAS = [
         nombre: 'Circuito 3 Lado B — Pueblo Viejo – Misioneros',
         color: '#e8940a',
         descripcion: '...',
-        colonias: ['Mercado', 'IMSS', 'Soriana', 'Socum', 'Col. Tepeyac', 'Col. Infonavit Sonora', 'Col. Misioneros', 'Ley del Mayo'],
+        colonias: ['Mercado', 'IMSS', 'Soriana', 'Hospital general', 'Socum', 'Col. Tepeyac', 'Col. Infonavit Sonora', 'Col. Misioneros', 'Secundaria Othón Almada', 'COBACH', 'Ley del Mayo'],
         coordenadas: [
                     [27.078793, -109.445877],  //Empieza Mercado municipal
                     [27.075853, -109.445481],
@@ -570,7 +570,7 @@ const RUTAS_COORDENADAS = [
                     [27.076385, -109.450461],
                     [27.077599, -109.449382],  //Empieza calle Allende
                     [27.077879, -109.446942],
-                    [27.078760, -109.447076]   //Llega mercado muncipal por GM (1era vuelta)                    
+                    [27.078760, -109.447076],   //Llega mercado municipal por GM (1era vuelta)                    
         ]
     },
     {
@@ -578,7 +578,7 @@ const RUTAS_COORDENADAS = [
         nombre: 'Circuito 4 — Sonora (Línea 2-6)',
         color: '#2b771c',
         descripcion: '...',
-        colonias: ['Mercado', 'IMSS', 'Soriana', 'Pedagógico', 'Juan de la Barrera', 'Col. Sonora', 'Col. Infonavit Sonora', 'Col. 16 de Junio', 'CBTIS 207', 'Col. Tierra y Libertad', 'Col. Francisco Villa', 'UNISON', 'Ley Aviación', 'Bodega Aurrerá'],
+        colonias: ['Mercado', 'IMSS', 'Soriana', 'Hospital general', 'Pedagógico', 'Juan de la Barrera', 'Col. Sonora', 'Col. Infonavit Sonora', 'Col. 16 de Junio', 'CBTIS 207', 'Col. Tierra y Libertad', 'Col. Francisco Villa', 'UNISON', 'Ley Aviación', 'Bodega Aurrerá'],
         coordenadas: [
                     [27.078887, -109.445888],  //Empieza Mercado municipal
                     [27.075853, -109.445481],
@@ -659,26 +659,94 @@ const RUTAS_COORDENADAS = [
         indice: 6,
         nombre: 'Circuito 4 — Quintana Roo',
         color: '#2b771c',
+        descripcion: '...',
+        colonias: ['Mercado', 'Calle Quintana Roo', 'Col. Tierra Blanca', 'Mariano Jiménez', 'Leona Vicario', 'Ley del Mayo', 'IMSS', 'Bodega Aurrerá'],
         coordenadas: [
-            [27.0820, -109.4500],
-            [27.0800, -109.4475],
-            [27.0780, -109.4452],
-            [27.0760, -109.4430],
-            [27.0745, -109.4415],
-            [27.0820, -109.4500]
+                    [27.078793, -109.445877],  //Empieza mercado
+                    [27.076896, -109.445607],  //Empieza calle Rayón
+                    [27.076639, -109.448074],
+                    [27.076379, -109.450467],  //Empieza diagonal Juárez
+                    [27.075195, -109.451517],  //Empieza calle Quintana Roo
+                    [27.074553, -109.457457],
+                    [27.074174, -109.460920],
+                    [27.073552, -109.466652],
+                    [27.073237, -109.469689],  //Empieza calle Activo
+                    [27.071052, -109.469440],  //Empieza Manuel Doblado
+                    [27.070416, -109.475514],  //Empieza Juan Escutia
+                    [27.068189, -109.475274],  //Empieza Mariano Jiménez
+                    [27.068859, -109.469167],  //Empieza calle Activo otra vez
+                    [27.066796, -109.468784],  //Empieza Leona Vicario
+                    [27.068367, -109.454393],  //Empieza 5 de Mayo
+                    [27.069410, -109.454504],  //Empieza Josefa Ortiz de Dominguez
+                    [27.069663, -109.452114],  //Empieza Blvd. Cuauhtemoc por Ley del Mayo
+                    [27.068461, -109.451924],  //Empieza Amado Nervo
+                    [27.068618, -109.450651],  //Empieza Rafael Almada
+                    [27.067679, -109.450517],  //Empieza Sor Juana Inés de la Cruz
+                    [27.068450, -109.443073],  //Empieza Pesqueira
+                    [27.072784, -109.443689],
+                    [27.076564, -109.444205],
+                    [27.079200, -109.444578],
+                    [27.079060, -109.445916],
+                    [27.078793, -109.445877]   //Llega mercado
         ]
     },
     {
         indice: 7,
         nombre: 'Circuito 5 — Tetanchopo',
         color: '#520b94',
+        descripcion: '...',
+        colonias: ['Mercado', 'Av. Morelos', 'Oficinas del IMSS', 'Cereso', 'Col. Tetanchopo', 'Fraccionamiento Los Arcos', 'Col. Villa Lourdes', 'Iglesia del Sagrado Corazón'],
         coordenadas: [
-            [27.0820, -109.4500],
-            [27.0800, -109.4475],
-            [27.0780, -109.4452],
-            [27.0760, -109.4430],
-            [27.0745, -109.4415],
-            [27.0820, -109.4500]
+                    [27.079872, -109.447205],  //Empieza mercado por GM E Hidalgo (Solo ruta 5)
+                    [27.082329, -109.447554],  //Empieza Morelos por iglesia Sagrado Corazón
+                    [27.082230, -109.448521],
+                    [27.081223, -109.457929],
+                    [27.080748, -109.462440],
+                    [27.080407, -109.465730],
+                    [27.080200, -109.467553],
+                    [27.080185, -109.467814],
+                    [27.080086, -109.468979],
+                    [27.080045, -109.469650],
+                    [27.079954, -109.470085],
+                    [27.079135, -109.472237],
+                    [27.078616, -109.473569],
+                    [27.078392, -109.474178],
+                    [27.078279, -109.474694],
+                    [27.078201, -109.475526],
+                    [27.078144, -109.476437],
+                    [27.078077, -109.476957],
+                    [27.078005, -109.477265],
+                    [27.077717, -109.478088],
+                    [27.076806, -109.480405],
+                    [27.076607, -109.480921],  //Empieza Av. de Lourdes
+                    [27.073162, -109.479259],  //Empieza C. de los Remedios
+                    [27.073586, -109.478400],  //Empieza Av. de Fátima
+                    [27.076934, -109.479985],  //Empieza otra vez Morelos (RY)
+                    [27.077858, -109.477633],
+                    [27.078001, -109.477150],
+                    [27.078094, -109.476611],
+                    [27.078146, -109.475844],
+                    [27.078207, -109.474972],
+                    [27.078310, -109.474364],
+                    [27.078433, -109.473939],
+                    [27.078847, -109.472885],
+                    [27.079502, -109.471200],
+                    [27.079891, -109.470180],
+                    [27.079969, -109.469880],
+                    [27.080021, -109.469467],
+                    [27.080144, -109.467942],
+                    [27.080359, -109.465864],
+                    [27.080685, -109.462656],
+                    [27.081063, -109.459033],
+                    [27.081671, -109.453468],
+                    [27.082292, -109.447582],  //Empieza García Morales
+                    [27.081100, -109.447428],  //Empieza Av. Obregón
+                    [27.081178, -109.446658],  //Plaza 5 de mayo
+                    [27.080802, -109.446599],
+                    [27.080831, -109.446147],  //Empieza No Reelección
+                    [27.079064, -109.445898],  //Empieza calle Guerrero
+                    [27.078925, -109.447114],
+                    [27.079872, -109.447205]   //Llega mercado por García Morales a una cuadra
         ]
     },
     {
@@ -686,12 +754,17 @@ const RUTAS_COORDENADAS = [
         nombre: 'Circuito 6 Lado A — Deportiva – Fovissste',
         color: '#08ac88',
         coordenadas: [
-            [27.0820, -109.4500],
-            [27.0800, -109.4475],
-            [27.0780, -109.4452],
-            [27.0760, -109.4430],
-            [27.0745, -109.4415],
-            [27.0820, -109.4500]
+                    [27.078515, -109.447063],  //Empieza Mercado
+                    [27.080035, -109.447289],
+                    [27.080164, -109.446046],  //Empieza No Reelección
+                    [27.078038, -109.445764],
+                    [27.075853, -109.445481],
+                    [27.073508, -109.445166],
+                    [27.069588, -109.444639],
+                    [27.068801, -109.444509],
+                    [27.064697, -109.443972],  //Empieza Sosa Chávez
+                    [27.064354, -109.446987],
+                    [27.064023, -109.450106],
         ]
     },
     {
@@ -699,12 +772,18 @@ const RUTAS_COORDENADAS = [
         nombre: 'Circuito 6 Lado B — Deportiva – Fovissste',
         color: '#08ac88',
         coordenadas: [
-            [27.0820, -109.4500],
-            [27.0800, -109.4475],
-            [27.0780, -109.4452],
-            [27.0760, -109.4430],
-            [27.0745, -109.4415],
-            [27.0820, -109.4500]
+                    [27.078079, -109.446993],  //Empieza mercado
+                    [27.078987, -109.447136],
+                    [27.080039, -109.447276],  //Empieza Calle Hidalgo
+                    [27.079768, -109.449883],
+                    [27.079386, -109.453401],  //Empieza Blvd. Cuauhtemoc
+                    [27.074103, -109.452689],
+                    [27.069615, -109.452133],
+                    [27.068645, -109.451976],
+                    [27.068449, -109.451976],
+                    [27.063888, -109.451380],  //Empieza Blvd.Sosa Chávez
+                    [27.063620, -109.453972],
+                    [27.063367, -109.456237],
         ]
     },
     {
