@@ -8,7 +8,7 @@ const RUTAS_COORDENADAS = [
         nombre: 'Circuito 1 Lado A — Laureles – Jacarandas',
         color: '#7a1028',
         descripcion: '...',
-        colonias: ['Mercado', 'Ley del Mayo', 'Unidad Deportiva "Faustino Félix"', 'ITSON', 'UES', 'Col. Laureles', 'Col. Girasoles', 'Hospital San José', 'Plaza Santa Fe', 'Bodega Aurrerá', 'Secundaria #29', 'Col. Jacarandas', 'Panteón Nuevo', 'Panteón Viejo', 'Col. Rosales', 'ISSSTE'],
+        colonias: ['Mercado', 'Ley del Mayo', 'Unidad Deportiva "Faustino Félix"', 'ITSON', 'UES', 'Col. Laureles', 'Col. Girasoles', 'CBTIS 64', 'Hospital San José', 'Secundaria Othón Almada', 'IMSS', 'Plaza Santa Fe', 'Bodega Aurrerá', 'Secundaria #29', 'Col. Jacarandas', 'Panteón Nuevo', 'Panteón Viejo', 'Col. Rosales', 'ISSSTE'],
         coordenadas: [
                     [27.078079, -109.446993],
                     [27.078987, -109.447136],
@@ -168,7 +168,7 @@ const RUTAS_COORDENADAS = [
         nombre: 'Circuito 1 Lado B — Girasoles – Rosales',
         color: '#7a1028',
         descripcion: '...',
-        colonias: ['Mercado', 'Plaza Santa Fe', 'Hospital San José', 'COBACH', 'Unidad deportiva "Faustino Félix"', 'Col. Girasoles', 'Col. Laureles', 'UES', 'ITSON', 'Ley del Mayo', 'Col. Rosales', 'ISSSTE',  'Panteón Viejo', 'Panteón Nuevo', 'Col. Jacarandas', 'Secundaria #29', 'Bodega Aurrerá'],
+        colonias: ['Mercado', 'Plaza Santa Fe', 'IMSS', 'Secundaria Othón Almada', 'Hospital San José', 'COBACH', 'Unidad deportiva "Faustino Félix"', 'CBTIS 64', 'Col. Girasoles', 'Col. Laureles', 'UES', 'ITSON', 'Ley del Mayo', 'Col. Rosales', 'ISSSTE',  'Panteón Viejo', 'Panteón Nuevo', 'Col. Jacarandas', 'Secundaria #29', 'Bodega Aurrerá'],
         coordenadas: [
                     [27.078079, -109.446993],  //Empieza mercado
                     [27.078987, -109.447136],
@@ -325,7 +325,7 @@ const RUTAS_COORDENADAS = [
         nombre: 'Circuito 2 — Tierra y Libertad – Jiménez',
         color: '#cc2222',
         descripcion: '...',
-        colonias: ['Mercado', 'UNISON', 'Col. Aeropuerto', 'Col. Tierra y Libertad', 'Lázaro Cárdenas', 'Ley Aviación', 'Bodega Aurrerá', 'Mariano Jiménez', 'Col. Tierra Blanca', 'Periférico'],
+        colonias: ['Mercado', 'Bodega Aurrerá', 'UNISON', 'Col. Aeropuerto', 'Col. Tierra y Libertad', 'Lázaro Cárdenas', 'Ley Aviación', 'Mariano Jiménez', 'Iglesia de la Sagrada Familia', 'Col. Tierra Blanca', 'Periférico'],
         coordenadas: [
                     [27.078718, -109.447047],  //Empieza mercado municipal
                     [27.080041, -109.447245],  
@@ -695,7 +695,7 @@ const RUTAS_COORDENADAS = [
         nombre: 'Circuito 5 — Tetanchopo',
         color: '#520b94',
         descripcion: '...',
-        colonias: ['Mercado', 'Av. Morelos', 'Oficinas del IMSS', 'Cereso', 'Col. Tetanchopo', 'Fraccionamiento Los Arcos', 'Col. Villa Lourdes', 'Iglesia del Sagrado Corazón'],
+        colonias: ['Mercado', 'Av. Morelos', 'Oficinas del IMSS', 'Nuevo IMSS', 'Parque infantil', 'Cereso', 'Col. Tetanchopo', 'Fraccionamiento Los Arcos', 'Col. Villa Lourdes', 'Iglesia del Sagrado Corazón'],
         coordenadas: [
                     [27.079872, -109.447205],  //Empieza mercado por GM E Hidalgo (Solo ruta 5)
                     [27.082329, -109.447554],  //Empieza Morelos por iglesia Sagrado Corazón
@@ -752,6 +752,8 @@ const RUTAS_COORDENADAS = [
     {
         indice: 8,
         nombre: 'Circuito 6 Lado A — Deportiva – Fovissste',
+        descripcion: '...',
+        colonias: ['Mercado', 'Plaza Santa Fe', 'IMSS', 'Secundaria Othón Almada', 'Blvd. Sosa Chávez', 'Hospital San José', 'COBACH', 'Unidad deportiva "Faustino Félix"', 'Col. Deportiva', 'Col. Pradera Dorada', 'Sport Town', 'Col. Beltrones', 'Col. Fovissste', 'Col. Brisas del Valle', 'La Joya', 'Col. Villa Dorada', 'ITSON', 'Ley del Mayo'],
         color: '#08ac88',
         coordenadas: [
                     [27.078515, -109.447063],  //Empieza Mercado
@@ -765,12 +767,52 @@ const RUTAS_COORDENADAS = [
                     [27.064697, -109.443972],  //Empieza Sosa Chávez
                     [27.064354, -109.446987],
                     [27.064023, -109.450106],
+                    [27.063367, -109.456237],
+                    [27.062606, -109.463226],
+                    [27.062146, -109.467728],  //Empieza Periférico - Sport Town
+                    [27.060312, -109.467728],  //Empieza calle Oaxaca
+                    [27.060321, -109.466943],
+                    [27.060455, -109.465781],  //Empieza Arnulfo Gómez
+                    [27.055593, -109.465213],
+                    [27.050755, -109.464648],
+                    [27.049173, -109.464492],  //Empieza Fovissste (Periférico general)
+                    [27.048966, -109.464731],  //Empieza Blvd. Brisas del Valle
+                    [27.046920, -109.464729],
+                    [27.043057, -109.464724],
+                    [27.042066, -109.464702],  //Termina Fovissste
+                    [27.041756, -109.464642],  //Empieza carretera Navojoa-Huatabampo
+                    [27.046957, -109.457257],  //Entra la joya
+                    [27.043483, -109.457244], 
+                    [27.043571, -109.456765],
+                    [27.043675, -109.456786],
+                    [27.043779, -109.457207],
+                    [27.046995, -109.457210],  //Empieza otra vez carretera Navojoa-Huatabampo
+                    [27.049042, -109.454272],
+                    [27.049154, -109.454288],  //Empieza Luis Salido
+                    [27.050795, -109.454532],
+                    [27.050543, -109.456948],  //ITSON
+                    [27.053081, -109.457271],
+                    [27.056316, -109.457685],
+                    [27.057549, -109.457842],
+                    [27.063008, -109.458552],  //Empieza Blvd. Sosa Chávez
+                    [27.063322, -109.455579],
+                    [27.063814, -109.451191],  //Empieza Blvd. Cuauhtemoc
+                    [27.068447, -109.451837],
+                    [27.068822, -109.451875],
+                    [27.069677, -109.452006],  //Ley del Mayo
+                    [27.073999, -109.452563],  //Empieza diagonal Juárez
+                    [27.076385, -109.450461],
+                    [27.077599, -109.449382],  //Empieza calle Allende
+                    [27.077879, -109.446942],
+                    [27.078515, -109.447063]   //Termina mercado
         ]
     },
     {
         indice: 9,
         nombre: 'Circuito 6 Lado B — Deportiva – Fovissste',
         color: '#08ac88',
+        descripcion: '...',
+        colonias: ['Mercado', 'Ley del Mayo', 'Unidad deportiva "Faustino Félix"', 'ITSON', 'Col. Villa Dorada', 'La Joya', 'Col. Fovissste', 'Col. Brisas del Valle', 'Col. Beltrones', 'Col. Pradera Dorada', 'Sport Town', 'Col. Deportiva', 'Blvd. Sosa Chávez', 'COBACH', 'Hospital San José', 'Secundaria Othón Almada', 'IMSS', 'Plaza Santa Fe'],
         coordenadas: [
                     [27.078079, -109.446993],  //Empieza mercado
                     [27.078987, -109.447136],
@@ -784,6 +826,51 @@ const RUTAS_COORDENADAS = [
                     [27.063888, -109.451380],  //Empieza Blvd.Sosa Chávez
                     [27.063620, -109.453972],
                     [27.063367, -109.456237],
+                    [27.063102, -109.458567],  //Empieza Ramón Corona
+                    [27.057549, -109.457842],
+                    [27.056316, -109.457685],
+                    [27.053081, -109.457271],
+                    [27.050543, -109.456948],  //ITSON
+                    [27.050795, -109.454532],
+                    [27.050778, -109.454670],  //Empieza Blvd. Luis Salido
+                    [27.049058, -109.454411],
+                    [27.049122, -109.454405],  //Empieza carretera Navojoa-Huatabampo
+                    [27.047129, -109.457260],  //Entra la Joya
+                    [27.043483, -109.457244], 
+                    [27.043571, -109.456765],
+                    [27.043675, -109.456786],
+                    [27.043779, -109.457207],
+                    [27.046985, -109.457217],
+                    [27.047062, -109.457349],  //Empieza otra vez carretera Navojoa-Huatabampo
+                    [27.042150, -109.464344],
+                    [27.042133, -109.464494],
+                    [27.042166, -109.464582],
+                    [27.042249, -109.464621],  //Empieza Blvd. Brisas del Valle
+                    [27.046401, -109.464623],
+                    [27.049056, -109.464618],  //Termina Fovissste (Periférico general)
+                    [27.049173, -109.464492],  //Empieza Arnulfo Gómez
+                    [27.050755, -109.464648],
+                    [27.055593, -109.465213],
+                    [27.060455, -109.465781],  //Empieza calle Oaxaca
+                    [27.060321, -109.466943],
+                    [27.060314, -109.467619],  //Empieza periférico
+                    [27.062032, -109.467609],  //Empieza Blvd. Sosa Chávez
+                    [27.062620, -109.462162],
+                    [27.063234, -109.456411],
+                    [27.063398, -109.454877],
+                    [27.063814, -109.451191],
+                    [27.063911, -109.450083],
+                    [27.064476, -109.444929],
+                    [27.064604, -109.443928],
+                    [27.067652, -109.444298],  //Empieza No Reelección
+                    [27.069294, -109.444502],
+                    [27.069566, -109.444502],
+                    [27.070995, -109.444700],
+                    [27.074463, -109.445178],
+                    [27.076918, -109.445494],
+                    [27.076784, -109.446793],
+                    [27.078079, -109.446993]   //Termina mercado
+                    
         ]
     },
     {
