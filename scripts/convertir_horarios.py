@@ -8,8 +8,32 @@ import os
 # ═══════════════════════════════════════════════════════════
 CAMIONES = [
     {
+        'archivo':  'datos/C1AUnidad1.csv',
+        'id_ruta':  1,
+        'unidad':   'Unidad 1 - C1(A)',
+        'color':    '#7a1028'
+    },
+    {
+        'archivo':  'datos/C1AUnidad2.csv',
+        'id_ruta':  1,
+        'unidad':   'Unidad 2 - C1(A)',
+        'color':    '#7a1028'
+    },
+    {
+        'archivo':  'datos/C1AUnidad3.csv',
+        'id_ruta':  1,
+        'unidad':   'Unidad 3 - C1(A)',
+        'color':    '#7a1028'
+    },
+    {
+        'archivo':  'datos/C1AUnidad4.csv',
+        'id_ruta':  1,
+        'unidad':   'Unidad 4 - C1(A)',
+        'color':    '#7a1028'
+    },
+    {
         'archivo':  'datos/C4Unidad1.csv',
-        'id_ruta':  6,                          # id del Circuito 4 en RUTAS
+        'id_ruta':  6,
         'unidad':   'Unidad 1 - C4(2-6)',
         'color':    '#2b771c'
     },
@@ -18,6 +42,12 @@ CAMIONES = [
         'id_ruta':  6,
         'unidad':   'Unidad 2 - C4(2-6)',
         'color':    '#2b771c'
+    },
+    {
+        'archivo':  'datos/C7Unidad1.csv',
+        'id_ruta':  11,
+        'unidad':   'Unidad 1 - C7(SE)',
+        'color':    '#1619da'
     },
 ]
 

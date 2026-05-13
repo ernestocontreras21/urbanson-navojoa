@@ -103,6 +103,38 @@ resultados['resumen'] = {
     'hora_pico':           list(demanda.keys())[0]    if demanda   else 'N/A',
 }
 
+# 8. RESPUESTAS INDIVIDUALES (para filtrado dinámico)
+respuestas_individuales = []
+for _, fila in df.iterrows():
+    def val(col):
+        v = fila.get(col, '')
+        return '' if pd.isna(v) else str(v).strip()
+    def num(col):
+        v = fila.get(col)
+        return int(v) if pd.notna(v) else None
+
+    respuestas_individuales.append({
+        'ocupacion':    val('¿A qué te dedicas?'),
+        'edad':         num('¿Qué edad tienes?'),
+        'frecuencia':   val('¿Con qué frecuencia utilizas el transporte público?'),
+        'proposito':    val('¿Para qué lo utilizas principalmente?'),
+        'horario':      val('¿En qué horario lo usas más?'),
+        'traslado':     val('¿Cuánto tiempo tardas en llegar a tu destino?'),
+        'demanda':      val('¿A qué hora consideras que hay más demanda en el transporte público?'),
+        'rutas':        val('¿Cuál es la ruta que más sueles utilizar?'),
+        'problemas':    val('¿Qué problemas has notado?'),
+        'costo':        val('¿Consideras que el costo del transporte es:'),
+        'gasto':        val('¿Cuánto gastas aproximadamente al día en el transporte público?'),
+        'puntualidad':  num('Puntualidad'),
+        'limpieza':     num('Limpieza'),
+        'trato':        num('Trato del conductor'),
+        'comodidad':    num('Comodidad'),
+        'seguridad':    num('Seguridad'),
+        'calificacion': num('¿Cómo calificarías el servicio de transporte público?'),
+    })
+
+resultados['respuestas'] = respuestas_individuales
+
 #  GUARDAR JSON
 
 with open('datos/resultados.js', 'w', encoding='utf-8') as f:

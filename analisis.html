@@ -151,6 +151,14 @@
         <div class="seccion-titulo">Resumen general</div>
         <div class="row g-3 mb-4" id="cards-resumen"></div>
 
+        <!-- FILTROS -->
+        <div class="card border-0 shadow-sm mb-4 p-3" style="border-left: 4px solid var(--color-guinda) !important; border-radius:12px;">
+            <div class="fw-bold mb-2" style="color:var(--color-guinda);">
+                🔎 Filtrar análisis
+            </div>
+            <div id="panel-filtros"></div>
+        </div>
+
         <!-- 1. PERFIL DE USUARIOS -->
         <div class="seccion-titulo">1. Perfil de usuarios</div>
         <div class="row g-3 mb-4">
@@ -267,127 +275,250 @@
     
     <script>
         const PALETA = ['#7a1028','#cc2222','#e8940a','#2b771c','#520b94','#08ac88','#1619da','#e8d9b0','#444444'];
+        function colores(n) { return Array.from({length:n},(_,i)=>PALETA[i%PALETA.length]); }
 
-        function colores(n) {
-            return Array.from({ length: n }, (_, i) => PALETA[i % PALETA.length]);
+        // ─── Instancias de gráficas (para poder actualizarlas) ────────────
+        const graficas = {};
+
+        function crearOActualizar(id, tipo, labels, valores, opciones) {
+            if (graficas[id]) {
+                graficas[id].data.labels   = labels;
+                graficas[id].data.datasets[0].data            = valores;
+                graficas[id].data.datasets[0].backgroundColor = colores(labels.length);
+                graficas[id].update();
+            } else {
+                graficas[id] = new Chart(document.getElementById(id), {
+                    type: tipo,
+                    data: {
+                        labels,
+                        datasets: [{ data: valores, backgroundColor: colores(labels.length), label: '' }]
+                    },
+                    options: opciones
+                });
+            }
         }
 
-        function barH(id, data, label) {
-            const keys = Object.keys(data);
-            const vals = Object.values(data);
-            new Chart(document.getElementById(id), {
-                type: 'bar',
-                data: {
-                    labels: keys,
-                    datasets: [{ label, data: vals, backgroundColor: colores(keys.length) }]
-                },
-                options: {
-                    indexAxis: 'y',
-                    plugins: { legend: { display: false } },
-                    scales: { x: { beginAtZero: true, ticks: { stepSize: 1 } } }
-                }
+        const optsBarH  = { indexAxis:'y', plugins:{legend:{display:false}}, scales:{x:{beginAtZero:true,ticks:{stepSize:1}}} };
+        const optsBarV  = { plugins:{legend:{display:false}}, scales:{y:{beginAtZero:true,ticks:{stepSize:1}}} };
+        const optsPie   = { plugins:{legend:{position:'bottom',labels:{font:{size:11}}}} };
+        const optsRadar = {
+            type: 'radar',
+            scales: { r:{min:0,max:5,ticks:{stepSize:1}} },
+            plugins: { legend:{display:false} }
+        };
+
+        // ─── Helpers de agregación ────────────────────────────────────────
+        function contarCampo(filas, campo) {
+            const cnt = {};
+            filas.forEach(f => {
+                const v = (f[campo] || '').trim();
+                if (!v) return;
+                v.split(',').forEach(p => {
+                    p = p.trim();
+                    if (p) cnt[p] = (cnt[p]||0) + 1;
+                });
             });
+            return cnt;
         }
 
-        function barV(id, data, label) {
-            const keys = Object.keys(data);
-            const vals = Object.values(data);
-            new Chart(document.getElementById(id), {
-                type: 'bar',
-                data: {
-                    labels: keys,
-                    datasets: [{ label, data: vals, backgroundColor: colores(keys.length) }]
-                },
-                options: {
-                    plugins: { legend: { display: false } },
-                    scales: { y: { beginAtZero: true, ticks: { stepSize: 1 } } }
-                }
+        function promediosCal(filas) {
+            const campos = { Puntualidad:'puntualidad', Limpieza:'limpieza',
+                            'Trato conductor':'trato', Comodidad:'comodidad',
+                            Seguridad:'seguridad', General:'calificacion' };
+            const res = {};
+            for (const [label, campo] of Object.entries(campos)) {
+                const vals = filas.map(f=>f[campo]).filter(v=>v!==null&&v!==undefined);
+                res[label] = vals.length ? +(vals.reduce((a,b)=>a+b,0)/vals.length).toFixed(2) : 0;
+            }
+            return res;
+        }
+
+        function distribucionCal(filas) {
+            const cnt = {};
+            filas.forEach(f => {
+                const v = f.calificacion;
+                if (v !== null && v !== undefined) cnt[String(v)] = (cnt[String(v)]||0)+1;
             });
+            return cnt;
         }
 
-        function pie(id, data) {
-            const keys = Object.keys(data);
-            const vals = Object.values(data);
-            new Chart(document.getElementById(id), {
-                type: 'doughnut',
-                data: {
-                    labels: keys,
-                    datasets: [{ data: vals, backgroundColor: colores(keys.length) }]
-                },
-                options: {
-                    plugins: { legend: { position: 'bottom', labels: { font: { size: 11 } } } }
-                }
-            });
+        function rangosEdad(filas) {
+            const bins = [{l:'Menos de 18',min:0,max:17},{l:'18-25',min:18,max:25},
+                        {l:'26-35',min:26,max:35},{l:'36-50',min:36,max:50},{l:'Más de 50',min:51,max:999}];
+            const cnt = {};
+            bins.forEach(b=>cnt[b.l]=0);
+            filas.forEach(f=>{ if(f.edad!==null){ const b=bins.find(b=>f.edad>=b.min&&f.edad<=b.max); if(b)cnt[b.l]++; }});
+            return cnt;
         }
 
-        function radar(id, data) {
-            const keys = Object.keys(data);
-            const vals = Object.values(data);
-            new Chart(document.getElementById(id), {
-                type: 'radar',
-                data: {
-                    labels: keys,
-                    datasets: [{
-                        label: 'Promedio',
-                        data: vals,
-                        backgroundColor: 'rgba(122,16,40,0.15)',
-                        borderColor: '#7a1028',
-                        pointBackgroundColor: '#7a1028'
-                    }]
-                },
-                options: {
-                    scales: { r: { min: 0, max: 5, ticks: { stepSize: 1 } } },
-                    plugins: { legend: { display: false } }
-                }
-            });
-        }
+        // ─── Renderizado completo ─────────────────────────────────────────
+        function renderTodo(filas) {
+            // Resumen
+            const edadProm = filas.filter(f=>f.edad!==null).reduce((s,f)=>s+f.edad,0) / (filas.filter(f=>f.edad!==null).length||1);
+            const calProm  = filas.filter(f=>f.calificacion!==null).reduce((s,f)=>s+f.calificacion,0) / (filas.filter(f=>f.calificacion!==null).length||1);
+            const demanda  = contarCampo(filas,'demanda');
+            const horaPico = Object.entries(demanda).sort((a,b)=>b[1]-a[1])[0]?.[0] || 'N/A';
 
-        function renderResumen(r) {
-            const items = [
-                //{ valor: r.total_respuestas,        etiqueta: 'Respuestas totales' },
-                { valor: r.edad_promedio + ' años',  etiqueta: 'Edad promedio' },
-                { valor: r.calificacion_promedio + ' / 5', etiqueta: 'Calificación promedio' },
-                { valor: r.hora_pico,               etiqueta: 'Hora pico' },
-                //{ valor: r.ruta_mas_usada,     etiqueta: 'Ruta más usada' },
-            ];
-            document.getElementById('cards-resumen').innerHTML = items.map(i => `
+            document.getElementById('cards-resumen').innerHTML = [
+                //{ valor: filas.length,                   etiqueta: 'Respuestas' },
+                { valor: edadProm.toFixed(1)+' años',    etiqueta: 'Edad promedio' },
+                { valor: calProm.toFixed(2)+' / 5',      etiqueta: 'Calificación promedio' },
+                { valor: horaPico,                        etiqueta: 'Hora pico' },
+            ].map(i=>`
                 <div class="col-6 col-md-3">
                     <div class="card-stat">
                         <div class="valor">${i.valor}</div>
                         <div class="etiqueta">${i.etiqueta}</div>
                     </div>
                 </div>`).join('');
+
+            // 1. Perfil
+            const ocup = contarCampo(filas,'ocupacion');
+            crearOActualizar('g-ocupacion','doughnut',Object.keys(ocup),Object.values(ocup),optsPie);
+
+            const ed = rangosEdad(filas);
+            crearOActualizar('g-edades','bar',Object.keys(ed),Object.values(ed),optsBarV);
+
+            const frec = contarCampo(filas,'frecuencia');
+            crearOActualizar('g-frecuencia','bar',Object.keys(frec),Object.values(frec),{...optsBarH});
+
+            // 2. Calificaciones
+            const prom = promediosCal(filas);
+            if (graficas['g-promedios']) {
+                graficas['g-promedios'].data.labels = Object.keys(prom);
+                graficas['g-promedios'].data.datasets[0].data = Object.values(prom);
+                graficas['g-promedios'].update();
+            } else {
+                graficas['g-promedios'] = new Chart(document.getElementById('g-promedios'), {
+                    type:'radar',
+                    data:{ labels:Object.keys(prom), datasets:[{
+                        label:'Promedio', data:Object.values(prom),
+                        backgroundColor:'rgba(122,16,40,0.15)',
+                        borderColor:'#7a1028', pointBackgroundColor:'#7a1028'
+                    }]},
+                    options:{ scales:{r:{min:0,max:5,ticks:{stepSize:1}}}, plugins:{legend:{display:false}} }
+                });
+            }
+
+            const dist = distribucionCal(filas);
+            crearOActualizar('g-distribucion','bar',Object.keys(dist),Object.values(dist),optsBarV);
+
+            // 3. Problemas
+            const prob = contarCampo(filas,'problemas');
+            crearOActualizar('g-problemas','bar',Object.keys(prob),Object.values(prob),{...optsBarH});
+
+            // 4. Patrones
+            const hor = contarCampo(filas,'horario');
+            crearOActualizar('g-horarios','bar',Object.keys(hor),Object.values(hor),{...optsBarH});
+
+            const tras = contarCampo(filas,'traslado');
+            crearOActualizar('g-traslado','doughnut',Object.keys(tras),Object.values(tras),optsPie);
+
+            const dem = contarCampo(filas,'demanda');
+            crearOActualizar('g-demanda','bar',Object.keys(dem),Object.values(dem),optsBarV);
+
+            // 5. Rutas
+            const rut = contarCampo(filas,'rutas');
+            crearOActualizar('g-rutas','bar',Object.keys(rut),Object.values(rut),{...optsBarH});
+
+            // 6. Costo
+            const perc = contarCampo(filas,'costo');
+            crearOActualizar('g-percepcion','doughnut',Object.keys(perc),Object.values(perc),optsPie);
+
+            const gas = contarCampo(filas,'gasto');
+            crearOActualizar('g-gasto','bar',Object.keys(gas),Object.values(gas),optsBarV);
         }
 
-        try {
-            const d = DATOS_ANALISIS;
+        // ─── Filtros activos ──────────────────────────────────────────────
+        let filtros = { ocupacion: null, frecuencia: null, proposito: null, costo: null };
 
-            document.getElementById('cargando').style.display  = 'none';
+        function aplicarFiltros() {
+            let filas = DATOS_ANALISIS.respuestas;
+            for (const [campo, val] of Object.entries(filtros)) {
+                if (val) filas = filas.filter(f => (f[campo]||'').includes(val));
+            }
+            renderTodo(filas);
+            actualizarBotonesFiltro();
+        }
+
+        function toggleFiltro(campo, valor) {
+            filtros[campo] = filtros[campo] === valor ? null : valor;
+            aplicarFiltros();
+        }
+
+        function limpiarFiltros() {
+            filtros = { ocupacion: null, frecuencia: null, proposito: null, costo: null };
+            aplicarFiltros();
+        }
+
+        function actualizarBotonesFiltro() {
+            document.querySelectorAll('[data-filtro-campo]').forEach(btn => {
+                const activo = filtros[btn.dataset.filtroCampo] === btn.dataset.filtroVal;
+                btn.style.background    = activo ? 'var(--color-guinda)' : 'white';
+                btn.style.color         = activo ? 'white' : 'var(--color-guinda)';
+                btn.style.borderColor   = 'var(--color-guinda)';
+            });
+            // Mostrar / ocultar botón limpiar
+            const hayFiltro = Object.values(filtros).some(v=>v!==null);
+            document.getElementById('btn-limpiar').style.display = hayFiltro ? 'inline-block' : 'none';
+            // Etiqueta de filtro activo
+            const labels = Object.entries(filtros).filter(([,v])=>v).map(([k,v])=>`${k}: ${v}`);
+            document.getElementById('filtro-activo').textContent = labels.length ? '🔍 '+labels.join(' · ') : '';
+        }
+
+        // ─── Inicio ───────────────────────────────────────────────────────
+        try {
+            if (!DATOS_ANALISIS.respuestas) throw new Error('Sin respuestas individuales');
+
+            document.getElementById('cargando').style.display = 'none';
             document.getElementById('contenido').style.display = 'block';
 
-            renderResumen(d.resumen);
+            // Construir panel de filtros
+            const ocupaciones = [...new Set(DATOS_ANALISIS.respuestas.map(r=>r.ocupacion).filter(Boolean))];
+            const frecuencias = [...new Set(DATOS_ANALISIS.respuestas.map(r=>r.frecuencia).filter(Boolean))];
+            const propositos  = [...new Set(DATOS_ANALISIS.respuestas.map(r=>r.proposito).filter(Boolean))];
+            const costos      = [...new Set(DATOS_ANALISIS.respuestas.map(r=>r.costo).filter(Boolean))];
 
-            pie  ('g-ocupacion',  d.perfil.ocupacion);
-            barV ('g-edades',     d.perfil.edades,     'Personas');
-            barH ('g-frecuencia', d.perfil.frecuencia, 'Personas');
+            function grupoBotones(titulo, campo, valores) {
+                return `
+                <div class="me-4 mb-2">
+                    <div class="small fw-bold text-muted mb-1">${titulo}</div>
+                    <div class="d-flex flex-wrap gap-1">
+                        ${valores.map(v=>`
+                        <button data-filtro-campo="${campo}" data-filtro-val="${v}"
+                            onclick="toggleFiltro('${campo}','${v}')"
+                            style="font-size:12px;font-weight:600;padding:3px 10px;border-radius:20px;
+                                border:2px solid var(--color-guinda);cursor:pointer;background:white;
+                                color:var(--color-guinda);transition:all 0.15s;">
+                            ${v}
+                        </button>`).join('')}
+                    </div>
+                </div>`;
+            }
 
-            radar('g-promedios',    d.calificaciones.promedios);
-            barV ('g-distribucion', d.calificaciones.distribucion, 'Personas');
+            document.getElementById('panel-filtros').innerHTML = `
+                <div class="d-flex flex-wrap align-items-start">
+                    ${grupoBotones('Ocupación',  'ocupacion',  ocupaciones)}
+                    ${grupoBotones('Frecuencia', 'frecuencia', frecuencias)}
+                    ${grupoBotones('Propósito',  'proposito',  propositos)}
+                    ${grupoBotones('Costo',      'costo',      costos)}
+                </div>
+                <div class="mt-2 d-flex align-items-center gap-3">
+                    <span id="filtro-activo" class="small" style="color:var(--color-guinda);font-weight:600;"></span>
+                    <button id="btn-limpiar" onclick="limpiarFiltros()"
+                        style="display:none;font-size:12px;padding:3px 12px;border-radius:20px;
+                            border:none;background:#f0e8ea;color:var(--color-guinda);
+                            font-weight:600;cursor:pointer;">
+                        ✕ Quitar filtros
+                    </button>
+                </div>`;
 
-            barH('g-problemas', d.problemas, 'Menciones');
-
-            barH('g-horarios', d.patrones.horarios,  'Personas');
-            pie ('g-traslado', d.patrones.traslado);
-            barV('g-demanda',  d.patrones.demanda,   'Personas');
-
-            barH('g-rutas', d.rutas, 'Menciones');
-
-            pie ('g-percepcion', d.costo.percepcion);
-            barV('g-gasto',      d.costo.gasto,       'Personas');
+            renderTodo(DATOS_ANALISIS.respuestas);
 
         } catch(e) {
-            document.getElementById('cargando').innerHTML = ` 
-                <p class="text-danger">No se encontraron datos.</p>`;
+            document.getElementById('cargando').innerHTML =
+                `<p class="text-danger">No se encontraron datos o falta el campo "respuestas".<br>
+                Vuelve a correr el script Python.</p>`;
         }
     </script>
 
