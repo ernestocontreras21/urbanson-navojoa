@@ -8,7 +8,7 @@ const RUTAS_COORDENADAS = [
         nombre: 'Circuito 1 Lado A — Laureles – Jacarandas',
         color: '#7a1028',
         descripcion: '...',
-        colonias: ['Mercado', 'Ley del Mayo', 'Unidad Deportiva "Faustino Félix"', 'ITSON', 'UES', 'Col. Laureles', 'Col. Girasoles', 'CBTIS 64', 'Hospital San José', 'Secundaria Othón Almada', 'IMSS', 'Plaza Santa Fe', 'Bodega Aurrerá', 'Secundaria #29', 'Col. Jacarandas', 'Panteón Nuevo', 'Panteón Viejo', 'Col. Rosales', 'ISSSTE'],
+        colonias: ['Mercado', 'Ley del Mayo', 'Unidad Deportiva "Faustino Félix"', 'ITSON', 'UES', 'Col. Laureles', 'Col. Girasoles', 'CBTIS 64', 'Hospital San José', 'Secundaria Othón Almada', 'IMSS', 'Plaza Santa Fe', 'Bodega Aurrerá', 'Secundaria #29', 'Col. Allende', 'Col. Jacarandas', 'Panteón Nuevo', 'Panteón Viejo', 'Col. Rosales', 'ISSSTE'],
         coordenadas: [
                     [27.078079, -109.446993],
                     [27.078987, -109.447136],
@@ -168,7 +168,7 @@ const RUTAS_COORDENADAS = [
         nombre: 'Circuito 1 Lado B — Girasoles – Rosales',
         color: '#7a1028',
         descripcion: '...',
-        colonias: ['Mercado', 'Plaza Santa Fe', 'IMSS', 'Secundaria Othón Almada', 'Hospital San José', 'COBACH', 'Unidad deportiva "Faustino Félix"', 'CBTIS 64', 'Col. Girasoles', 'Col. Laureles', 'UES', 'ITSON', 'Ley del Mayo', 'Col. Rosales', 'ISSSTE',  'Panteón Viejo', 'Panteón Nuevo', 'Col. Jacarandas', 'Secundaria #29', 'Bodega Aurrerá'],
+        colonias: ['Mercado', 'Plaza Santa Fe', 'IMSS', 'Secundaria Othón Almada', 'Hospital San José', 'COBACH', 'Unidad deportiva "Faustino Félix"', 'CBTIS 64', 'Col. Girasoles', 'Col. Laureles', 'UES', 'ITSON', 'Ley del Mayo', 'Col. Rosales', 'ISSSTE',  'Panteón Viejo', 'Panteón Nuevo', 'Col. Jacarandas', 'Col. Allende', 'Secundaria #29', 'Bodega Aurrerá'],
         coordenadas: [
                     [27.078079, -109.446993],  //Empieza mercado
                     [27.078987, -109.447136],
@@ -406,7 +406,7 @@ const RUTAS_COORDENADAS = [
     },
     {
         indice: 3,
-        nombre: 'Circuito 3 Lado A — Pueblo Viejo – Misioneros',
+        nombre: 'Circuito 3 Lado A — Pueblo Viejo – Misioneros por Ley',
         color: '#e8940a',
         descripcion: '...',
         colonias: ['Mercado', 'Ley del Mayo', 'Secundaria Técnica #5', 'COBACH', 'Hospital San José', 'Secundaria Othón Almada', 'Soriana', 'Hospital general', 'Col. Misioneros', 'Col. Infonavit Sonora', 'Col. Tepeyac', 'Socum', 'IMSS', 'Bodega Aurrerá'],
@@ -490,7 +490,7 @@ const RUTAS_COORDENADAS = [
     },
     {
         indice: 4,
-        nombre: 'Circuito 3 Lado B — Pueblo Viejo – Misioneros',
+        nombre: 'Circuito 3 Lado B — Pueblo Viejo – Misioneros por IMSS',
         color: '#e8940a',
         descripcion: '...',
         colonias: ['Mercado', 'IMSS', 'Soriana', 'Hospital general', 'Socum', 'Col. Tepeyac', 'Col. Infonavit Sonora', 'Col. Misioneros', 'Secundaria Othón Almada', 'COBACH', 'Ley del Mayo'],
@@ -751,7 +751,7 @@ const RUTAS_COORDENADAS = [
     },
     {
         indice: 8,
-        nombre: 'Circuito 6 Lado A — Deportiva – Fovissste',
+        nombre: 'Circuito 6 Lado A — Deportiva – Fovissste por IMSS',
         descripcion: '...',
         colonias: ['Mercado', 'Plaza Santa Fe', 'IMSS', 'Secundaria Othón Almada', 'Blvd. Sosa Chávez', 'Hospital San José', 'COBACH', 'Unidad deportiva "Faustino Félix"', 'Col. Deportiva', 'Col. Pradera Dorada', 'Sport Town', 'Col. Beltrones', 'Col. Fovissste', 'Col. Brisas del Valle', 'La Joya', 'Col. Villa Dorada', 'ITSON', 'Ley del Mayo'],
         color: '#08ac88',
@@ -809,7 +809,7 @@ const RUTAS_COORDENADAS = [
     },
     {
         indice: 9,
-        nombre: 'Circuito 6 Lado B — Deportiva – Fovissste',
+        nombre: 'Circuito 6 Lado B — Deportiva – Fovissste por Ley',
         color: '#08ac88',
         descripcion: '...',
         colonias: ['Mercado', 'Ley del Mayo', 'Unidad deportiva "Faustino Félix"', 'ITSON', 'Col. Villa Dorada', 'La Joya', 'Col. Fovissste', 'Col. Brisas del Valle', 'Col. Beltrones', 'Col. Pradera Dorada', 'Sport Town', 'Col. Deportiva', 'Blvd. Sosa Chávez', 'COBACH', 'Hospital San José', 'Secundaria Othón Almada', 'IMSS', 'Plaza Santa Fe'],

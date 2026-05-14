@@ -135,6 +135,30 @@ for _, fila in df.iterrows():
 
 resultados['respuestas'] = respuestas_individuales
 
+# Exportar comentarios de la encuesta
+col_opinion = '¿Qué opinas del transporte público en Navojoa?'
+col_sugerencia = '¿Alguna sugerencia para mejorarlo?'
+
+comentarios = []
+for _, fila in df.iterrows():
+    opinion    = str(fila.get(col_opinion, '')).strip()
+    sugerencia = str(fila.get(col_sugerencia, '')).strip()
+    ocupacion  = str(fila.get('¿A qué te dedicas?', '')).strip()
+    if opinion and opinion != 'nan':
+        comentarios.append({
+            'texto':    opinion,
+            'tipo':     'Opinión',
+            'ocupacion': ocupacion
+        })
+    if sugerencia and sugerencia != 'nan':
+        comentarios.append({
+            'texto':    sugerencia,
+            'tipo':     'Sugerencia',
+            'ocupacion': ocupacion
+        })
+
+resultados['comentarios'] = comentarios
+
 #  GUARDAR JSON
 
 with open('datos/resultados.js', 'w', encoding='utf-8') as f:

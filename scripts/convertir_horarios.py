@@ -68,6 +68,24 @@ CAMIONES = [
         'color':    '#2b771c'
     },
     {
+        'archivo':  'datos/C4QRUnidad1.csv',
+        'id_ruta':  7,
+        'unidad':   'Unidad 1 - C4(QR)',
+        'color':    '#2b771c'
+    },
+    {
+        'archivo':  'datos/C6AUnidad1.csv',
+        'id_ruta':  9,
+        'unidad':   'Unidad 1 - C6(A)',
+        'color':    '#08ac88'
+    },
+    {
+        'archivo':  'datos/C6BUnidad1.csv',
+        'id_ruta':  10,
+        'unidad':   'Unidad 1 - C6(B)',
+        'color':    '#08ac88'
+    },
+    {
         'archivo':  'datos/C7Unidad1.csv',
         'id_ruta':  11,
         'unidad':   'Unidad 1 - C7(SE)',

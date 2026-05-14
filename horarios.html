@@ -249,17 +249,17 @@
 //  un arreglo "horarios: ['06:00','06:25', ...]" por parada
 // ═══════════════════════════════════════════════════════════════════
 const RUTAS = [
-    { id: 1, numero: 1, nombre: 'Circuito 1 Lado A — Laureles – Jacarandas',          color: '#7a1028', frecuenciaMin: 25, inicioServicio: '06:00', finServicio: '20:00', indiceRutaCoord: 0 },
-    { id: 2, numero: 1, nombre: 'Circuito 1 Lado B — Girasoles – Rosales',            color: '#7a1028', frecuenciaMin: 25, inicioServicio: '06:00', finServicio: '20:00', indiceRutaCoord: 1 },
-    { id: 3, numero: 2, nombre: 'Circuito 2 — Tierra y Libertad – Jiménez (Línea 7)', color: '#cc2222', frecuenciaMin: 20, inicioServicio: '06:00', finServicio: '20:00', indiceRutaCoord: 2 },
-    { id: 4, numero: 3, nombre: 'Circuito 3 Lado A — Pueblo Viejo – Misioneros',      color: '#e8940a', frecuenciaMin: 20, inicioServicio: '06:00', finServicio: '20:00', indiceRutaCoord: 3 },
-    { id: 5, numero: 3, nombre: 'Circuito 3 Lado B — Pueblo Viejo – Misioneros',      color: '#e8940a', frecuenciaMin: 20, inicioServicio: '06:00', finServicio: '20:00', indiceRutaCoord: 4 },
-    { id: 6, numero: 4, nombre: 'Circuito 4 — Sonora (Línea 2-6)',                    color: '#2b771c', frecuenciaMin: 30, inicioServicio: '06:20', finServicio: '20:00', indiceRutaCoord: 5 },
-    { id: 7, numero: 4, nombre: 'Circuito 4 — Quintana Roo',                          color: '#2b771c', frecuenciaMin: 60, inicioServicio: '06:00', finServicio: '20:00', indiceRutaCoord: 6 },
-    { id: 8, numero: 5, nombre: 'Circuito 5 — Tetanchopo',                            color: '#520b94', frecuenciaMin: 30, inicioServicio: '06:00', finServicio: '20:00', indiceRutaCoord: 7 },
-    { id: 9, numero: 6, nombre: 'Circuito 6 Lado A — Deportiva – Fovissste',          color: '#08ac88', frecuenciaMin: 60, inicioServicio: '06:00', finServicio: '20:00', indiceRutaCoord: 8 },
-    { id: 10, numero: 6, nombre: 'Circuito 6 Lado B — Deportiva – Fovissste',         color: '#08ac88', frecuenciaMin: 60, inicioServicio: '06:00', finServicio: '20:00', indiceRutaCoord: 9 },
-    { id: 11, numero: 7, nombre: 'Circuito 7 — Sonora Express',                       color: '#1619da', frecuenciaMin: 40, inicioServicio: '05:50', finServicio: '20:00', indiceRutaCoord: 10 },
+    { id: 1, numero: 1, nombre: 'Circuito 1 Lado A — Laureles – Jacarandas',              color: '#7a1028', frecuenciaMin: 25, inicioServicio: '06:00', finServicio: '20:00', indiceRutaCoord: 0 },
+    { id: 2, numero: 1, nombre: 'Circuito 1 Lado B — Girasoles – Rosales',                color: '#7a1028', frecuenciaMin: 25, inicioServicio: '06:00', finServicio: '20:00', indiceRutaCoord: 1 },
+    { id: 3, numero: 2, nombre: 'Circuito 2 — Tierra y Libertad – Jiménez (Línea 7)',     color: '#cc2222', frecuenciaMin: 20, inicioServicio: '06:00', finServicio: '20:00', indiceRutaCoord: 2 },
+    { id: 4, numero: 3, nombre: 'Circuito 3 Lado A — Pueblo Viejo – Misioneros por Ley',  color: '#e8940a', frecuenciaMin: 20, inicioServicio: '06:00', finServicio: '20:00', indiceRutaCoord: 3 },
+    { id: 5, numero: 3, nombre: 'Circuito 3 Lado B — Pueblo Viejo – Misioneros por IMSS', color: '#e8940a', frecuenciaMin: 20, inicioServicio: '06:00', finServicio: '20:00', indiceRutaCoord: 4 },
+    { id: 6, numero: 4, nombre: 'Circuito 4 — Sonora (Línea 2-6)',                        color: '#2b771c', frecuenciaMin: 30, inicioServicio: '06:20', finServicio: '20:00', indiceRutaCoord: 5 },
+    { id: 7, numero: 4, nombre: 'Circuito 4 — Quintana Roo',                              color: '#2b771c', frecuenciaMin: 60, inicioServicio: '06:00', finServicio: '20:00', indiceRutaCoord: 6 },
+    { id: 8, numero: 5, nombre: 'Circuito 5 — Tetanchopo',                                color: '#520b94', frecuenciaMin: 30, inicioServicio: '06:00', finServicio: '20:00', indiceRutaCoord: 7 },
+    { id: 9, numero: 6, nombre: 'Circuito 6 Lado A — Deportiva – Fovissste por IMSS',     color: '#08ac88', frecuenciaMin: 60, inicioServicio: '06:00', finServicio: '20:00', indiceRutaCoord: 8 },
+    { id: 10, numero: 6, nombre: 'Circuito 6 Lado B — Deportiva – Fovissste por Ley',     color: '#08ac88', frecuenciaMin: 60, inicioServicio: '06:00', finServicio: '20:00', indiceRutaCoord: 9 },
+    { id: 11, numero: 7, nombre: 'Circuito 7 — Sonora Express',                           color: '#1619da', frecuenciaMin: 40, inicioServicio: '05:50', finServicio: '20:00', indiceRutaCoord: 10 },
 ];
 
 // ═══════════════════════════════════════════════════════════════════
@@ -313,7 +313,7 @@ const PARADAS = [
     { id: 44, nombre: 'C. Juan de la Barrera y calle Nogales',  lat: 27.059505, lng: -109.431813, rutaIds: [4, 5, 6] },
     { id: 45, nombre: 'Calle Nogales y calle Bacobampo',        lat: 27.061803, lng: -109.432056, rutaIds: [4, 5, 11] },
     { id: 46, nombre: 'Frente Soriana (Pesqueira y C. Bacobampo)', lat: 27.061496, lng: -109.439441, rutaIds: [4, 5] },
-    { id: 47, nombre: 'Frente IMSS',                            lat: 27.068269, lng: -109.443235, rutaIds: [5, 6] },
+    { id: 47, nombre: 'Frente IMSS',                            lat: 27.068269, lng: -109.443235, rutaIds: [5, 6, 7] },
     { id: 48, nombre: 'Pesqueira y Av. Amado Nervo',            lat: 27.069220, lng: -109.443082, rutaIds: [4, 7] },
     { id: 49, nombre: 'Pesqueira y Av. Leona Vicario',          lat: 27.070029, lng: -109.443487, rutaIds: [5, 6] },
     { id: 50, nombre: 'García Morales e Hidalgo',               lat: 27.079884, lng: -109.447119, rutaIds: [8] },
@@ -359,8 +359,41 @@ const PARADAS = [
     { id: 90, nombre: 'ISSSTE',                                 lat: 27.087953, lng: -109.436670, rutaIds: [1, 2] },//
     { id: 91, nombre: 'Av. Melchor Ocampo y No Reelección',     lat: 27.086700, lng: -109.446722, rutaIds: [1, 2] },//
     { id: 92, nombre: 'Mercado municipal lado García Morales #2', lat: 27.078738, lng: -109.446908, rutaIds: [1, 2, 3] },
-
-
+    { id: 93, nombre: 'Pesqueira y Periférico',                 lat: 27.049197, lng: -109.437323, rutaIds: [4, 5] },
+    { id: 94, nombre: 'Col. Misioneros',                        lat: 27.050477, lng: -109.434057, rutaIds: [4, 5] },
+    { id: 95, nombre: 'Calle Nogales y C. San Antonio',         lat: 27.050672, lng: -109.431767, rutaIds: [4, 5] },
+    { id: 96, nombre: 'Callejón Quinto y C. Guaymas',           lat: 27.053893, lng: -109.427014, rutaIds: [4, 5] },
+    { id: 97, nombre: 'Jiménez y Guelatao',                     lat: 27.070684, lng: -109.453545, rutaIds: [3] },
+    { id: 98, nombre: 'Jiménez y Pedro Moreno',                 lat: 27.070330, lng: -109.456937, rutaIds: [3] },
+    { id: 99, nombre: 'Jiménez y Club de Leones',               lat: 27.069683, lng: -109.463016, rutaIds: [3] },
+    { id: 100, nombre: 'Jiménez y Club Activo',                 lat: 27.068954, lng: -109.469305, rutaIds: [3] },
+    { id: 101, nombre: 'Jiménez y Juan Escutia',                lat: 27.068286, lng: -109.475375, rutaIds: [3, 7] },
+    { id: 102, nombre: 'Periférico y Manuel Doblado',           lat: 27.070047, lng: -109.479261, rutaIds: [3] },
+    { id: 103, nombre: 'Jiménez y Francisco Márquez',           lat: 27.068279, lng: -109.476581, rutaIds: [3] },
+    { id: 104, nombre: 'Jiménez y Club Activo #2',              lat: 27.068798, lng: -109.469248, rutaIds: [3, 7] },
+    { id: 105, nombre: 'Jiménez y Club de Leones #2 (Sagrada Familia)', lat: 27.069474, lng: -109.462980, rutaIds: [3] },
+    { id: 106, nombre: 'Jiménez y Pedro Moreno #2',             lat: 27.070140, lng: -109.457133, rutaIds: [3] },
+    { id: 107, nombre: 'Jiménez y Guelatao #2',                 lat: 27.070549, lng: -109.453514, rutaIds: [3] },
+    { id: 108, nombre: 'Quintana Roo y Pedro Moreno',           lat: 27.074591, lng: -109.457727, rutaIds: [7] },
+    { id: 109, nombre: 'Quintana Roo y Club de Leones',         lat: 27.073969, lng: -109.463526, rutaIds: [7] },
+    { id: 110, nombre: 'Quintana Roo y Club Activo',            lat: 27.073318, lng: -109.469605, rutaIds: [7] },
+    { id: 111, nombre: 'Manuel Doblado y Club Activo',          lat: 27.071096, lng: -109.469541, rutaIds: [7] },
+    { id: 112, nombre: 'Manuel Doblado y Juan Escutia',         lat: 27.070308, lng: -109.475565, rutaIds: [7] },
+    { id: 113, nombre: 'Club Activo y Leona Vicario',           lat: 27.066763, lng: -109.468698, rutaIds: [7] },
+    { id: 114, nombre: 'Blvd. Almada y Sor Juana Inés de la Cruz', lat: 27.067629, lng: -109.450330, rutaIds: [7] },
+    { id: 115, nombre: 'Blvd. Sosa Chávez y Belisario Domínguez', lat: 27.063098, lng: -109.459660, rutaIds: [9, 10] },
+    { id: 116, nombre: 'Blvd. Sosa Chávez y Club Rotario',      lat: 27.0626485, lng: -109.463703, rutaIds: [9, 10] },
+    { id: 117, nombre: 'Col. Pradera Dorada',                   lat: 27.0607254, lng: -109.467849, rutaIds: [9, 10] },
+    { id: 118, nombre: 'Av. Oaxaca y Arnulfo Gómez',            lat: 27.0604129, lng: -109.465710, rutaIds: [9, 10] },
+    { id: 119, nombre: 'Arnulfo Gómez y California',            lat: 27.0587463, lng: -109.465527, rutaIds: [9, 10] },
+    { id: 120, nombre: 'Arnulfo Gómez y Los Pinos',             lat: 27.0522285, lng: -109.464759, rutaIds: [9, 10] },
+    { id: 121, nombre: 'Blvd. Brisas del Valle',                lat: 27.0476783, lng: -109.464578, rutaIds: [9, 10] },
+    { id: 122, nombre: 'Brisas del Valle y Camelia',            lat: 27.0458400, lng: -109.464589, rutaIds: [9, 10] },
+    { id: 123, nombre: 'Iglesia de San Judas Tadeo',            lat: 27.0426946, lng: -109.464571, rutaIds: [9, 10] },
+    { id: 124, nombre: 'La Joya',                               lat: 27.0434990, lng: -109.456908, rutaIds: [9, 10] },
+    { id: 125, nombre: 'Col. Villa Dorada',                     lat: 27.0481169, lng: -109.455478, rutaIds: [9, 10] },
+    { id: 126, nombre: 'Ramón Corona y Durango',                lat: 27.0621062, lng: -109.458336, rutaIds: [9, 10] },
+    
 
     // Agregar más paradas aquí con el mismo formato
 ];
@@ -862,6 +895,11 @@ function salirGPS() {
 }
 
 //Línea 532: <div class="small text-muted mb-1">${ruta.inicioServicio}–${ruta.finServicio} &nbsp; ${etiquetaHorario}</div>
+
+// Auto-activar GPS si viene desde inicio.html
+if (new URLSearchParams(window.location.search).get('gps') === '1') {
+    usarUbicacion();
+}
 
 </script>
 

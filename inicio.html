@@ -199,7 +199,62 @@
         </div>
     </div>
 
+    <div class="container pb-4">
+        <h5 class="section-title mb-3">Paradas cerca de ti</h5>
+        <div class="card border-0 shadow-sm p-4 text-center" style="border-radius:12px; border-top: 3px solid var(--color-guinda) !important;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="#7a1028" class="mb-3" viewBox="0 0 16 16">
+                <path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10zm0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6z"/>
+            </svg>
+            <p class="text-muted small mb-3">Activa tu ubicación para ver las paradas y rutas más cercanas a donde estás ahora.</p>
+            <a href="horarios.html?gps=1"
+            class="btn btn-sm fw-bold px-4"
+            style="background:var(--color-guinda);color:white;border-radius:50px;">
+                📍 Ver paradas cercanas
+            </a>
+        </div>
+    </div>
+
+    <div class="container pb-4">
+        <h5 class="section-title mb-3">Lo que dicen los usuarios</h5>
+        <div id="comentarios-container" class="row g-3"></div>
+    </div>
+
     <script src="js/bootstrap.bundle.min.js"></script>
+    <script src="datos/resultados.js"></script>
+    <script>
+    (function() {
+        try {
+            const comentarios = DATOS_ANALISIS.comentarios;
+            if (!comentarios || comentarios.length === 0) return;
+
+            // Seleccionar 3 comentarios según el día del año (cambian cada día)
+            const hoy        = new Date();
+            const diaDel     = Math.floor((hoy - new Date(hoy.getFullYear(), 0, 0)) / 86400000);
+            const inicio     = (diaDel * 3) % comentarios.length;
+            const seleccionados = [0, 1, 2].map(i => comentarios[(inicio + i) % comentarios.length]);
+
+            const coloresTipo = {
+                'Opinión':    { bg: '#f9f1f3', border: '#7a1028', badge: '#7a1028' },
+                'Sugerencia': { bg: '#e8f4fd', border: '#1a6eb5', badge: '#1a6eb5' },
+            };
+
+            document.getElementById('comentarios-container').innerHTML = seleccionados.map(c => {
+                const col = coloresTipo[c.tipo] || coloresTipo['Opinión'];
+                return `
+                <div class="col-12 col-md-4">
+                    <div class="card border-0 shadow-sm h-100 p-3"
+                        style="border-left:4px solid ${col.border}!important;border-radius:12px;background:${col.bg}">
+                        <div class="d-flex justify-content-between align-items-start mb-2">
+                            <span class="badge text-white" style="background:${col.badge};font-size:11px;">${c.tipo}</span>
+                            <span class="text-muted" style="font-size:11px;">${c.ocupacion || 'Usuario'}</span>
+                        </div>
+                        <p class="small mb-0" style="line-height:1.6;color:#444;">"${c.texto}"</p>
+                    </div>
+                </div>`;
+            }).join('');
+        } catch(e) {}
+    })();
+    </script>
 
     <footer class="text-white text-center py-3">
         <div class="fw-bold">UrbanSon Navojoa &nbsp;·&nbsp; Plataforma de análisis del transporte urbano</div>
