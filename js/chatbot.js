@@ -94,16 +94,14 @@
 
         historial.push({ role: 'user', content: mensajeConHora });
 
-        const respuesta = await fetch('/api/chat', {
+        const respuesta = await fetch('https://api.anthropic.com/v1/messages', {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
+            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
-                model: 'claude-sonnet-4-20250514',
+                model:      'claude-sonnet-4-20250514',
                 max_tokens: 600,
-                system: systemPrompt,
-                messages: historial
+                system:     systemPrompt,
+                messages:   historial
             })
         });
 
