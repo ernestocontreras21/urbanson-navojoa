@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/chatbot.css">
     <style>
         :root {
             --color-guinda: #7a1028;
@@ -248,6 +249,12 @@
     <button id="chatbot-btn" title="Chatbot UrbanSon" onclick="abrirChatbot()">💬</button>
 
     <script src="js/bootstrap.bundle.min.js"></script>
+    <script src="js/rutas_data.js"></script>
+    <script src="datos/horarios_reales.js"></script>
+    <script src="datos/resultados.js"></script>
+    <script src="js/chatbot_contexto.js"></script>
+    <script>window.CHATBOT_PARADAS = typeof PARADAS !== 'undefined' ? PARADAS : [];</script>
+    <script src="js/chatbot.js"></script>
 
     <script>
         const COLORES_TIPO = {
@@ -370,11 +377,6 @@
         }
 
         renderizarLista();
-
-        function abrirChatbot() {
-            // Por ahora muestra un alert; aquí conectarás el panel de chat
-            alert('Chatbot próximamente disponible.');
-        }
     </script>
     
     <footer class="text-white text-center py-3">

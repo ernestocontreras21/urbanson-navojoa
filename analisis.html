@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/chatbot.css">
     <style>
         :root {
             --color-guinda: #7a1028;
@@ -294,9 +295,14 @@
     <!--CHATBOT-->
     <button id="chatbot-btn" title="Chatbot UrbanSon" onclick="abrirChatbot()">💬</button>
 
-    <script src="datos/resultados.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="js/bootstrap.bundle.min.js"></script>
+    <script src="js/rutas_data.js"></script>
+    <script src="datos/horarios_reales.js"></script>
+    <script src="datos/resultados.js"></script>
+    <script src="js/chatbot_contexto.js"></script>
+    <script>window.CHATBOT_PARADAS = typeof PARADAS !== 'undefined' ? PARADAS : [];</script>
+    <script src="js/chatbot.js"></script>
     
     <script>
         const PALETA = ['#7a1028','#cc2222','#e8940a','#2b771c','#520b94','#08ac88','#1619da','#e8d9b0','#444444'];
@@ -544,11 +550,6 @@
             document.getElementById('cargando').innerHTML =
                 `<p class="text-danger">No se encontraron datos o falta el campo "respuestas".<br>
                 Vuelve a correr el script Python.</p>`;
-        }
-
-        function abrirChatbot() {
-            // Por ahora muestra un alert; aquí conectarás el panel de chat
-            alert('Chatbot próximamente disponible.');
         }
     </script>
 

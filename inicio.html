@@ -6,6 +6,7 @@
     <title>UrbanSon Navojoa - Página principal</title>
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
     <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/chatbot.css">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <style>
@@ -298,7 +299,11 @@
 
     <script src="js/bootstrap.bundle.min.js"></script>
     <script src="js/rutas_data.js"></script>
+    <script src="datos/horarios_reales.js"></script>
     <script src="datos/resultados.js"></script>
+    <script src="js/chatbot_contexto.js"></script>
+    <script>window.CHATBOT_PARADAS = typeof PARADAS !== 'undefined' ? PARADAS : [];</script>
+    <script src="js/chatbot.js"></script>
 
     <script>
         // ── Comentarios con estrellas (Opiniones y sugerencias) ──────────────────────────────
@@ -381,11 +386,6 @@
                 setTimeout(() => hint.remove(), 500);
             }
         }, 5000);
-
-        function abrirChatbot() {
-            // Por ahora muestra un alert; aquí conectarás el panel de chat
-            alert('Chatbot próximamente disponible.');
-        }
     </script>
 
     <footer class="text-white text-center py-3">

@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/chatbot.css">
     <style>
         :root {
             --color-guinda: #7a1028;
@@ -307,8 +308,13 @@
         <div class="mt-1 small" style="color: var(--color-beige);">Navojoa, Sonora, México</div>
     </footer>
 
-    <script src="js/rutas_data.js"></script>
     <script src="js/bootstrap.bundle.min.js"></script>
+    <script src="js/rutas_data.js"></script>
+    <script src="datos/horarios_reales.js"></script>
+    <script src="datos/resultados.js"></script>
+    <script src="js/chatbot_contexto.js"></script>
+    <script>window.CHATBOT_PARADAS = typeof PARADAS !== 'undefined' ? PARADAS : [];</script>
+    <script src="js/chatbot.js"></script>
 
     <script>
         // ─── RUTAS ────────────────────────────────────────────────────────────────
@@ -422,12 +428,6 @@
             // Mostrar info de la ruta seleccionada
             actualizarPanel(rutas[indice]);
         }
-
-        function abrirChatbot() {
-            // Por ahora muestra un alert; aquí conectarás el panel de chat
-            alert('Chatbot próximamente disponible.');
-        }
-
     </script>
 
 </body>
