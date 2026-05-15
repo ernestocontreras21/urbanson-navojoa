@@ -409,7 +409,7 @@ const RUTAS_COORDENADAS = [
         nombre: 'Circuito 3 Lado A — Pueblo Viejo – Misioneros por Ley',
         color: '#e8940a',
         descripcion: '...',
-        colonias: ['Mercado', 'Ley del Mayo', 'Secundaria Técnica #5', 'COBACH', 'Hospital San José', 'Secundaria Othón Almada', 'Soriana', 'Hospital general', 'Col. Misioneros', 'Col. Infonavit Sonora', 'Col. Tepeyac', 'Socum', 'IMSS', 'Bodega Aurrerá'],
+        colonias: ['Mercado', 'Ley del Mayo', 'Secundaria Técnica #5', 'COBACH', 'Hospital San José', 'Secundaria Othón Almada', 'Soriana', 'Hospital general', 'Col. Misioneros', 'Col. Infonavit Sonora', 'Col. Tepeyac', 'Socum', 'IMSS', 'Bodega Aurrerá', 'ISSSTE', 'Col. Salvatierra', 'Misión Santa María III', 'Misión Santa María IV', 'Col. La Herradura', 'Pueblo Viejo'],
         coordenadas: [
                     [27.078793, -109.445877],  //Empieza mercado
                     [27.076896, -109.445607],  //Empieza calle Rayón
@@ -486,6 +486,59 @@ const RUTAS_COORDENADAS = [
                     [27.077046, -109.444274],  //Empieza calle Rayón
                     [27.076783, -109.446825],  //Empieza calle García Morales
                     [27.078760, -109.447076],  //Llega Mercado municipal por GM (1ra vuelta)
+                    [27.082305, -109.447578],  //Empieza calle Morelos
+                    [27.082454, -109.446229],  //Empieza No Reelección al N
+                    [27.085724, -109.446666],
+                    [27.086769, -109.446808],
+                    [27.087161, -109.443357],
+                    [27.087414, -109.440720],
+                    [27.087741, -109.437735],
+                    [27.088016, -109.435015],
+                    [27.088119, -109.434460],  //Empieza callejón Pueblo Viejo
+                    [27.091094, -109.435977],
+                    [27.092466, -109.436708],
+                    [27.094274, -109.437773],
+                    [27.095734, -109.438548],  //Empieza La Herradura
+                    [27.095934, -109.438212],
+                    [27.097425, -109.435618],
+                    [27.098388, -109.436281],
+                    [27.096800, -109.439077],  //Sale La Herradura
+                    [27.097556, -109.439444],
+                    [27.097908, -109.439635],
+                    [27.098445, -109.439678],
+                    [27.098515, -109.439449],
+                    [27.099432, -109.439743],  //Empieza Zaragoza
+                    [27.099771, -109.438436],
+                    [27.100201, -109.437000],
+                    [27.100635, -109.434902],
+                    [27.101073, -109.433289],
+                    [27.101353, -109.434335],
+                    [27.101385, -109.434759],
+                    [27.101299, -109.436809],
+                    [27.100995, -109.438264],
+                    [27.100560, -109.440081],
+                    [27.100496, -109.440165],  //Pueblo Viejo
+                    [27.100359, -109.440769],
+                    [27.099259, -109.440493],
+                    [27.099133, -109.441026],
+                    [27.098162, -109.440754],
+                    [27.098415, -109.439745],  //Sale Pueblo Viejo
+                    [27.097829, -109.439667],
+                    [27.097229, -109.439351],
+                    [27.095103, -109.438307],
+                    [27.092902, -109.437048],
+                    [27.090608, -109.435804],
+                    [27.088525, -109.434764],
+                    [27.088209, -109.434596],
+                    [27.088055, -109.434816],
+                    [27.087741, -109.437735],
+                    [27.087414, -109.440720],
+                    [27.087161, -109.443357],
+                    [27.087040, -109.444356],  //Empieza Otero
+                    [27.085988, -109.444218],
+                    [27.079340, -109.443332],  //Empieza mercado
+                    [27.079061, -109.445900],
+                    [27.078793, -109.445877],  //Termina mercado
         ]
     },
     {
@@ -493,7 +546,7 @@ const RUTAS_COORDENADAS = [
         nombre: 'Circuito 3 Lado B — Pueblo Viejo – Misioneros por IMSS',
         color: '#e8940a',
         descripcion: '...',
-        colonias: ['Mercado', 'IMSS', 'Soriana', 'Hospital general', 'Socum', 'Col. Tepeyac', 'Col. Infonavit Sonora', 'Col. Misioneros', 'Secundaria Othón Almada', 'COBACH', 'Ley del Mayo'],
+        colonias: ['Mercado', 'IMSS', 'Soriana', 'Hospital general', 'Socum', 'Col. Tepeyac', 'Col. Infonavit Sonora', 'Col. Misioneros', 'Secundaria Othón Almada', 'COBACH', 'Ley del Mayo', 'ISSSTE', 'Col. Salvatierra', 'Misión Santa María III', 'Misión Santa María IV', 'Col. La Herradura', 'Pueblo Viejo'],
         coordenadas: [
                     [27.078793, -109.445877],  //Empieza Mercado municipal
                     [27.075853, -109.445481],
@@ -570,7 +623,60 @@ const RUTAS_COORDENADAS = [
                     [27.076385, -109.450461],
                     [27.077599, -109.449382],  //Empieza calle Allende
                     [27.077879, -109.446942],
-                    [27.078760, -109.447076],   //Llega mercado municipal por GM (1era vuelta)                    
+                    [27.078760, -109.447076],   //Llega mercado municipal por GM (1era vuelta)
+                    [27.082305, -109.447578],  //Empieza calle Morelos
+                    [27.082454, -109.446229],  //Empieza No Reelección al N
+                    [27.085724, -109.446666],
+                    [27.086769, -109.446808],
+                    [27.087161, -109.443357],
+                    [27.087414, -109.440720],
+                    [27.087741, -109.437735],
+                    [27.088016, -109.435015],
+                    [27.088119, -109.434460],  //Empieza callejón Pueblo Viejo
+                    [27.091094, -109.435977],
+                    [27.092466, -109.436708],
+                    [27.094274, -109.437773],
+                    [27.095734, -109.438548],  //Empieza La Herradura
+                    [27.095934, -109.438212],
+                    [27.097425, -109.435618],
+                    [27.098388, -109.436281],
+                    [27.096800, -109.439077],  //Sale La Herradura
+                    [27.097556, -109.439444],
+                    [27.097908, -109.439635],
+                    [27.098445, -109.439678],
+                    [27.098515, -109.439449],
+                    [27.099432, -109.439743],  //Empieza Zaragoza
+                    [27.099771, -109.438436],
+                    [27.100201, -109.437000],
+                    [27.100635, -109.434902],
+                    [27.101073, -109.433289],
+                    [27.101353, -109.434335],
+                    [27.101385, -109.434759],
+                    [27.101299, -109.436809],
+                    [27.100995, -109.438264],
+                    [27.100560, -109.440081],
+                    [27.100496, -109.440165],  //Pueblo Viejo
+                    [27.100359, -109.440769],
+                    [27.099259, -109.440493],
+                    [27.099133, -109.441026],
+                    [27.098162, -109.440754],
+                    [27.098415, -109.439745],  //Sale Pueblo Viejo
+                    [27.097829, -109.439667],
+                    [27.097229, -109.439351],
+                    [27.095103, -109.438307],
+                    [27.092902, -109.437048],
+                    [27.090608, -109.435804],
+                    [27.088525, -109.434764],
+                    [27.088209, -109.434596],
+                    [27.088055, -109.434816],
+                    [27.087741, -109.437735],
+                    [27.087414, -109.440720],
+                    [27.087161, -109.443357],
+                    [27.087040, -109.444356],  //Empieza Otero
+                    [27.085988, -109.444218],
+                    [27.079340, -109.443332],  //Empieza mercado
+                    [27.079061, -109.445900],
+                    [27.078793, -109.445877],  //Termina mercado                    
         ]
     },
     {

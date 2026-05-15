@@ -99,6 +99,28 @@
         .navbar-nav .nav-link { color: rgba(255,255,255,0.85); padding: 8px 16px; border-radius: 6px; margin: 2px 8px; font-weight: 500; }
         .navbar-nav .nav-link:hover { background: rgba(255,255,255,0.1); color: white; }
         .navbar-nav .nav-link.activo { background-color: var(--color-beige); color: var(--color-guinda); font-weight: 600; }
+
+        /* Chatbot botón flotante */
+        #chatbot-btn {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            z-index: 9999;
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: var(--color-guinda);
+            color: white;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            box-shadow: 0 4px 14px rgba(0,0,0,0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.2s;
+        }
+        #chatbot-btn:hover { transform: scale(1.08); }
     </style>
 </head>
 <body>
@@ -141,7 +163,7 @@
         <h1 class="fw-bold mb-1" style="font-family:'Bebas Neue',sans-serif; font-size:2.5rem; letter-spacing:2px;">
             Análisis
         </h1>
-        <p class="mb-0 text-white-50">Datos de usuarios usando el transporte público en el año 2026</p>
+        <p class="mb-0 text-white-50">Datos sobre el servicio actual del transporte público en Navojoa, Sonora</p>
     </div>
 
     <!--Contenido de la página "Análisis"-->
@@ -268,6 +290,9 @@
         <div class="spinner-border mb-3" style="color: var(--color-guinda);"></div>
         <p>Cargando datos...</p>
     </div>
+
+    <!--CHATBOT-->
+    <button id="chatbot-btn" title="Chatbot UrbanSon" onclick="abrirChatbot()">💬</button>
 
     <script src="datos/resultados.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -519,6 +544,11 @@
             document.getElementById('cargando').innerHTML =
                 `<p class="text-danger">No se encontraron datos o falta el campo "respuestas".<br>
                 Vuelve a correr el script Python.</p>`;
+        }
+
+        function abrirChatbot() {
+            // Por ahora muestra un alert; aquí conectarás el panel de chat
+            alert('Chatbot próximamente disponible.');
         }
     </script>
 

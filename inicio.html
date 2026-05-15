@@ -6,6 +6,8 @@
     <title>UrbanSon Navojoa - Página principal</title>
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
     <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <style>
         :root {
             --color-guinda: #7a1028;
@@ -72,6 +74,62 @@
         .navbar-nav .nav-link { color: rgba(255,255,255,0.85); padding: 8px 16px; border-radius: 6px; margin: 2px 8px; font-weight: 500; }
         .navbar-nav .nav-link:hover { background: rgba(255,255,255,0.1); color: white; }
         .navbar-nav .nav-link.activo { background-color: var(--color-beige); color: var(--color-guinda); font-weight: 600; }
+
+        /* Mapa mini */
+        #mapa-mini { height: 220px; width: 100%; border-radius: 10px; z-index: 0; }
+        .leaflet-control-zoom { display: none; }
+
+        /* Chatbot botón flotante */
+        #chatbot-btn {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            z-index: 9999;
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: var(--color-guinda);
+            color: white;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            box-shadow: 0 4px 14px rgba(0,0,0,0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.2s;
+        }
+        #chatbot-btn:hover { transform: scale(1.08); }
+
+        /* Listón de hint */
+        #chatbot-hint {
+            position: fixed;
+            bottom: 90px;
+            right: 24px;
+            z-index: 9999;
+            background: var(--color-guinda);
+            color: white;
+            font-size: 12px;
+            font-weight: 600;
+            padding: 6px 14px;
+            border-radius: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+            white-space: nowrap;
+            animation: fadeInUp 0.4s ease;
+        }
+        #chatbot-hint::after {
+            content: '';
+            position: absolute;
+            bottom: -7px;
+            right: 18px;
+            border-left: 7px solid transparent;
+            border-right: 7px solid transparent;
+            border-top: 7px solid var(--color-guinda);
+        }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(8px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
     </style>
 </head>
 <body>
@@ -150,55 +208,56 @@
 
     <div class="container py-4">
         <div class="row g-3">
-            <div class="col-6">
-                <div class="card text-center border-0 h-100 py-3" style="background-color: #f9f1f3; border-left: 4px solid #7a1028 !important;">
+            <div class="col-6 col-lg-3">
+                <div class="card text-center border-0 h-100 py-3" style="background:#f9f1f3;border-left:4px solid #7a1028!important;">
                     <div class="card-body">
                         <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="#7a1028" class="mb-2" viewBox="0 0 16 16">
                             <path d="M0 3.5C0 2.119 1.119 1 2.5 1h11C14.881 1 16 2.119 16 3.5v7c0 1.381-1.119 2.5-2.5 2.5H14v1.5a.5.5 0 0 1-.5.5H12a.5.5 0 0 1-.5-.5V13H4v1.5a.5.5 0 0 1-.5.5H2a.5.5 0 0 1-.5-.5V13h-.5A2.5 2.5 0 0 1 0 10.5v-7zM3.5 6a.5.5 0 0 0 0 1h9a.5.5 0 0 0 0-1h-9zm0 2a.5.5 0 0 0 0 1h9a.5.5 0 0 0 0-1h-9zM1.5 3a.5.5 0 0 0 0 1h13a.5.5 0 0 0 0-1h-13z"/>
                         </svg>
-                        <div class="fs-1 fw-bold" style="color: #7a1028;">7</div>
-                        <div class="fw-500 text-muted">Rutas activas</div>
+                        <div class="fs-1 fw-bold" style="color:#7a1028;">7</div>
+                        <div class="text-muted">Rutas activas</div>
                     </div>
                 </div>
             </div>
-            <div class="col-6">
-                <div class="card text-center border-0 h-100 py-3" style="background-color: #f9f1f3; border-left: 4px solid #cc2222 !important;">
+            <div class="col-6 col-lg-3">
+                <div class="card text-center border-0 h-100 py-3" style="background:#f9f1f3;border-left:4px solid #cc2222!important;">
                     <div class="card-body">
                         <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="#cc2222" class="mb-2" viewBox="0 0 16 16">
                             <path d="M0 3.5C0 2.119 1.119 1 2.5 1h11C14.881 1 16 2.119 16 3.5v7c0 1.381-1.119 2.5-2.5 2.5H14v1.5a.5.5 0 0 1-.5.5H12a.5.5 0 0 1-.5-.5V13H4v1.5a.5.5 0 0 1-.5.5H2a.5.5 0 0 1-.5-.5V13h-.5A2.5 2.5 0 0 1 0 10.5v-7zM3.5 6a.5.5 0 0 0 0 1h9a.5.5 0 0 0 0-1h-9zm0 2a.5.5 0 0 0 0 1h9a.5.5 0 0 0 0-1h-9zM1.5 3a.5.5 0 0 0 0 1h13a.5.5 0 0 0 0-1h-13z"/>
                         </svg>
-                        <div class="fs-1 fw-bold" style="color: #cc2222;">25</div>
-                        <div class="fw-500 text-muted">Unidades activas</div>
+                        <div class="fs-1 fw-bold" style="color:#cc2222;">25</div>
+                        <div class="text-muted">Unidades activas</div>
                     </div>
                 </div>
             </div>
-            <div class="col-6">
-                <div class="card text-center border-0 h-100 py-3" style="background-color: #fdf8ee; border-left: 4px solid #e8d9b0 !important;">
+            <div class="col-6 col-lg-3">
+                <div class="card text-center border-0 h-100 py-3" style="background:#fdf8ee;border-left:4px solid #e8d9b0!important;">
                     <div class="card-body">
                         <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="#7a1028" class="mb-2" viewBox="0 0 16 16">
                             <path d="M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71V3.5z"/>
                             <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm7-8A7 7 0 1 1 1 8a7 7 0 0 1 14 0z"/>
                         </svg>
-                        <div class="fs-1 fw-bold" style="color: #7a1028;">6:00</div>
-                        <div class="fw-500 text-muted">Inicio del servicio</div>
+                        <div class="fs-1 fw-bold" style="color:#7a1028;">6:00</div>
+                        <div class="text-muted">Inicio del servicio</div>
                     </div>
                 </div>
             </div>
-            <div class="col-6">
-                <div class="card text-center border-0 h-100 py-3" style="background-color: #fdf8ee; border-left: 4px solid #e8d9b0 !important;">
+            <div class="col-6 col-lg-3">
+                <div class="card text-center border-0 h-100 py-3" style="background:#fdf8ee;border-left:4px solid #e8d9b0!important;">
                     <div class="card-body">
                         <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="#cc2222" class="mb-2" viewBox="0 0 16 16">
                             <path d="M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71V3.5z"/>
                             <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm7-8A7 7 0 1 1 1 8a7 7 0 0 1 14 0z"/>
                         </svg>
-                        <div class="fs-1 fw-bold" style="color: #cc2222;">20:00</div>
-                        <div class="fw-500 text-muted">Cierre del servicio</div>
+                        <div class="fs-1 fw-bold" style="color:#cc2222;">20:00</div>
+                        <div class="text-muted">Cierre del servicio</div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
+    <!--Paradas cerca de tí-->
     <div class="container pb-4">
         <h5 class="section-title mb-3">Paradas cerca de ti</h5>
         <div class="card border-0 shadow-sm p-4 text-center" style="border-radius:12px; border-top: 3px solid var(--color-guinda) !important;">
@@ -214,46 +273,119 @@
         </div>
     </div>
 
+    <!--Mapa mini-->
+    <div class="container pb-4">
+        <h5 class="section-title mb-3">Rutas de transporte público en Navojoa</h5>
+        <div class="card border-0 shadow-sm" style="border-radius:12px;overflow:hidden;">
+            <div id="mapa-mini"></div>
+            <div class="p-3 text-center border-top">
+                <a href="rutas.html" class="btn btn-sm fw-bold px-4"
+                   style="background:var(--color-guinda);color:white;border-radius:50px;">
+                    🗺 Ver rutas completas
+                </a>
+            </div>
+        </div>
+    </div>
+
     <div class="container pb-4">
         <h5 class="section-title mb-3">Lo que dicen los usuarios</h5>
         <div id="comentarios-container" class="row g-3"></div>
     </div>
 
+    <!--CHATBOT-->
+    <div id="chatbot-hint">💬 Haz clic para acceder al chatbot</div>
+    <button id="chatbot-btn" title="Chatbot UrbanSon" onclick="abrirChatbot()">💬</button>
+
     <script src="js/bootstrap.bundle.min.js"></script>
+    <script src="js/rutas_data.js"></script>
     <script src="datos/resultados.js"></script>
+
     <script>
-    (function() {
-        try {
-            const comentarios = DATOS_ANALISIS.comentarios;
-            if (!comentarios || comentarios.length === 0) return;
+        // ── Comentarios con estrellas (Opiniones y sugerencias) ──────────────────────────────
+        (function() {
+            try {
+                const comentarios = DATOS_ANALISIS.comentarios;
+                if (!comentarios || comentarios.length === 0) return;
 
-            // Seleccionar 3 comentarios según el día del año (cambian cada día)
-            const hoy        = new Date();
-            const diaDel     = Math.floor((hoy - new Date(hoy.getFullYear(), 0, 0)) / 86400000);
-            const inicio     = (diaDel * 3) % comentarios.length;
-            const seleccionados = [0, 1, 2].map(i => comentarios[(inicio + i) % comentarios.length]);
+                const hoy     = new Date();
+                const diaDel  = Math.floor((hoy - new Date(hoy.getFullYear(), 0, 0)) / 86400000);
+                const inicio  = (diaDel * 3) % comentarios.length;
+                const sel     = [0, 1, 2].map(i => comentarios[(inicio + i) % comentarios.length]);
 
-            const coloresTipo = {
-                'Opinión':    { bg: '#f9f1f3', border: '#7a1028', badge: '#7a1028' },
-                'Sugerencia': { bg: '#e8f4fd', border: '#1a6eb5', badge: '#1a6eb5' },
-            };
+                function estrellas(n) {
+                    if (!n) return '';
+                    const llenas  = Math.round(n);
+                    const vacias  = 5 - llenas;
+                    return '★'.repeat(llenas) + '☆'.repeat(vacias);
+                }
 
-            document.getElementById('comentarios-container').innerHTML = seleccionados.map(c => {
-                const col = coloresTipo[c.tipo] || coloresTipo['Opinión'];
-                return `
-                <div class="col-12 col-md-4">
-                    <div class="card border-0 shadow-sm h-100 p-3"
-                        style="border-left:4px solid ${col.border}!important;border-radius:12px;background:${col.bg}">
-                        <div class="d-flex justify-content-between align-items-start mb-2">
-                            <span class="badge text-white" style="background:${col.badge};font-size:11px;">${c.tipo}</span>
-                            <span class="text-muted" style="font-size:11px;">${c.ocupacion || 'Usuario'}</span>
+                const colores = {
+                    'Opinión':    { bg: '#f9f1f3', border: '#7a1028', badge: '#7a1028' },
+                    'Sugerencia': { bg: '#e8f4fd', border: '#1a6eb5', badge: '#1a6eb5' },
+                };
+
+                document.getElementById('comentarios-container').innerHTML = sel.map(c => {
+                    const col   = colores[c.tipo] || colores['Opinión'];
+                    const stars = estrellas(c.calificacion);
+                    return `
+                    <div class="col-12 col-md-4">
+                        <div class="card border-0 shadow-sm h-100 p-3"
+                            style="border-left:4px solid ${col.border}!important;border-radius:12px;background:${col.bg};">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <span class="badge text-white" style="background:${col.badge};font-size:11px;">${c.tipo}</span>
+                                <span style="color:#f5a623;font-size:16px;letter-spacing:1px;" title="${c.calificacion}/5">${stars}</span>
+                            </div>
+                            <p class="small mb-0" style="line-height:1.6;color:#444;">"${c.texto}"</p>
                         </div>
-                        <p class="small mb-0" style="line-height:1.6;color:#444;">"${c.texto}"</p>
-                    </div>
-                </div>`;
-            }).join('');
-        } catch(e) {}
-    })();
+                    </div>`;
+                }).join('');
+            } catch(e) {}
+        })();
+
+        // ── 3. MAPA MINI (solo lectura, sin controles) ─────────────────
+        (function() {
+            const mapaMini = L.map('mapa-mini', {
+                zoomControl:       false,
+                scrollWheelZoom:   false,
+                doubleClickZoom:   false,
+                dragging:          false,
+                touchZoom:         false,
+                keyboard:          false,
+                boxZoom:           false,
+            }).setView([27.0680, -109.4390], 13);
+
+            L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; OpenStreetMap'
+            }).addTo(mapaMini);
+
+            // Dibujar todas las rutas disponibles
+            if (typeof RUTAS_COORDENADAS !== 'undefined') {
+                RUTAS_COORDENADAS.forEach(function(ruta) {
+                    if (ruta.coordenadas && ruta.coordenadas.length > 0) {
+                        L.polyline(ruta.coordenadas, {
+                            color:   ruta.color,
+                            weight:  3,
+                            opacity: 0.8
+                        }).addTo(mapaMini);
+                    }
+                });
+            }
+        })();
+
+        // ── 4. CHATBOT — listón y botón ────────────────────────────────
+        setTimeout(function() {
+            const hint = document.getElementById('chatbot-hint');
+            if (hint) {
+                hint.style.transition = 'opacity 0.5s';
+                hint.style.opacity    = '0';
+                setTimeout(() => hint.remove(), 500);
+            }
+        }, 5000);
+
+        function abrirChatbot() {
+            // Por ahora muestra un alert; aquí conectarás el panel de chat
+            alert('Chatbot próximamente disponible.');
+        }
     </script>
 
     <footer class="text-white text-center py-3">

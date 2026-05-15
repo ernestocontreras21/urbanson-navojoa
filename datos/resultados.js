@@ -1,108 +1,109 @@
 const DATOS_ANALISIS = {
   "perfil": {
     "ocupacion": {
-      "Estudiante": 34,
-      "Trabajador": 16,
+      "Estudiante": 35,
+      "Trabajador": 17,
       "Ambos": 6,
       "Otro": 6
     },
     "edades": {
       "Menos de 18": 1,
-      "18-25": 43,
+      "18-25": 44,
       "26-35": 9,
-      "36-50": 5,
+      "36-50": 6,
       "Más de 50": 4
     },
     "frecuencia": {
-      "Rara vez": 22,
-      "Varias veces por semana": 17,
+      "Rara vez": 23,
+      "Varias veces por semana": 18,
       "Todos los días": 16,
       "Nunca": 7
     }
   },
   "calificaciones": {
     "promedios": {
-      "Puntualidad": 2.76,
-      "Limpieza": 2.71,
-      "Trato conductor": 3.5,
-      "Comodidad": 2.85,
-      "Seguridad": 3.31,
-      "General": 3.0
+      "Puntualidad": 2.72,
+      "Limpieza": 2.7,
+      "Trato conductor": 3.48,
+      "Comodidad": 2.84,
+      "Seguridad": 3.28,
+      "General": 2.95
     },
     "distribucion": {
-      "1.0": 6,
-      "2.0": 7,
+      "1.0": 7,
+      "2.0": 8,
       "3.0": 28,
       "4.0": 15,
       "5.0": 2
     }
   },
   "problemas": {
-    "Retrasos": 44,
-    "Mal estado de camiones": 33,
-    "Falta de rutas": 30,
-    "Falta de información": 12,
-    "Inseguridad": 2,
+    "Retrasos": 46,
+    "Mal estado de camiones": 35,
+    "Falta de rutas": 31,
+    "Falta de información": 14,
+    "Inseguridad": 3,
     "Falta de aire acondicionado en tiempo de calor": 1,
     "Sin aire": 1
   },
   "patrones": {
     "horarios": {
-      "6:00 a.m. – 8:00 a.m.": 22,
-      "12:00 p.m. - 2:00 p.m.": 21,
-      "8:00 a.m. – 10:00 a.m.": 14,
+      "6:00 a.m. – 8:00 a.m.": 23,
+      "12:00 p.m. - 2:00 p.m.": 22,
+      "8:00 a.m. – 10:00 a.m.": 15,
       "10:00 a.m. - 12:00 p.m.": 13,
       "2:00 p.m. - 4:00 p.m.": 13,
       "4:00 p.m. - 6:00 p.m.": 7,
-      "6:00 p.m. - 8:00 p.m.": 4
+      "6:00 p.m. - 8:00 p.m.": 5
     },
     "traslado": {
       "15 - 30 minutos": 27,
-      "30 - 60 minutos": 19,
+      "30 - 60 minutos": 20,
       "Menos de 15 minutos": 11,
-      "Más de una hora": 1
+      "Más de una hora": 2
     },
     "demanda": {
-      "12:00 p.m. - 2:00 p.m.": 25,
+      "12:00 p.m. - 2:00 p.m.": 26,
       "6:00 a.m. – 8:00 a.m.": 18,
       "10:00 a.m. - 12:00 p.m.": 8,
       "8:00 a.m. – 10:00 a.m.": 3,
       "4:00 p.m. - 6:00 p.m.": 2,
-      "2:00 p.m. - 4:00 p.m.": 1,
-      "6:00 p.m. - 8:00 p.m.": 1
+      "6:00 p.m. - 8:00 p.m.": 2,
+      "2:00 p.m. - 4:00 p.m.": 1
     },
     "proposito": {
-      "Escuela": 27,
+      "Escuela": 28,
       "Otros": 11,
-      "Trabajo": 10,
+      "Trabajo": 11,
       "Compras": 10
     }
   },
   "rutas": {
-    "Circuito 1 Allende - Laureles (Línea 1A o 1B)": 35,
+    "Circuito 1 Allende - Laureles (Línea 1A o 1B)": 36,
     "Circuito 2 Tierra y Libertad - Jiménez (Línea 7)": 13,
     "Circuito 4 Sonora - Tierra Blanca (Línea 2-6)": 13,
-    "Circuito 6 Deportiva - Fovissste": 8,
+    "Circuito 6 Deportiva - Fovissste": 9,
     "Circuito 7 Sonora Express": 6,
     "Circuito 3 Pueblo Viejo - Misioneros": 5,
     "Circuito 5 Tetanchopo - Jacarandas": 2
   },
   "costo": {
     "percepcion": {
-      "Adecuado": 48,
+      "Adecuado": 49,
       "Muy barato": 7,
-      "Caro": 3
+      "Caro": 3,
+      "Muy caro": 1
     },
     "gasto": {
-      "De $10 a $20": 30,
-      "Menos de $10": 14,
+      "De $10 a $20": 31,
+      "Menos de $10": 15,
       "Más de $20": 14
     }
   },
   "resumen": {
-    "total_respuestas": 62,
-    "edad_promedio": 26.9,
-    "calificacion_promedio": 3.0,
+    "total_respuestas": 64,
+    "edad_promedio": 27.0,
+    "calificacion_promedio": 2.95,
     "problema_frecuente": "Retrasos",
     "ruta_mas_usada": "Circuito 1 Allende - Laureles (Línea 1A o 1B)",
     "hora_pico": "12:00 p.m. - 2:00 p.m."
@@ -1285,6 +1286,44 @@ const DATOS_ANALISIS = {
       "comodidad": 4,
       "seguridad": 5,
       "calificacion": 3
+    },
+    {
+      "ocupacion": "Estudiante",
+      "edad": 21,
+      "frecuencia": "Varias veces por semana",
+      "proposito": "Escuela",
+      "horario": "6:00 a.m. – 8:00 a.m., 8:00 a.m. – 10:00 a.m., 12:00 p.m. - 2:00 p.m.",
+      "traslado": "30 - 60 minutos",
+      "demanda": "12:00 p.m. - 2:00 p.m.",
+      "rutas": "Circuito 1 Allende - Laureles (Línea 1A o 1B)",
+      "problemas": "Retrasos, Mal estado de camiones, Falta de información",
+      "costo": "Adecuado",
+      "gasto": "De $10 a $20",
+      "puntualidad": 2,
+      "limpieza": 2,
+      "trato": 3,
+      "comodidad": 2,
+      "seguridad": 3,
+      "calificacion": 2
+    },
+    {
+      "ocupacion": "Trabajador",
+      "edad": 37,
+      "frecuencia": "Rara vez",
+      "proposito": "Trabajo",
+      "horario": "6:00 p.m. - 8:00 p.m.",
+      "traslado": "Más de una hora",
+      "demanda": "6:00 p.m. - 8:00 p.m.",
+      "rutas": "Circuito 6 Deportiva - Fovissste",
+      "problemas": "Retrasos, Falta de rutas, Mal estado de camiones, Falta de información, Inseguridad",
+      "costo": "Muy caro",
+      "gasto": "Menos de $10",
+      "puntualidad": 1,
+      "limpieza": 3,
+      "trato": 3,
+      "comodidad": 3,
+      "seguridad": 2,
+      "calificacion": 1
     }
   ],
   "comentarios": [
@@ -1762,6 +1801,26 @@ const DATOS_ANALISIS = {
       "texto": "Implementar más camiones, aunque sea de los más pequeños",
       "tipo": "Sugerencia",
       "ocupacion": "Ambos"
+    },
+    {
+      "texto": "Está bien, pero si hay retrasos",
+      "tipo": "Opinión",
+      "ocupacion": "Estudiante"
+    },
+    {
+      "texto": "Que nos compartan el horario de los camiones",
+      "tipo": "Sugerencia",
+      "ocupacion": "Estudiante"
+    },
+    {
+      "texto": "Pésimo, deja de pasar muy temprano",
+      "tipo": "Opinión",
+      "ocupacion": "Trabajador"
+    },
+    {
+      "texto": "Ampliación de horario y rutas",
+      "tipo": "Sugerencia",
+      "ocupacion": "Trabajador"
     }
   ]
 };

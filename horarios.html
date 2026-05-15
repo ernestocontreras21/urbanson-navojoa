@@ -149,6 +149,28 @@
         .navbar-nav .nav-link { color: rgba(255,255,255,0.85); padding: 8px 16px; border-radius: 6px; margin: 2px 8px; font-weight: 500; }
         .navbar-nav .nav-link:hover { background: rgba(255,255,255,0.1); color: white; }
         .navbar-nav .nav-link.activo { background-color: var(--color-beige); color: var(--color-guinda); font-weight: 600; }
+
+        /* Chatbot botón flotante */
+        #chatbot-btn {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            z-index: 9999;
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: var(--color-guinda);
+            color: white;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            box-shadow: 0 4px 14px rgba(0,0,0,0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.2s;
+        }
+        #chatbot-btn:hover { transform: scale(1.08); }
     </style>
 </head>
 <body>
@@ -230,6 +252,9 @@
 
         </div>
     </div>
+
+    <!--CHATBOT-->
+    <button id="chatbot-btn" title="Chatbot UrbanSon" onclick="abrirChatbot()">💬</button>
 
     <!-- PIE DE PÁGINA -->
     <footer class="text-white text-center py-3">
@@ -329,12 +354,12 @@ const PARADAS = [
     { id: 60, nombre: 'Calle Cajeme e Ímuris',                  lat: 27.070329, lng: -109.429667, rutaIds: [11] },
     { id: 61, nombre: 'Calle Cajeme y Lázaro Cárdenas',         lat: 27.073571, lng: -109.429748, rutaIds: [11] },
     { id: 62, nombre: 'Blvd. Cuauhtemoc e Hidalgo',             lat: 27.079497, lng: -109.453176, rutaIds: [1, 10] },
-    { id: 63, nombre: 'Blvd. Cuauhtemoc y Av. Rodolfo Campodónico', lat: 27.065761, lng: -109.451533, rutaIds: [1, 2, 9, 10] },
+    { id: 63, nombre: 'Blvd. Cuauhtemoc y Av. Rodolfo Campodónico', lat: 27.065761, lng: -109.451533, rutaIds: [1, 2, 5, 9, 10] },
     { id: 64, nombre: 'Blvd. Cuauhtemoc y Blvd. Sosa Chávez',   lat: 27.063997, lng: -109.451470, rutaIds: [1, 9, 10] },
     { id: 65, nombre: 'Blvd. Sosa Chávez (Unidad deportiva)',   lat: 27.063290, lng: -109.455449, rutaIds: [2, 9, 10] },
     { id: 66, nombre: 'Blvd. Luis Salido y Durango',            lat: 27.062575, lng: -109.456270, rutaIds: [1] },
     { id: 67, nombre: 'Blvd. Luis Salido y Jalisco',            lat: 27.057763, lng: -109.455625, rutaIds: [1] },
-    { id: 68, nombre: 'Blvd. Luis Salido y C. Javier Talamante', lat: 27.057859, lng: -109.455327, rutaIds: [1] },
+    { id: 68, nombre: 'Blvd. Luis Salido y C. Javier Talamante', lat: 27.057859, lng: -109.455327, rutaIds: [2] },
     { id: 69, nombre: 'Blvd. Luis Salido y Av. México',         lat: 27.050693, lng: -109.454789, rutaIds: [1, 2, 9, 10] },
     { id: 70, nombre: 'Cuauhtemoc y Av. Paseo de los Olivos',   lat: 27.047602, lng: -109.449595, rutaIds: [1, 2] },
     { id: 71, nombre: 'Tercera sección - Col. Laureles',        lat: 27.044306, lng: -109.449445, rutaIds: [1, 2] },
@@ -356,8 +381,8 @@ const PARADAS = [
     { id: 87, nombre: 'Panteón viejo',                          lat: 27.095621, lng: -109.427141, rutaIds: [1, 2] },
     { id: 88, nombre: 'Arteaga y Chijubampo',                   lat: 27.099498, lng: -109.425424, rutaIds: [1, 2] },
     { id: 89, nombre: 'Reforma y Av. Sobarzo',                  lat: 27.087323, lng: -109.432708, rutaIds: [1, 2] },
-    { id: 90, nombre: 'ISSSTE',                                 lat: 27.087953, lng: -109.436670, rutaIds: [1, 2] },//
-    { id: 91, nombre: 'Av. Melchor Ocampo y No Reelección',     lat: 27.086700, lng: -109.446722, rutaIds: [1, 2] },//
+    { id: 90, nombre: 'ISSSTE',                                 lat: 27.087953, lng: -109.436670, rutaIds: [1, 2, 4, 5] },//
+    { id: 91, nombre: 'Av. Melchor Ocampo y No Reelección',     lat: 27.086700, lng: -109.446722, rutaIds: [1, 2, 4, 5] },//
     { id: 92, nombre: 'Mercado municipal lado García Morales #2', lat: 27.078738, lng: -109.446908, rutaIds: [1, 2, 3] },
     { id: 93, nombre: 'Pesqueira y Periférico',                 lat: 27.049197, lng: -109.437323, rutaIds: [4, 5] },
     { id: 94, nombre: 'Col. Misioneros',                        lat: 27.050477, lng: -109.434057, rutaIds: [4, 5] },
@@ -393,7 +418,20 @@ const PARADAS = [
     { id: 124, nombre: 'La Joya',                               lat: 27.0434990, lng: -109.456908, rutaIds: [9, 10] },
     { id: 125, nombre: 'Col. Villa Dorada',                     lat: 27.0481169, lng: -109.455478, rutaIds: [9, 10] },
     { id: 126, nombre: 'Ramón Corona y Durango',                lat: 27.0621062, lng: -109.458336, rutaIds: [9, 10] },
-    
+    { id: 127, nombre: 'Col. Salvatierra',                      lat: 27.0910077, lng: -109.435832, rutaIds: [4, 5] },
+    { id: 128, nombre: 'Misión Santa María IV',                 lat: 27.0928813, lng: -109.436914, rutaIds: [4, 5] },
+    { id: 129, nombre: 'Col. La Herradura',                     lat: 27.0957122, lng: -109.438502, rutaIds: [4, 5] },
+    { id: 130, nombre: 'Francisco I. Madero y Mina',            lat: 27.0983848, lng: -109.439647, rutaIds: [4, 5] },
+    { id: 131, nombre: 'Ignacio Zaragoza y Álvaro Obregón',     lat: 27.0997372, lng: -109.438351, rutaIds: [4, 5] },
+    { id: 132, nombre: 'Mariano Abasolo y Benito Juárez',       lat: 27.1013134, lng: -109.437015, rutaIds: [4, 5] },
+    { id: 133, nombre: 'Pueblo Viejo',                          lat: 27.1004433, lng: -109.440755, rutaIds: [4, 5] },
+    { id: 134, nombre: 'Ignacio Zaragoza y Sonora',             lat: 27.0993146, lng: -109.440591, rutaIds: [4, 5] },
+    { id: 135, nombre: 'San Juan y Cjón. Pueblo Viejo',         lat: 27.0958685, lng: -109.438758, rutaIds: [4, 5] },
+    { id: 136, nombre: 'Misión Santa María III',                lat: 27.0929685, lng: -109.437159, rutaIds: [4, 5] },
+    { id: 137, nombre: 'Av. Guillermo Prieto y Cjón. Pueblo Viejo', lat: 27.088221, lng: -109.434713, rutaIds: [4, 5] },
+    { id: 138, nombre: 'Super Ley Express Rosales C3',          lat: 27.087751, lng: -109.436933, rutaIds: [4, 5] },
+
+
 
     // Agregar más paradas aquí con el mismo formato
 ];
@@ -899,6 +937,11 @@ function salirGPS() {
 // Auto-activar GPS si viene desde inicio.html
 if (new URLSearchParams(window.location.search).get('gps') === '1') {
     usarUbicacion();
+}
+
+function abrirChatbot() {
+    // Por ahora muestra un alert; aquí conectarás el panel de chat
+    alert('Chatbot próximamente disponible.');
 }
 
 </script>
