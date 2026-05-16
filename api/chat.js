@@ -16,7 +16,22 @@ module.exports = async function handler(req, res) {
 
     try {
 
-        const { message, systemPrompt, historial } = req.body;
+        const body =
+            typeof req.body === 'string'
+                ? JSON.parse(req.body)
+                : req.body;
+
+        const {
+            message,
+            systemPrompt,
+            historial
+        } = body;
+
+        if (!message) {
+            return res.status(400).json({
+                error: 'Falta message'
+            });
+        }
 
         const contents = [];
 
