@@ -194,23 +194,10 @@
         contents.push({ role: 'user', parts: [{ text: mensajeUsuario }] });
 
         const response = await fetch('/api/chat', {
-                method:  'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    contents,
-                    generationConfig: {
-                        maxOutputTokens: 500,
-                        temperature:     0.7,
-                    },
-                    safetySettings: [
-                        { category: 'HARM_CATEGORY_HARASSMENT',        threshold: 'BLOCK_NONE' },
-                        { category: 'HARM_CATEGORY_HATE_SPEECH',        threshold: 'BLOCK_NONE' },
-                        { category: 'HARM_CATEGORY_SEXUALLY_EXPLICIT',  threshold: 'BLOCK_NONE' },
-                        { category: 'HARM_CATEGORY_DANGEROUS_CONTENT',  threshold: 'BLOCK_NONE' },
-                    ]
-                })
-            }
-        );
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ contents }),
+        });
 
         if (!response.ok) {
             const errorData = await response.json();
