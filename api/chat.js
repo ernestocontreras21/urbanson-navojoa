@@ -8,17 +8,20 @@ export default async function handler(req, res) {
         return res.status(200).end();
     }
 
-    try {
+    if (req.method !== 'POST') {
+        return res.status(405).json({
+            error: 'Método no permitido'
+        });
+    }
 
-        // DEBUG
-        console.log('BODY:', req.body);
+    try {
 
         const { messages, system } = req.body;
 
         const ultimoMensaje =
             messages[messages.length - 1]?.content || '';
 
-        const promptCompleto = `
+        const prompt = `
 ${system}
 
 Usuario:
@@ -37,7 +40,7 @@ ${ultimoMensaje}
                         {
                             parts: [
                                 {
-                                    text: promptCompleto
+                                    text: prompt
                                 }
                             ]
                         }
@@ -48,13 +51,8 @@ ${ultimoMensaje}
 
         const data = await response.json();
 
-        // DEBUG
-        console.log('GEMINI RESPONSE:', JSON.stringify(data));
-
         if (!response.ok) {
-            return res.status(500).json({
-                error: data
-            });
+            return res.status(500).json(data);
         }
 
         const texto =
@@ -66,8 +64,6 @@ ${ultimoMensaje}
         });
 
     } catch (error) {
-
-        console.error('ERROR SERVIDOR:', error);
 
         return res.status(500).json({
             error: error.message
