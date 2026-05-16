@@ -1,6 +1,4 @@
-// api/chat.js
-
-export default async function handler(req, res) {
+module.exports = async function handler(req, res) {
 
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
@@ -20,17 +18,21 @@ export default async function handler(req, res) {
 
         const { message, systemPrompt, historial } = req.body;
 
-        // Convertir historial al formato Gemini
         const contents = [];
 
-        if (historial && historial.length) {
+        if (historial) {
 
             historial.forEach(msg => {
 
                 contents.push({
-                    role: msg.role === 'assistant' ? 'model' : 'user',
+                    role: msg.role === 'assistant'
+                        ? 'model'
+                        : 'user',
+
                     parts: [
-                        { text: msg.content }
+                        {
+                            text: msg.content
+                        }
                     ]
                 });
 
@@ -38,7 +40,6 @@ export default async function handler(req, res) {
 
         }
 
-        // Mensaje actual
         contents.push({
             role: 'user',
             parts: [
@@ -52,9 +53,11 @@ export default async function handler(req, res) {
             `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${process.env.GEMINI_API_KEY}`,
             {
                 method: 'POST',
+
                 headers: {
                     'Content-Type': 'application/json'
                 },
+
                 body: JSON.stringify({
 
                     systemInstruction: {
@@ -78,13 +81,9 @@ export default async function handler(req, res) {
 
         const data = await response.json();
 
-        if (!response.ok) {
-            return res.status(response.status).json(data);
-        }
-
         const texto =
-            data.candidates?.[0]?.content?.parts?.[0]?.text ||
-            'No pude generar respuesta.';
+            data.candidates?.[0]?.content?.parts?.[0]?.text
+            || 'No pude responder.';
 
         return res.status(200).json({
             text: texto
@@ -97,4 +96,5 @@ export default async function handler(req, res) {
         });
 
     }
+
 }
