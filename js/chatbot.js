@@ -159,8 +159,6 @@
 
     // ─── LLAMADA A LA API ───────────────────────────────
     async function consultarIA(mensajeUsuario) {
-        const API_KEY = 'AIzaSyCG08WwyMquvEu9bNKF7eHWYmAM-sECHC0';
-
         const ahora      = new Date();
         const horaActual = ahora.toLocaleTimeString('es-MX', { hour:'2-digit', minute:'2-digit', hour12:false });
         const diaActual  = ahora.toLocaleDateString('es-MX', { weekday:'long' });
@@ -195,9 +193,7 @@
         // Mensaje actual
         contents.push({ role: 'user', parts: [{ text: mensajeUsuario }] });
 
-        const response = await fetch(
-            `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`,
-            {
+        const response = await fetch('/api/chat', {
                 method:  'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
