@@ -131,6 +131,29 @@
             from { opacity: 0; transform: translateY(8px); }
             to   { opacity: 1; transform: translateY(0); }
         }
+
+        /* FAQ */
+        .accordion-button {
+            background-color: #fff;
+            color: var(--color-guinda);
+            font-weight: 600;
+            box-shadow: none !important;
+        }
+
+        .accordion-button:not(.collapsed) {
+            background-color: #f9f1f3;
+            color: var(--color-guinda);
+        }
+
+        .accordion-button:focus {
+            box-shadow: none;
+            border-color: transparent;
+        }
+
+        .accordion-body {
+            color: #555;
+            line-height: 1.7;
+        }
     </style>
 </head>
 <body>
@@ -291,6 +314,181 @@
     <div class="container pb-4">
         <h5 class="section-title mb-3">Lo que dicen los usuarios</h5>
         <div id="comentarios-container" class="row g-3"></div>
+    </div>
+
+    <!-- Preguntas frecuentes -->
+    <div class="container pb-5">
+        <h5 class="section-title mb-3">Preguntas frecuentes</h5>
+
+        <div class="accordion" id="faqAccordion">
+
+            <div class="accordion-item border-0 mb-2 shadow-sm" style="border-radius:12px; overflow:hidden;">
+                <h2 class="accordion-header">
+                    <button class="accordion-button fw-semibold"
+                            type="button"
+                            data-bs-toggle="collapse"
+                            data-bs-target="#faq1">
+                        ¿Necesito crear una cuenta para usar la plataforma?
+                    </button>
+                </h2>
+                <div id="faq1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        No. Cualquier persona puede entrar y consultar rutas, horarios y paradas sin necesidad de registrarse.
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item border-0 mb-2 shadow-sm" style="border-radius:12px; overflow:hidden;">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed fw-semibold"
+                            type="button"
+                            data-bs-toggle="collapse"
+                            data-bs-target="#faq2">
+                        ¿Cómo puedo ver las paradas cercanas?
+                    </button>
+                </h2>
+                <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Solo tienes que presionar el botón de “Mi ubicación” y permitir acceso a la ubicación del dispositivo. El sistema mostrará automáticamente las paradas más cercanas.
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item border-0 mb-2 shadow-sm" style="border-radius:12px; overflow:hidden;">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed fw-semibold"
+                            type="button"
+                            data-bs-toggle="collapse"
+                            data-bs-target="#faq3">
+                        ¿Los horarios son exactos?
+                    </button>
+                </h2>
+                <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Los horarios son aproximados, ya que el tráfico y otros factores pueden hacer que las unidades se retrasen o adelanten un poco.
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item border-0 mb-2 shadow-sm" style="border-radius:12px; overflow:hidden;">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed fw-semibold"
+                            type="button"
+                            data-bs-toggle="collapse"
+                            data-bs-target="#faq4">
+                        ¿Puedo enviar reportes sin poner mi nombre?
+                    </button>
+                </h2>
+                <div id="faq4" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Sí. El nombre es opcional, así que puedes enviar opiniones, quejas o sugerencias de forma anónima.
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item border-0 mb-2 shadow-sm" style="border-radius:12px; overflow:hidden;">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed fw-semibold"
+                            type="button"
+                            data-bs-toggle="collapse"
+                            data-bs-target="#faq5">
+                        ¿Qué tipo de reportes puedo enviar?
+                    </button>
+                </h2>
+                <div id="faq5" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Puedes enviar:
+                        <ul class="mt-2 mb-0">
+                            <li>Quejas</li>
+                            <li>Opiniones</li>
+                            <li>Sugerencias</li>
+                            <li>Reportes sobre retrasos o mal servicio</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item border-0 mb-2 shadow-sm" style="border-radius:12px; overflow:hidden;">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed fw-semibold"
+                            type="button"
+                            data-bs-toggle="collapse"
+                            data-bs-target="#faq6">
+                        ¿Qué hace el chatbot?
+                    </button>
+                </h2>
+                <div id="faq6" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        El chatbot ayuda a responder dudas rápidas sobre rutas, horarios, paradas y funcionamiento general de la plataforma.
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item border-0 mb-2 shadow-sm" style="border-radius:12px; overflow:hidden;">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed fw-semibold"
+                            type="button"
+                            data-bs-toggle="collapse"
+                            data-bs-target="#faq7">
+                        ¿En qué dispositivos funciona el sistema?
+                    </button>
+                </h2>
+                <div id="faq7" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        La plataforma puede utilizarse en computadoras, tablets y teléfonos móviles con acceso a internet.
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item border-0 mb-2 shadow-sm" style="border-radius:12px; overflow:hidden;">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed fw-semibold"
+                            type="button"
+                            data-bs-toggle="collapse"
+                            data-bs-target="#faq8">
+                        ¿Para qué sirve la sección de análisis?
+                    </button>
+                </h2>
+                <div id="faq8" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Sirve para mostrar información obtenida de encuestas y reportes de usuarios, ayudando a detectar problemas y posibles mejoras en el transporte público.
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item border-0 mb-2 shadow-sm" style="border-radius:12px; overflow:hidden;">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed fw-semibold"
+                            type="button"
+                            data-bs-toggle="collapse"
+                            data-bs-target="#faq9">
+                        ¿La información del sistema se actualiza?
+                    </button>
+                </h2>
+                <div id="faq9" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Sí, parte de la información puede actualizarse conforme se agregan nuevos datos, reportes o cambios en las rutas.
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item border-0 mb-2 shadow-sm" style="border-radius:12px; overflow:hidden;">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed fw-semibold"
+                            type="button"
+                            data-bs-toggle="collapse"
+                            data-bs-target="#faq10">
+                        ¿Cuál es el objetivo principal del proyecto?
+                    </button>
+                </h2>
+                <div id="faq10" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        El objetivo es ayudar a mejorar el transporte público de Navojoa mediante el uso de tecnología, análisis de datos y acceso más fácil a la información.
+                    </div>
+                </div>
+            </div>
+
+        </div>
     </div>
 
     <!--CHATBOT-->

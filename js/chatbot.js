@@ -72,6 +72,86 @@
             keywords: ['hola', 'buenas', 'buenos', 'saludos'],
             respuesta: '¡Hola! 👋 Soy el asistente de <strong>UrbanSon Navojoa</strong>. En este momento no puedo conectarme al servidor, pero puedo ayudarte con información básica. ¿Qué necesitas?'
         },
+        {
+            keywords: ['ues', 'universidad estatal de sonora', ],
+            respuesta: '🎓 Para llegar a la <strong>UES</strong> puedes tomar el <strong>Circuito 1 Lado A o Lado B</strong>. Revisa las paradas en <a href="rutas.html" style="color:#7a1028;font-weight:600;">Rutas</a>.'
+        },
+        {
+            keywords: ['unison', 'universidad de sonora'],
+            respuesta: '🎓 La <strong>UNISON</strong> es atendida por los circuitos <strong>2, 4 (Línea 2-6) y Sonora Express</strong>. Busca la parada “UNISON” en la sección <a href="horarios.html" style="color:#7a1028;font-weight:600;">Horarios</a>.'
+        },
+        {
+            keywords: ['soriana'],
+            respuesta: '🛒 Para llegar a Soriana puedes usar los <strong>Circuitos 3 y 4 (Línea 2-6)</strong>.'
+        },
+        {
+            keywords: ['mercado municipal', 'mercado'],
+            respuesta: '🏪 El Mercado Municipal tiene acceso desde prácticamente todas las rutas urbanas.'
+        },
+        {
+            keywords: ['domingo', 'domingos', 'festivo', 'festivos'],
+            respuesta: '📅 La mayoría de las rutas funcionan también los domingos, aunque con menor frecuencia y generalmente hastas las 15:00 horas.'
+        },
+        {
+            keywords: ['aire acondicionado', 'aire', 'clima', 'camiones buenos'],
+            respuesta: '🚌 Algunas unidades cuentan con aire acondicionado, pero puede variar según el circuito y la unidad disponible.'
+        },
+        {
+            keywords: ['retraso', 'tarda mucho', 'demorado', 'no pasa'],
+            respuesta: '⏳ Puede haber retrasos por tráfico u hora pico, generalmente entre 12:00h - 14:00h. Si deseas reportarlo puedes usar la sección <a href="reportes.html" style="color:#7a1028;font-weight:600;">Reportes</a>.'
+        },
+        {
+            keywords: ['mal trato', 'conductor grosero', 'chofer grosero'],
+            respuesta: '📝 Lamentamos la situación. Puedes enviar tu reporte en <a href="reportes.html" style="color:#7a1028;font-weight:600;">Reportes</a> para darle seguimiento.'
+        },
+        {
+            keywords: ['hora pico', 'mucho tráfico', 'muy lleno'],
+            respuesta: '🚦 Las horas con más demanda suelen ser entre <strong>6:00–8:00 AM</strong> y <strong>12:00–2:00 PM</strong>, por lo que los tiempos de espera pueden aumentar.'
+        },
+        {
+            keywords: ['escuela', 'prepa', 'universidad'],
+            respuesta: '🎓 Varias rutas conectan escuelas y universidades importantes de Navojoa. Consulta el mapa en <a href="rutas.html" style="color:#7a1028;font-weight:600;">Rutas</a>.'
+        },
+        {
+            keywords: ['hospital', 'imss', 'issste', 'clinica'],
+            respuesta: '🏥 Algunas rutas tienen paradas cercanas a hospitales y clínicas importantes. Revisa el mapa interactivo en <a href="rutas.html" style="color:#7a1028;font-weight:600;">Rutas</a>.'
+        },
+        {
+            keywords: ['centro', 'centro de navojoa'],
+            respuesta: '🏙️ La mayoría de los circuitos pasan por el centro de Navojoa o zonas cercanas.'
+        },
+        {
+            keywords: ['laureles'],
+            respuesta: '📍 Desde la colonia Laureles puedes tomar el <strong>Circuito 1A o 1B</strong>.'
+        },
+        {
+            keywords: ['aeropuerto'],
+            respuesta: '✈️ Para ir hacia la colonia Aeropuerto puedes utilizar el <strong>Circuito 2 (Línea 7)</strong>.'
+        },
+        {
+            keywords: ['tiempo', 'cuanto tarda', 'duracion del recorrido'],
+            respuesta: '⏱️ El tiempo de recorrido depende del tráfico y la ruta, pero normalmente puede variar entre 20 y 60 minutos.'
+        },
+        {
+            keywords: ['camiones activos', 'cuantos camiones'],
+            respuesta: '🚌 Actualmente el sistema cuenta con aproximadamente <strong>25 unidades activas</strong>.'
+        },
+        {
+            keywords: ['rutas mas usadas', 'ruta mas usada'],
+            respuesta: '📊 Algunas rutas tienen mayor demanda durante horas pico y zonas escolares o del centro.'
+        },
+        {
+            keywords: ['menos saturada', 'menos llena'],
+            respuesta: '🪑 Las rutas suelen estar menos saturadas fuera de horas pico, especialmente después de las 9:00 AM y antes de las 12:00 PM.'
+        },
+        {
+            keywords: ['gracias', 'muchas gracias'],
+            respuesta: '😊 ¡De nada! Estoy para ayudarte con información del transporte urbano de Navojoa.'
+        },
+        {
+            keywords: ['adios', 'bye', 'nos vemos'],
+            respuesta: '👋 ¡Buen viaje! Gracias por usar UrbanSon Navojoa.'
+        },
     ];
 
     // ─── HISTORIAL DE CONVERSACIÓN ────────────────────────────────────
@@ -94,27 +174,24 @@
 
         historial.push({ role: 'user', content: mensajeConHora });
 
-        const respuesta = await fetch('https://api.anthropic.com/v1/messages', {
+        const respuesta = await fetch('/api/chat', {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: {
+                'Content-Type': 'application/json'
+            },
             body: JSON.stringify({
-                model:      'claude-sonnet-4-20250514',
-                max_tokens: 600,
-                system:     systemPrompt,
-                messages:   historial
+                message: mensajeUsuario,
+                systemPrompt,
+                historial
             })
         });
 
-        if (!respuesta.ok) throw new Error('Error API');
+        if (!respuesta.ok) {
+            throw new Error('Error API');
+        }
 
-        const data           = await respuesta.json();
-        const textoRespuesta = data.content.map(b => b.text || '').join('');
-
-        historial[historial.length - 1] = { role: 'user', content: mensajeUsuario };
-        historial.push({ role: 'assistant', content: textoRespuesta });
-        if (historial.length > 12) historial = historial.slice(-12);
-
-        return textoRespuesta;
+        const data = await respuesta.json();
+        const textoRespuesta = data.text;
     }
 
     // ─── FALLBACK LOCAL (solo cuando la API no responde) ─────────────
