@@ -191,7 +191,7 @@
         }
 
         const data = await respuesta.json();
-        const textoRespuesta = data.text;
+        const textoRespuesta = data.content;
     }
 
     // ─── FALLBACK LOCAL (solo cuando la API no responde) ─────────────
