@@ -41,10 +41,9 @@ window.CHATBOT_CONTEXTO = (function () {
         if (typeof HORARIOS_REALES === 'undefined') return '';
 
         let txt = '\n=== HORARIOS REALES POR PARADA ===\n';
-        txt += '(Formato: parada ID → primera salida · última salida · total vueltas)\n';
 
         HORARIOS_REALES.forEach(camion => {
-            txt += `\n[${camion.unidad}] (id_ruta: ${camion.id_ruta})\n`;
+            txt += `\n[${camion.unidad}] id_ruta:${camion.id_ruta}\n`;
             const paradaIds = camion.vueltas.length > 0
                 ? Object.keys(camion.vueltas[0].paradas) : [];
 
@@ -53,11 +52,24 @@ window.CHATBOT_CONTEXTO = (function () {
                     .map(v => v.paradas[pid])
                     .filter(Boolean);
                 if (horas.length === 0) return;
-                txt += `  Parada ${pid}: ${horas[0]} → ${horas[horas.length-1]} (${horas.length} salidas/día)\n`;
-                txt += `    Todas: ${horas.join(', ')}\n`;
+                // Solo primera, última y total — no todas las horas para ahorrar tokens
+                txt += `  Parada ${pid}: ${horas[0]}–${horas[horas.length-1]}, cada ~${calcularFrecuencia(horas)} min (${horas.length} salidas)\n`;
+                // Incluir todas las horas para que la IA pueda calcular la próxima
+                txt += `    Horario completo: ${horas.join(' | ')}\n`;
             });
         });
         return txt;
+    }
+
+    // Helper: calcula frecuencia promedio entre salidas
+    function calcularFrecuencia(horas) {
+        if (horas.length < 2) return '?';
+        const toMin = h => { const [hh,mm] = h.split(':').map(Number); return hh*60+mm; };
+        const diffs = [];
+        for (let i = 1; i < Math.min(horas.length, 4); i++) {
+            diffs.push(toMin(horas[i]) - toMin(horas[i-1]));
+        }
+        return Math.round(diffs.reduce((a,b)=>a+b,0)/diffs.length);
     }
 
     // ─── 3. PARADAS (definidas en horarios.html) ─────────────────

@@ -159,64 +159,86 @@
 
     // ─── LLAMADA A LA API ───────────────────────────────
     async function consultarIA(mensajeUsuario) {
-
         const API_KEY = 'AIzaSyCG08WwyMquvEu9bNKF7eHWYmAM-sECHC0';
 
         const ahora      = new Date();
-        const horaActual = ahora.toLocaleTimeString('es-MX', {
-            hour: '2-digit',
-            minute: '2-digit',
-            hour12: false
-        });
+        const horaActual = ahora.toLocaleTimeString('es-MX', { hour:'2-digit', minute:'2-digit', hour12:false });
+        const diaActual  = ahora.toLocaleDateString('es-MX', { weekday:'long' });
 
-        const diaActual = ahora.toLocaleDateString('es-MX', {
-            weekday: 'long'
-        });
-
+        // Contexto del sistema
         const contexto = (typeof window.CHATBOT_CONTEXTO !== 'undefined')
             ? window.CHATBOT_CONTEXTO.build(window.CHATBOT_PARADAS || [])
             : '';
 
-        const prompt = `
-    Eres el asistente virtual de UrbanSon Navojoa.
+        // Instrucciones + contexto como primer turno del sistema
+        const systemTurn = `${SYSTEM_PROMPT_BASE}${contexto}
 
-    ${contexto}
+    Hora actual: ${horaActual} hrs, ${diaActual}.
+    Responde siempre en español. Sé conciso y amigable. Usa los datos del contexto para responder preguntas específicas sobre rutas, paradas y horarios.`;
 
-    Hora actual: ${horaActual}
-    Día actual: ${diaActual}
+        // Construir contents: sistema como primer mensaje, luego historial, luego mensaje actual
+        const contents = [];
 
-    Usuario:
-    ${mensajeUsuario}
-    `;
+        // Primer turno: instrucciones del sistema como mensaje de usuario + ack del modelo
+        contents.push({ role: 'user',  parts: [{ text: systemTurn }] });
+        contents.push({ role: 'model', parts: [{ text: 'Entendido. Estoy listo para ayudar a los usuarios de UrbanSon Navojoa.' }] });
+
+        // Historial de conversación previo (máximo 6 turnos = 12 mensajes)
+        const historialReciente = historial.slice(-10);
+        historialReciente.forEach(msg => {
+            contents.push({
+                role:  msg.role === 'assistant' ? 'model' : 'user',
+                parts: [{ text: msg.content }]
+            });
+        });
+
+        // Mensaje actual
+        contents.push({ role: 'user', parts: [{ text: mensajeUsuario }] });
 
         const response = await fetch(
-            `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${API_KEY}`,
+            `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`,
             {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
+                method:  'POST',
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
-                    contents: [
-                        {
-                            parts: [
-                                {
-                                    text: prompt
-                                }
-                            ]
-                        }
+                    contents,
+                    generationConfig: {
+                        maxOutputTokens: 500,
+                        temperature:     0.7,
+                    },
+                    safetySettings: [
+                        { category: 'HARM_CATEGORY_HARASSMENT',        threshold: 'BLOCK_NONE' },
+                        { category: 'HARM_CATEGORY_HATE_SPEECH',        threshold: 'BLOCK_NONE' },
+                        { category: 'HARM_CATEGORY_SEXUALLY_EXPLICIT',  threshold: 'BLOCK_NONE' },
+                        { category: 'HARM_CATEGORY_DANGEROUS_CONTENT',  threshold: 'BLOCK_NONE' },
                     ]
                 })
             }
         );
 
+        if (!response.ok) {
+            const errorData = await response.json();
+            console.error('Error Gemini:', errorData);
+            throw new Error(`HTTP ${response.status}`);
+        }
+
         const data = await response.json();
 
-        console.log(data);
+        // Log para debugging
+        console.log('Gemini response:', data);
 
-        const texto =
-            data.candidates?.[0]?.content?.parts?.[0]?.text
-            || 'No pude responder.';
+        // Extraer texto de la respuesta
+        const texto = data.candidates?.[0]?.content?.parts?.[0]?.text;
+
+        if (!texto) {
+            console.error('Respuesta sin texto:', JSON.stringify(data));
+            throw new Error('Sin texto en respuesta');
+        }
+
+        // Guardar en historial
+        historial.push({ role: 'user',      content: mensajeUsuario });
+        historial.push({ role: 'assistant', content: texto });
+        if (historial.length > 12) historial = historial.slice(-12);
 
         return texto;
     }
