@@ -157,41 +157,68 @@
     // ─── HISTORIAL DE CONVERSACIÓN ────────────────────────────────────
     let historial = [];
 
-    // ─── LLAMADA A LA API DE ANTHROPIC ───────────────────────────────
+    // ─── LLAMADA A LA API ───────────────────────────────
     async function consultarIA(mensajeUsuario) {
-        const ahora      = new Date();
-        const horaActual = ahora.toLocaleTimeString('es-MX', { hour:'2-digit', minute:'2-digit', hour12:false });
-        const diaActual  = ahora.toLocaleDateString('es-MX', { weekday:'long' });
 
-        // Construir contexto dinámico con datos reales
+        const API_KEY = 'AIzaSyCG08WwyMquvEu9bNKF7eHWYmAM-sECHC0';
+
+        const ahora      = new Date();
+        const horaActual = ahora.toLocaleTimeString('es-MX', {
+            hour: '2-digit',
+            minute: '2-digit',
+            hour12: false
+        });
+
+        const diaActual = ahora.toLocaleDateString('es-MX', {
+            weekday: 'long'
+        });
+
         const contexto = (typeof window.CHATBOT_CONTEXTO !== 'undefined')
             ? window.CHATBOT_CONTEXTO.build(window.CHATBOT_PARADAS || [])
             : '';
 
-        const systemPrompt = SYSTEM_PROMPT_BASE + contexto;
+        const prompt = `
+    Eres el asistente virtual de UrbanSon Navojoa.
 
-        const mensajeConHora = `[Hora actual: ${horaActual} hrs, ${diaActual}]\n\n${mensajeUsuario}`;
+    ${contexto}
 
-        historial.push({ role: 'user', content: mensajeConHora });
+    Hora actual: ${horaActual}
+    Día actual: ${diaActual}
 
-        const respuesta = await fetch('/api/chat', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                message: mensajeUsuario,
-                systemPrompt,
-                historial
-            })
-        });
+    Usuario:
+    ${mensajeUsuario}
+    `;
 
-        if (!respuesta.ok) {
-            throw new Error('Error API');
-        }
+        const response = await fetch(
+            `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${API_KEY}`,
+            {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    contents: [
+                        {
+                            parts: [
+                                {
+                                    text: prompt
+                                }
+                            ]
+                        }
+                    ]
+                })
+            }
+        );
 
-        const data = await respuesta.json();
-        const textoRespuesta = data.content;
+        const data = await response.json();
+
+        console.log(data);
+
+        const texto =
+            data.candidates?.[0]?.content?.parts?.[0]?.text
+            || 'No pude responder.';
+
+        return texto;
     }
 
     // ─── FALLBACK LOCAL (solo cuando la API no responde) ─────────────
