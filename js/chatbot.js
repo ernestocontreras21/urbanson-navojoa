@@ -15,8 +15,6 @@
     INFORMACIÓN GENERAL DEL SERVICIO
     ════════════════════════════════
     - Servicio de lunes a domingo, generalmente de 6:00 a 20:00 hrs
-    - El Circuito 7 (Sonora Express) inicia a las 5:50
-    - El Circuito 4 Sonora (Línea 2-6) inicia a las 6:20
     - Costo del pasaje: $10 MXN general, $5 MXN estudiantes y tercera edad
     - Total: 7 circuitos con 11 variantes/lados
 
