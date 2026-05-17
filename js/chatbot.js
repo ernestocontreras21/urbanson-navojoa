@@ -24,8 +24,9 @@
     PÁGINAS DE LA PLATAFORMA
     ════════════════════════════════
     - inicio.html → página principal con mapa mini y estadísticas
-    - rutas.html → mapa interactivo con todas las rutas trazadas
-    - horarios.html → mapa de paradas con horarios por ruta; botón GPS
+    - rutas.html → mapa interactivo SOLO para VER las rutas trazadas, SIN horarios
+    - horarios.html → mapa de paradas CON horarios por ruta y botón GPS. Usa ESTA página cuando pregunten por paradas, horarios o próximos camiones.
+    - Cuando el usuario pregunte por paradas o horarios, siempre enlaza a horarios.html, NUNCA a rutas.html
     - analisis.html → gráficas y datos de encuestas a usuarios
     - reportes.html → formulario para quejas y sugerencias
 
@@ -367,6 +368,22 @@
         .bot-msg a { color:#7a1028;font-weight:600; }
     `;
     document.head.appendChild(estilos);
+
+    function agregarMensaje(texto, tipo) {
+        const messages = document.getElementById('chatbot-messages');
+        const burbuja  = document.createElement('div');
+        burbuja.className = tipo === 'bot' ? 'bot-msg' : 'user-msg';
+        // Convertir Markdown básico a HTML
+        if (tipo === 'bot') {
+            texto = texto
+                .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                .replace(/\*(.*?)\*/g, '<em>$1</em>')
+                .replace(/\n/g, '<br>');
+        }
+        burbuja.innerHTML = texto;
+        messages.appendChild(burbuja);
+        scrollChat();
+    }
 
     // ─── INYECTAR HTML ────────────────────────────────────────────────
     function inyectarHTML() {
