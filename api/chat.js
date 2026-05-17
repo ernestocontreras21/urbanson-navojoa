@@ -22,7 +22,7 @@ export default async function handler(req, res) {
                 body: JSON.stringify({
                     contents,
                     generationConfig: {
-                        maxOutputTokens: 500,
+                        maxOutputTokens: 1000,
                         temperature: 0.7,
                     },
                     safetySettings: [
