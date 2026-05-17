@@ -52,10 +52,8 @@ window.CHATBOT_CONTEXTO = (function () {
                     .map(v => v.paradas[pid])
                     .filter(Boolean);
                 if (horas.length === 0) return;
-                // Solo primera, última y total — no todas las horas para ahorrar tokens
-                txt += `  Parada ${pid}: ${horas[0]}–${horas[horas.length-1]}, cada ~${calcularFrecuencia(horas)} min (${horas.length} salidas)\n`;
-                // Incluir todas las horas para que la IA pueda calcular la próxima
-                txt += `    Horario completo: ${horas.join(' | ')}\n`;
+                // Solo primera, última y frecuencia — sin horario completo
+                txt += `  Parada ${pid}: ${horas[0]}–${horas[horas.length-1]}, cada ~${calcularFrecuencia(horas)} min\n`;
             });
         });
         return txt;
