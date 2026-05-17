@@ -43,6 +43,9 @@
     - No inventes datos que no estén en el contexto.
     - Sé MUY conciso. Máximo 5 líneas por respuesta. No pongas introducciones largas, ve directo al dato.
     - La hora actual te la proporciono al inicio. Úsala EXACTAMENTE para calcular el próximo camión. No uses otra hora. La hora actual se basa en el huso horario GMT-7, hoario de Navojoa, Sonora.
+    - Cuando pregunten por horarios de un lugar, responde PRIMERO listando las paradas cercanas como opciones clickeables en formato especial: [PARADA:ID:Nombre de la parada]. El sistema las convertirá en botones automáticamente.
+    - Ejemplo: "¿Qué parada te queda más cerca?\n[PARADA:3:Infonavit Sonora - Román Yocupicio]\n[PARADA:5:Infonavit Sonora - Bacerac]"
+    - Cuando el usuario elija una parada, calcula el próximo camión usando la hora actual GMT-7 exacta que te proporciono.
 
     A continuación tienes TODOS los datos actuales del sistema:
 
@@ -162,8 +165,14 @@
     // ─── LLAMADA A LA API ───────────────────────────────
     async function consultarIA(mensajeUsuario) {
         const ahora      = new Date();
-        const horaActual = ahora.toLocaleTimeString('es-MX', { hour:'2-digit', minute:'2-digit', hour12:false });
-        const diaActual  = ahora.toLocaleDateString('es-MX', { weekday:'long' });
+        const horaActual = ahora.toLocaleTimeString('es-MX', { 
+            hour:'2-digit', minute:'2-digit', hour12:false,
+            timeZone: 'America/Hermosillo'
+        });
+        const diaActual = ahora.toLocaleDateString('es-MX', { 
+            weekday:'long',
+            timeZone: 'America/Hermosillo'
+        });
 
         // Contexto del sistema
         const contexto = (typeof window.CHATBOT_CONTEXTO !== 'undefined')
@@ -374,15 +383,24 @@
         const messages = document.getElementById('chatbot-messages');
         const burbuja  = document.createElement('div');
         burbuja.className = tipo === 'bot' ? 'bot-msg' : 'user-msg';
-        // Convertir Markdown básico a HTML
+
         if (tipo === 'bot') {
             texto = texto
                 .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
                 .replace(/\*(.*?)\*/g, '<em>$1</em>')
-                .replace(/\n/g, '<br>')
                 .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank">$1</a>')
+                .replace(/\[PARADA:(\d+):([^\]]+)\]/g, (_, id, nombre) => {
+                    return `<button onclick="window._chatbotSeleccionarParada('${id}','${nombre}')"
+                        style="display:block;margin:4px 0;padding:6px 12px;border-radius:20px;
+                        border:1.5px solid #7a1028;background:white;color:#7a1028;
+                        cursor:pointer;font-family:'Outfit',sans-serif;font-weight:600;
+                        font-size:12px;text-align:left;width:100%;">
+                        📍 ${nombre}
+                    </button>`;
+                })
                 .replace(/\n/g, '<br>');
         }
+
         burbuja.innerHTML = texto;
         messages.appendChild(burbuja);
         scrollChat();
@@ -418,6 +436,12 @@
     }
 
     window._chatbotEnviar = enviarMensaje;
+
+    window._chatbotSeleccionarParada = function(id, nombre) {
+        const input = document.getElementById('chatbot-input');
+        input.value = `¿A qué hora pasa el próximo camión en la parada ${nombre} (ID:${id})?`;
+        enviarMensaje();
+    };
 
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', inyectarHTML);
