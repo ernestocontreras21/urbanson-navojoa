@@ -387,13 +387,10 @@
                 .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
                 .replace(/\*(.*?)\*/g, '<em>$1</em>')
                 .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank">$1</a>')
-                .replace(/\[PARADA:(\d+):([^\]]+)\]/g, (_, id, nombre) => {
-                    return `<button onclick="window._chatbotSeleccionarParada('${id}','${nombre}')"
-                        style="display:block;margin:4px 0;padding:6px 12px;border-radius:20px;
-                        border:1.5px solid #7a1028;background:white;color:#7a1028;
-                        cursor:pointer;font-family:'Outfit',sans-serif;font-weight:600;
-                        font-size:12px;text-align:left;width:100%;">
-                        📍 ${nombre}
+                .replace(/\[PARADA\s*:\s*(\d+)\s*:\s*([^\]]+?)\s*\]/g, (_, id, nombre) => {
+                    return `<button onclick="window._chatbotSeleccionarParada('${id}','${nombre.trim()}')"
+                        style="display:block;margin:4px 0;padding:6px 12px;border-radius:20px;border:1.5px solid #7a1028;background:white;color:#7a1028;cursor:pointer;font-family:'Outfit',sans-serif;font-weight:600;font-size:12px;text-align:left;width:100%;">
+                        📍 ${nombre.trim()}
                     </button>`;
                 })
                 .replace(/\n/g, '<br>');

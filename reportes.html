@@ -258,21 +258,24 @@
 
     <script>
         const COLORES_TIPO = {
-            'Queja':       { bg: '#fde8e8', color: '#b91c1c' },
-            'Sugerencia':  { bg: '#e8f4fd', color: '#1a6eb5' },
-            'Retraso':     { bg: '#fef3e2', color: '#b45309' },
-            'Mal servicio':{ bg: '#f3e8fd', color: '#7c3aed' },
-            'Accidente':   { bg: '#fde8ee', color: '#cc2222' },
-            'Otro':        { bg: '#f0f0f0', color: '#555555' },
+            'Queja':        { bg: '#fde8e8', color: '#b91c1c' },
+            'Sugerencia':   { bg: '#e8f4fd', color: '#1a6eb5' },
+            'Retraso':      { bg: '#fef3e2', color: '#b45309' },
+            'Mal servicio': { bg: '#f3e8fd', color: '#7c3aed' },
+            'Accidente':    { bg: '#fde8ee', color: '#cc2222' },
+            'Otro':         { bg: '#f0f0f0', color: '#555555' },
         };
 
-        function cargarReportes() {
-            const data = localStorage.getItem('usn_reportes');
-            return data ? JSON.parse(data) : [];
-        }
+        let todosLosReportes = [];
 
-        function guardarReportes(reportes) {
-            localStorage.setItem('usn_reportes', JSON.stringify(reportes));
+        async function cargarReportes() {
+            try {
+                const res = await fetch('/api/reportes');
+                todosLosReportes = await res.json();
+                renderizarLista();
+            } catch(e) {
+                console.error('Error cargando reportes:', e);
+            }
         }
 
         document.getElementById('campo-descripcion').addEventListener('input', function() {
@@ -280,15 +283,15 @@
             const contador = document.getElementById('contador');
             contador.textContent = len + ' / 300';
             if (len > 300) {
-                contador.classList.add('text-danger');
                 this.value = this.value.substring(0, 300);
                 contador.textContent = '300 / 300';
+                contador.classList.add('text-danger');
             } else {
                 contador.classList.remove('text-danger');
             }
         });
 
-        function enviarReporte() {
+        async function enviarReporte() {
             const nombre      = document.getElementById('campo-nombre').value.trim();
             const tipo        = document.getElementById('campo-tipo').value;
             const descripcion = document.getElementById('campo-descripcion').value.trim();
@@ -309,61 +312,55 @@
                 return;
             }
 
-            const reporte = {
-                id:          Date.now(),
-                nombre:      nombre || 'Anónimo',
-                tipo:        tipo,
-                descripcion: descripcion,
-                fecha:       new Date().toLocaleString('es-MX', {
-                                day: '2-digit', month: 'short', year: 'numeric',
-                                hour: '2-digit', minute: '2-digit'
-                            })
-            };
+            try {
+                const res = await fetch('/api/reportes', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ nombre, tipo, descripcion })
+                });
 
-            const reportes = cargarReportes();
-            reportes.unshift(reporte);
-            guardarReportes(reportes);
+                if (!res.ok) throw new Error('Error del servidor');
 
-            document.getElementById('campo-nombre').value      = '';
-            document.getElementById('campo-tipo').value        = '';
-            document.getElementById('campo-descripcion').value = '';
-            document.getElementById('contador').textContent    = '0 / 300';
+                document.getElementById('campo-nombre').value      = '';
+                document.getElementById('campo-tipo').value        = '';
+                document.getElementById('campo-descripcion').value = '';
+                document.getElementById('contador').textContent    = '0 / 300';
 
-            alertaExito.textContent = '✅ Reporte publicado correctamente.';
-            alertaExito.classList.remove('d-none');
-            setTimeout(() => alertaExito.classList.add('d-none'), 3000);
+                alertaExito.textContent = '✅ Reporte publicado correctamente.';
+                alertaExito.classList.remove('d-none');
+                setTimeout(() => alertaExito.classList.add('d-none'), 3000);
 
-            renderizarLista();
+                await cargarReportes();
+
+            } catch(e) {
+                alertaError.textContent = 'Error al publicar. Intenta de nuevo.';
+                alertaError.classList.remove('d-none');
+            }
         }
 
         function renderizarLista() {
-            const filtro   = document.getElementById('filtro-tipo').value;
-            let reportes   = cargarReportes();
+            const filtro     = document.getElementById('filtro-tipo').value;
+            let lista        = [...todosLosReportes];
+            if (filtro) lista = lista.filter(r => r.tipo === filtro);
 
-            if (filtro) {
-                reportes = reportes.filter(r => r.tipo === filtro);
-            }
-
-            const lista     = document.getElementById('lista-reportes');
+            const contenedor = document.getElementById('lista-reportes');
             const listaVacia = document.getElementById('lista-vacia');
 
-            if (reportes.length === 0) {
-                lista.innerHTML = '';
+            if (lista.length === 0) {
+                contenedor.innerHTML = '';
                 listaVacia.classList.remove('d-none');
                 return;
             }
 
             listaVacia.classList.add('d-none');
-
-            lista.innerHTML = reportes.map(function(r) {
-                const estilo  = COLORES_TIPO[r.tipo] || COLORES_TIPO['Otro'];
-
+            contenedor.innerHTML = lista.map(r => {
+                const estilo = COLORES_TIPO[r.tipo] || COLORES_TIPO['Otro'];
                 return `
                 <div class="card reporte-card border-0 shadow-sm mb-3">
                     <div class="card-body py-3">
                         <div class="d-flex justify-content-between align-items-start flex-wrap gap-2 mb-2">
                             <div class="d-flex align-items-center gap-2">
-                                <span class="tipo-badge" style="background:${estilo.bg}; color:${estilo.color};">
+                                <span class="tipo-badge" style="background:${estilo.bg};color:${estilo.color};">
                                     ${r.tipo}
                                 </span>
                                 <span class="fw-bold small">${r.nombre}</span>
@@ -376,7 +373,7 @@
             }).join('');
         }
 
-        renderizarLista();
+        cargarReportes();
     </script>
     
     <footer class="text-white text-center py-3">
