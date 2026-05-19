@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Guía de uso — UrbanSon Navojoa</title>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/chatbot.css">
+    <style>
+        :root {
+            --color-guinda: #7a1028;
+            --color-rojo:   #cc2222;
+            --color-beige:  #e8d9b0;
+        }
+        body {
+            font-family: 'Outfit', sans-serif;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            margin: 0;
+            background: #f8f5f6;
+        }
+
+        .navbar-custom { background-color: var(--color-guinda); }
+        .navbar-toggler { border-color: rgba(255,255,255,0.4); }
+        .navbar-toggler-icon {
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255,255,255,0.9%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+        }
+        .navbar-collapse { background-color: var(--color-guinda); padding: 8px 0 4px; }
+        .navbar-nav .nav-link { color: rgba(255,255,255,0.85); padding: 8px 16px; border-radius: 6px; margin: 2px 8px; font-weight: 500; }
+        .navbar-nav .nav-link:hover { background: rgba(255,255,255,0.1); color: white; }
+        .navbar-nav .nav-link.activo { background-color: var(--color-beige); color: var(--color-guinda); font-weight: 600; }
+
+        footer { background-color: var(--color-guinda); }
+
+        /* Hero */
+        .hero-overlay {
+            background: linear-gradient(135deg, var(--color-guinda) 0%, #4a0818 100%);
+            padding: 48px 16px 40px;
+            text-align: center;
+            color: white;
+        }
+        .hero-overlay h1 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 2.8rem;
+            letter-spacing: 2px;
+            margin-bottom: 8px;
+        }
+        .hero-overlay p { color: rgba(255,255,255,0.7); margin: 0; }
+
+        /* Índice lateral sticky */
+        .indice {
+            position: sticky;
+            top: 20px;
+        }
+        .indice-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 14px;
+            border-radius: 10px;
+            text-decoration: none;
+            color: #555;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.15s;
+            margin-bottom: 4px;
+        }
+        .indice-item:hover {
+            background: #f9f1f3;
+            color: var(--color-guinda);
+            text-decoration: none;
+        }
+        .indice-item .num {
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            background: var(--color-guinda);
+            color: white;
+            font-size: 12px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        /* Secciones */
+        .seccion {
+            background: white;
+            border-radius: 14px;
+            padding: 28px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+            scroll-margin-top: 20px;
+        }
+        .seccion-header {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 20px;
+            padding-bottom: 14px;
+            border-bottom: 2px solid #f9f1f3;
+        }
+        .seccion-num {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--color-guinda);
+            color: white;
+            font-size: 18px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        .seccion-titulo {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.5rem;
+            color: var(--color-guinda);
+            letter-spacing: 1px;
+            margin: 0;
+        }
+
+        /* Items de la guía */
+        .guia-item {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 14px;
+            align-items: flex-start;
+        }
+        .guia-icono {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            background: #f9f1f3;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 15px;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+        .guia-texto strong {
+            color: var(--color-guinda);
+            display: block;
+            margin-bottom: 2px;
+        }
+        .guia-texto p {
+            color: #555;
+            font-size: 14px;
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        /* Tip */
+        .tip-box {
+            background: linear-gradient(135deg, #fdf8ee, #fef3d8);
+            border-left: 4px solid var(--color-beige);
+            border-radius: 10px;
+            padding: 12px 16px;
+            margin-top: 16px;
+            font-size: 14px;
+            color: #555;
+        }
+        .tip-box strong { color: #7a5800; }
+
+        /* Lista de rutas */
+        .rutas-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 8px;
+            margin-top: 12px;
+        }
+        .ruta-chip {
+            background: #f9f1f3;
+            border-left: 3px solid var(--color-guinda);
+            border-radius: 8px;
+            padding: 8px 12px;
+            font-size: 13px;
+            font-weight: 500;
+            color: #333;
+        }
+
+        /* Chatbot botón flotante */
+        #chatbot-btn {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            z-index: 9999;
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: var(--color-guinda);
+            color: white;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            box-shadow: 0 4px 14px rgba(0,0,0,0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.2s;
+        }
+        #chatbot-btn:hover { transform: scale(1.08); }
+
+        @media (max-width: 768px) {
+            .indice { display: none; }
+            .seccion { padding: 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ENCABEZADO -->
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-custom px-3">
+            <a class="navbar-brand fw-bold text-white" href="inicio.html">UrbanSon Navojoa</a>
+            <button class="navbar-toggler ms-auto" type="button"
+                    data-bs-toggle="collapse" data-bs-target="#menuPrincipal"
+                    aria-controls="menuPrincipal" aria-expanded="false">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="menuPrincipal">
+                <ul class="navbar-nav ms-auto d-flex gap-1 mt-2 mt-lg-0">
+                    <li class="nav-item"><a class="nav-link" href="inicio.html">Inicio</a></li>
+                    <li class="nav-item"><a class="nav-link" href="rutas.html">Rutas</a></li>
+                    <li class="nav-item"><a class="nav-link" href="horarios.html">Horarios</a></li>
+                    <li class="nav-item"><a class="nav-link" href="analisis.html">Análisis</a></li>
+                    <li class="nav-item"><a class="nav-link" href="reportes.html">Reportes</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <!-- HERO -->
+    <div class="hero-overlay">
+        <h1>📖 Guía de uso del sistema</h1>
+        <p>Todo lo que necesitas saber para usar UrbanSon Navojoa</p>
+    </div>
+
+    <!-- CONTENIDO -->
+    <div class="container py-4">
+        <div class="row g-4">
+
+            <!-- ÍNDICE LATERAL -->
+            <div class="col-lg-3 d-none d-lg-block">
+                <div class="indice card border-0 shadow-sm p-3" style="border-top: 3px solid var(--color-guinda) !important;">
+                    <div class="fw-bold small mb-3" style="color:var(--color-guinda);">CONTENIDO</div>
+                    <a href="#sec1" class="indice-item"><span class="num">1</span> Página de inicio</a>
+                    <a href="#sec2" class="indice-item"><span class="num">2</span> Rutas de transporte</a>
+                    <a href="#sec3" class="indice-item"><span class="num">3</span> Horarios y paradas</a>
+                    <a href="#sec4" class="indice-item"><span class="num">4</span> Análisis</a>
+                    <a href="#sec5" class="indice-item"><span class="num">5</span> Reportes</a>
+                    <a href="#sec6" class="indice-item"><span class="num">6</span> Chatbot de ayuda</a>
+                </div>
+            </div>
+
+            <!-- SECCIONES -->
+            <div class="col-12 col-lg-9">
+
+                <!-- 1. INICIO -->
+                <div class="seccion" id="sec1">
+                    <div class="seccion-header">
+                        <div class="seccion-num">1</div>
+                        <h2 class="seccion-titulo">Página de inicio</h2>
+                    </div>
+                    <p class="text-muted small mb-4">Al entrar al sitio se verá el panel principal con un resumen en tiempo real del sistema y las secciones más útiles.</p>
+
+                    <div class="guia-item">
+                        <div class="guia-icono">📊</div>
+                        <div class="guia-texto">
+                            <strong>Panel de estadísticas</strong>
+                            <p>En la parte superior encontrarás 4 indicadores clave: rutas activas, unidades en servicio, hora de inicio y hora de cierre del sistema ese día.</p>
+                        </div>
+                    </div>
+                    <div class="guia-item">
+                        <div class="guia-icono">📍</div>
+                        <div class="guia-texto">
+                            <strong>Paradas cerca de ti</strong>
+                            <p>Haz clic en "Ver paradas cercanas" para activar tu ubicación y el mapa mostrará las paradas y rutas más próximas a donde te encuentras en ese momento.</p>
+                        </div>
+                    </div>
+                    <div class="guia-item">
+                        <div class="guia-icono">🗺️</div>
+                        <div class="guia-texto">
+                            <strong>Mapa general de rutas</strong>
+                            <p>Más abajo aparece un mapa con todas las rutas de la ciudad. Puedes hacer clic en "Ver rutas completas" para ir directamente a la sección de Rutas con más detalle.</p>
+                        </div>
+                    </div>
+                    <div class="guia-item">
+                        <div class="guia-icono">💬</div>
+                        <div class="guia-texto">
+                            <strong>Opiniones de usuarios</strong>
+                            <p>Al final de la página se muestran comentarios recientes de otros usuarios del transporte (opiniones y sugerencias publicadas en la sección Reportes).</p>
+                        </div>
+                    </div>
+
+                    <div class="tip-box">
+                        <strong>💡 Tip:</strong> Usa la barra de navegación superior (Inicio · Rutas · Horarios · Análisis · Reportes) para moverte entre secciones desde cualquier página.
+                    </div>
+                </div>
+
+                <!-- 2. RUTAS -->
+                <div class="seccion" id="sec2">
+                    <div class="seccion-header">
+                        <div class="seccion-num">2</div>
+                        <h2 class="seccion-titulo">Rutas de transporte</h2>
+                    </div>
+                    <p class="text-muted small mb-4">En esta sección puedes ver el trazado exacto de cada ruta sobre un mapa interactivo y conocer las colonias y lugares que cubre.</p>
+
+                    <div class="guia-item">
+                        <div class="guia-icono">🚌</div>
+                        <div class="guia-texto">
+                            <strong>Selecciona una ruta de la lista lateral</strong>
+                            <p>A la izquierda aparecen las 11 rutas disponibles, agrupadas por circuito (1 al 7). Cada circuito tiene un color identificador. Haz clic en cualquiera para ver su trayecto en el mapa.</p>
+                        </div>
+                    </div>
+                    <div class="guia-item">
+                        <div class="guia-icono">🔍</div>
+                        <div class="guia-texto">
+                            <strong>Visualiza el recorrido en el mapa</strong>
+                            <p>La ruta seleccionada se traza en el mapa con su color correspondiente. Puedes hacer zoom (+/−) para ver mejor el detalle de las calles.</p>
+                        </div>
+                    </div>
+                    <div class="guia-item">
+                        <div class="guia-icono">📌</div>
+                        <div class="guia-texto">
+                            <strong>Consulta los lugares que cubre</strong>
+                            <p>Al hacer clic sobre la ruta en el mapa aparece un globo de información. Haz clic en "Ver más" para desplegar todas las colonias, escuelas, hospitales y puntos de referencia que pasa esa ruta.</p>
+                        </div>
+                    </div>
+
+                    <div class="fw-bold small mt-4 mb-2" style="color:var(--color-guinda);">Rutas disponibles:</div>
+                    <div class="rutas-grid">
+                        <div class="ruta-chip">Circuito 1A – Laureles – Jacarandas</div>
+                        <div class="ruta-chip">Circuito 1B – Girasoles – Rosales</div>
+                        <div class="ruta-chip">Circuito 2 – Tierra y Libertad – Jiménez (Línea 7)</div>
+                        <div class="ruta-chip">Circuito 3A – Pueblo Viejo – Misioneros por Ley</div>
+                        <div class="ruta-chip">Circuito 3B – Pueblo Viejo – Misioneros por IMSS</div>
+                        <div class="ruta-chip">Circuito 4 – Sonora (Línea 2-6)</div>
+                        <div class="ruta-chip">Circuito 4 – Quintana Roo</div>
+                        <div class="ruta-chip">Circuito 5 – Tetanchopo</div>
+                        <div class="ruta-chip">Circuito 6A – Deportiva – Fovissste por IMSS</div>
+                        <div class="ruta-chip">Circuito 6B – Deportiva – Fovissste por Ley</div>
+                        <div class="ruta-chip">Circuito 7 – Sonora Express</div>
+                    </div>
+                </div>
+
+                <!-- 3. HORARIOS -->
+                <div class="seccion" id="sec3">
+                    <div class="seccion-header">
+                        <div class="seccion-num">3</div>
+                        <h2 class="seccion-titulo">Horarios y paradas</h2>
+                    </div>
+                    <p class="text-muted small mb-4">Esta es la sección más útil del día a día. Puedes saber exactamente a qué hora pasará el próximo camión por cualquier parada de la ciudad.</p>
+
+                    <div class="fw-bold small mb-3" style="color:var(--color-guinda);">Forma 1: Seleccionar una parada en el mapa</div>
+                    <div class="guia-item">
+                        <div class="guia-icono">🔴</div>
+                        <div class="guia-texto">
+                            <strong>Localiza una parada en el mapa</strong>
+                            <p>El mapa muestra puntos rojos que representan las paradas. Toca o haz clic en cualquier punto para seleccionarla.</p>
+                        </div>
+                    </div>
+                    <div class="guia-item">
+                        <div class="guia-icono">🚏</div>
+                        <div class="guia-texto">
+                            <strong>Revisa las rutas que pasan por esa parada</strong>
+                            <p>En el panel izquierdo aparecerá el nombre de la parada y los filtros de rutas disponibles. Haz clic en una ruta específica para resaltar en el mapa y ver solo su información.</p>
+                        </div>
+                    </div>
+                    <div class="guia-item">
+                        <div class="guia-icono">🕐</div>
+                        <div class="guia-texto">
+                            <strong>Consulta las próximas salidas</strong>
+                            <p>Para cada ruta verás los horarios de las próximas 5 salidas (ej. 12:03 · 12:27 · 12:48 · 13:14 · 13:38).</p>
+                        </div>
+                    </div>
+
+                    <hr class="my-3">
+                    <div class="fw-bold small mb-3" style="color:var(--color-guinda);">Forma 2: Usar tu ubicación (recomendada)</div>
+                    <div class="guia-item">
+                        <div class="guia-icono">📍</div>
+                        <div class="guia-texto">
+                            <strong>Toca el botón "Mi ubicación"</strong>
+                            <p>Se encuentra en la esquina inferior derecha del mapa. Al presionarlo, el sistema pedirá permiso para acceder a tu ubicación.</p>
+                        </div>
+                    </div>
+                    <div class="guia-item">
+                        <div class="guia-icono">🎯</div>
+                        <div class="guia-texto">
+                            <strong>Ver paradas cercanas automáticamente</strong>
+                            <p>El mapa se centrará en tu posición y el panel izquierdo mostrará las paradas más cercanas ordenadas por distancia (ej. "~74m · 2 rutas"), con los horarios de cada una en un radio de 500m.</p>
+                        </div>
+                    </div>
+                    <div class="guia-item">
+                        <div class="guia-icono">✅</div>
+                        <div class="guia-texto">
+                            <strong>Elige la parada y ruta conveniente</strong>
+                            <p>Expande cualquier parada de la lista para ver los circuitos que la sirven y sus próximas salidas. Toca "Ver ciudad" para volver a la vista general.</p>
+                        </div>
+                    </div>
+
+                    <div class="tip-box">
+                        <strong>💡 Tip:</strong> Al seleccionar una parada con varias rutas, usa los filtros de colores para ver únicamente el tramo de la ruta que pasa por esa parada, lo que facilita orientarse en el mapa.
+                    </div>
+                </div>
+
+                <!-- 4. ANÁLISIS -->
+                <div class="seccion" id="sec4">
+                    <div class="seccion-header">
+                        <div class="seccion-num">4</div>
+                        <h2 class="seccion-titulo">Análisis</h2>
+                    </div>
+                    <p class="text-muted small mb-4">La sección de Análisis presenta datos reales recopilados de encuestas a usuarios del transporte en Navojoa. Es útil para entender cómo se usa el sistema y qué aspectos pueden mejorar.</p>
+
+                    <div class="fw-bold small mb-3" style="color:var(--color-guinda);">Resumen general:</div>
+                    <div class="d-flex flex-wrap gap-2 mb-4">
+                        <span style="background:#f9f1f3;border-radius:8px;padding:6px 14px;font-size:13px;font-weight:600;color:var(--color-guinda);">👤 Edad promedio de usuarios</span>
+                        <span style="background:#f9f1f3;border-radius:8px;padding:6px 14px;font-size:13px;font-weight:600;color:var(--color-guinda);">⭐ Calificación promedio</span>
+                        <span style="background:#f9f1f3;border-radius:8px;padding:6px 14px;font-size:13px;font-weight:600;color:var(--color-guinda);">🕐 Hora pico de uso</span>
+                    </div>
+
+                    <div class="guia-item">
+                        <div class="guia-icono">👥</div>
+                        <div class="guia-texto">
+                            <strong>Perfil de usuarios</strong>
+                            <p>Gráfica de ocupación (estudiante, trabajador, ambos, otro), distribución por rango de edad y frecuencia de uso del servicio.</p>
+                        </div>
+                    </div>
+                    <div class="guia-item">
+                        <div class="guia-icono">⭐</div>
+                        <div class="guia-texto">
+                            <strong>Calificaciones del servicio</strong>
+                            <p>Promedio por categoría (puntualidad, comodidad, seguridad, etc.) en escala 1-5, y distribución de calificaciones generales.</p>
+                        </div>
+                    </div>
+                    <div class="guia-item">
+                        <div class="guia-icono">📈</div>
+                        <div class="guia-texto">
+                            <strong>Otras subsecciones</strong>
+                            <p>Problemas reportados, patrones de uso, rutas más usadas y percepción del costo.</p>
+                        </div>
+                    </div>
+                    <div class="guia-item">
+                        <div class="guia-icono">🔎</div>
+                        <div class="guia-texto">
+                            <strong>Filtrar análisis</strong>
+                            <p>Usa los filtros en la parte superior para segmentar los datos: por ocupación, frecuencia de uso, propósito del viaje y percepción del costo. Los filtros activos se muestran resaltados y puedes quitarlos en cualquier momento.</p>
+                        </div>
+                    </div>
+
+                    <div class="tip-box">
+                        <strong>💡 Ejemplo:</strong> Si activas los filtros "Varias veces por semana" + "Escuela", todas las gráficas se actualizarán automáticamente para mostrar solo las respuestas de estudiantes que usan el transporte con esa frecuencia.
+                    </div>
+                </div>
+
+                <!-- 5. REPORTES -->
+                <div class="seccion" id="sec5">
+                    <div class="seccion-header">
+                        <div class="seccion-num">5</div>
+                        <h2 class="seccion-titulo">Reportes</h2>
+                    </div>
+                    <p class="text-muted small mb-4">En esta sección cualquier persona puede publicar una queja, sugerencia u opinión sobre el transporte.</p>
+
+                    <div class="guia-item">
+                        <div class="guia-icono">👤</div>
+                        <div class="guia-texto">
+                            <strong>Nombre (opcional)</strong>
+                            <p>Escribe tu nombre o déjalo en blanco para publicar de forma anónima. No se requiere crear cuenta.</p>
+                        </div>
+                    </div>
+                    <div class="guia-item">
+                        <div class="guia-icono">📋</div>
+                        <div class="guia-texto">
+                            <strong>Selecciona el tipo de reporte</strong>
+                            <p>Elige entre las opciones disponibles del menú desplegable (Queja, Sugerencia, Retraso, Mal servicio, Accidente, Otro).</p>
+                        </div>
+                    </div>
+                    <div class="guia-item">
+                        <div class="guia-icono">✏️</div>
+                        <div class="guia-texto">
+                            <strong>Escribe tu descripción</strong>
+                            <p>Detalla tu experiencia en el campo de texto (máximo 300 caracteres). El contador debajo del campo te indica cuántos caracteres has usado.</p>
+                        </div>
+                    </div>
+                    <div class="guia-item">
+                        <div class="guia-icono">📤</div>
+                        <div class="guia-texto">
+                            <strong>Haz clic en "Publicar reporte"</strong>
+                            <p>Tu reporte aparecerá en la columna derecha junto con la fecha y hora de publicación. También podrá verse en la sección de inicio en "Lo que dicen los usuarios".</p>
+                        </div>
+                    </div>
+
+                    <div class="tip-box">
+                        <strong>💡 Tip:</strong> Puedes filtrar los reportes publicados por tipo usando el selector "Todos los tipos" en la parte superior de la columna derecha.
+                    </div>
+                </div>
+
+                <!-- 6. CHATBOT -->
+                <div class="seccion" id="sec6">
+                    <div class="seccion-header">
+                        <div class="seccion-num">6</div>
+                        <h2 class="seccion-titulo">Chatbot de ayuda</h2>
+                    </div>
+                    <p class="text-muted small mb-4">En la esquina inferior derecha encontrarás el botón del chatbot (ícono de mensaje). Al presionarlo se abre un asistente que puede responder preguntas sobre rutas, horarios y el funcionamiento general de la plataforma.</p>
+
+                    <div class="guia-item">
+                        <div class="guia-icono">💬</div>
+                        <div class="guia-texto">
+                            <strong>Abre el chat</strong>
+                            <p>Haz clic en el ícono de burbuja de chat en la esquina inferior derecha para abrir el asistente.</p>
+                        </div>
+                    </div>
+                    <div class="guia-item">
+                        <div class="guia-icono">⌨️</div>
+                        <div class="guia-texto">
+                            <strong>Escribe tu pregunta</strong>
+                            <p>Puedes preguntar cosas como: <em>"¿Qué ruta pasa por el IMSS?"</em>, <em>"¿A qué hora empieza el servicio?"</em> o <em>"¿Cómo llego al mercado municipal?"</em></p>
+                        </div>
+                    </div>
+                    <div class="guia-item">
+                        <div class="guia-icono">🤖</div>
+                        <div class="guia-texto">
+                            <strong>Recibe una respuesta</strong>
+                            <p>El chatbot responderá con información del sistema. Si necesitas más detalle, puedes explorar directamente las secciones de Rutas u Horarios.</p>
+                        </div>
+                    </div>
+
+                    <div class="tip-box">
+                        <strong>💡 Tip:</strong> El chatbot también puede mostrarte botones de paradas cercanas cuando preguntas por horarios de un lugar específico. Solo selecciona la parada que más te convenga.
+                    </div>
+                </div>
+
+                <!-- Botón volver -->
+                <div class="text-center mt-2 mb-4">
+                    <a href="inicio.html" class="btn fw-bold px-4 py-2"
+                       style="background:var(--color-guinda);color:white;border-radius:50px;">
+                        ← Volver al inicio
+                    </a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- CHATBOT -->
+    <button id="chatbot-btn" title="Chatbot UrbanSon" onclick="abrirChatbot()">💬</button>
+
+    <!-- PIE DE PÁGINA -->
+    <footer class="text-white text-center py-3">
+        <div class="fw-bold">UrbanSon Navojoa &nbsp;·&nbsp; Plataforma de análisis del transporte urbano</div>
+        <div class="mt-1 small" style="color: var(--color-beige);">Navojoa, Sonora, México</div>
+        <div class="mt-2">
+            <a href="guia.html" style="color:var(--color-beige);font-size:12px;text-decoration:underline;">
+                📖 Guía de uso del sistema
+            </a>
+        </div>
+    </footer>
+
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <script src="js/rutas_data.js"></script>
+    <script src="datos/horarios_reales.js"></script>
+    <script src="datos/resultados.js"></script>
+    <script src="js/chatbot_contexto.js"></script>
+    <script>window.CHATBOT_PARADAS = typeof PARADAS !== 'undefined' ? PARADAS : [];</script>
+    <script src="js/chatbot.js"></script>
+
+</body>
+</html>

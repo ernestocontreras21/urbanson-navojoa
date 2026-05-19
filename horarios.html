@@ -261,6 +261,11 @@
     <footer class="text-white text-center py-3">
         <div class="fw-bold">UrbanSon Navojoa &nbsp;·&nbsp; Plataforma de análisis del transporte urbano</div>
         <div class="mt-1 small" style="color: var(--color-beige);">Navojoa, Sonora, México</div>
+        <div class="mt-2">
+            <a href="guia.html" style="color:var(--color-beige);font-size:12px;text-decoration:underline;">
+                📖 Guía de uso del sistema
+            </a>
+        </div>
     </footer>
 
     <script src="js/bootstrap.bundle.min.js"></script>
@@ -604,6 +609,12 @@
 
     // Renderiza el contenido del panel según la ruta seleccionada
     function renderizarPanel(parada, soloRutaId) {
+        // ─── Etiquetas especiales por parada y ruta ───────────────────
+        const ETIQUETAS = {
+            1: { 1: 'Por Ley del Mayo · ITSON', 2: 'Por IMSS · Girasoles', 3: 'Por UNISON · Aeropuerto' },
+            92: { 1: 'Por Jacarandas · Panteones', 2: 'Por ISSSTE · Rosales', 3: 'Por Tierra Blanca · Jiménez' },
+        };
+
         const rutasAMostrar = soloRutaId
             ? parada.rutaIds.filter(id => id === soloRutaId)
             : parada.rutaIds;
@@ -628,22 +639,23 @@
         rutasAMostrar.forEach(function(rutaId) {
             const ruta = RUTAS.find(r => r.id === rutaId);
 
-            // Intenta usar horarios reales; si no hay, usa frecuencia estimada
             const proximosReales = proximosHorariosReales(parada.id, rutaId, 5);
             const usandoReales   = proximosReales !== null && proximosReales.length >= 0;
             const proximos       = usandoReales ? proximosReales : proximosHorarios(rutaId, 5);
 
-            const etiquetaHorario = usandoReales
-                ? `<span class="badge bg-success" style="font-size:10px;">Horario real</span>`
-                : `<span class="badge bg-secondary" style="font-size:10px;">Estimado · cada ${ruta.frecuenciaMin} min</span>`;
+            // Etiqueta especial si aplica
+            const etiqueta = ETIQUETAS[parada.id]?.[rutaId];
+            const etiquetaHtml = etiqueta
+                ? `<span style="font-size:10px;font-weight:600;color:#7a1028;background:#f9f1f3;border-radius:20px;padding:1px 7px;margin-left:4px;white-space:nowrap;">${etiqueta}</span>`
+                : '';
 
             infoHtml += `
             <div class="px-3 py-3 border-bottom">
-                <div class="d-flex align-items-center gap-2 mb-2">
+                <div class="d-flex align-items-center gap-1 mb-2 flex-wrap">
                     <span class="badge text-white rounded-pill" style="background:${ruta.color};">${ruta.numero}</span>
                     <span class="fw-bold small">${ruta.nombre}</span>
+                    ${etiquetaHtml}
                 </div>
-                <div class="small text-muted mb-1">${ruta.inicioServicio}–${ruta.finServicio} &nbsp;</div>
                 <div class="small fw-bold mb-1" style="color:var(--color-guinda);">Próximas salidas:</div>
                 <div class="d-flex flex-wrap gap-1">`;
 
@@ -651,7 +663,6 @@
                 infoHtml += `<span class="text-muted small">Sin servicio por hoy</span>`;
             } else {
                 proximos.forEach(function(h, i) {
-                    // Los horarios reales tienen objeto {hora, unidad}, los estimados son strings
                     const horaTexto = usandoReales ? h.hora : h;
                     infoHtml += `<span class="badge-hora ${i === 0 ? 'hora-proxima' : 'hora-normal'}">${horaTexto}</span>`;
                 });
@@ -937,7 +948,8 @@
         PARADAS.forEach(p => marcadoresParada[p.id].setIcon(iconoParada('#7a1028')));
     }
 
-    //Línea 532: <div class="small text-muted mb-1">${ruta.inicioServicio}–${ruta.finServicio} &nbsp; ${etiquetaHorario}</div>
+    //<div class="small text-muted mb-1">${ruta.inicioServicio}–${ruta.finServicio} &nbsp;</div>
+    //<div class="small text-muted mb-1">${ruta.inicioServicio}–${ruta.finServicio} &nbsp; ${etiquetaHorario}</div>
 
     // Auto-activar GPS si viene desde inicio.html
     if (new URLSearchParams(window.location.search).get('gps') === '1') {
