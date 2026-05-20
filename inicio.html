@@ -226,6 +226,11 @@
                 <span class="badge" style="background-color: var(--color-beige); color: var(--color-guinda); font-weight: 600;">
                     Navojoa, Sonora
                 </span>
+                <div id="reloj-navojoa"
+                    class="mt-3 fw-semibold"
+                    style="font-size:1rem; color: var(--color-beige);">
+                    🕒 00:00:00
+                </div>
             </div>
         </div>
     </div>
@@ -584,6 +589,24 @@
                 setTimeout(() => hint.remove(), 500);
             }
         }, 5000);
+    </script>
+
+    <script>
+        function actualizarReloj() {
+            const reloj = document.getElementById('reloj-navojoa');
+
+            const hora = new Date().toLocaleTimeString('es-MX', {
+                timeZone: 'America/Hermosillo',
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit'
+            });
+
+            reloj.textContent = '🕒 ' + hora;
+        }
+
+        setInterval(actualizarReloj, 1000);
+        actualizarReloj();
     </script>
 
     <footer class="text-white text-center py-3">
